@@ -8,7 +8,7 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b0f14;font-family:Poppins,Arial,sans-serif;color:#111}
+body{margin:0;background:#0b0f14;font-family:Poppins,Arial,sans-serif;color:#111827}
 .app{display:grid;grid-template-columns:420px 1fr;min-height:100vh}
 .panel{background:#111827;color:#fff;padding:24px;height:100vh;overflow:auto;position:sticky;top:0}
 .panel h1{font-size:21px;margin:0 0 18px}
@@ -24,21 +24,29 @@ button.red{background:#dc2626}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .itemBox{border:1px solid #334155;background:#020617;padding:10px;border-radius:10px;margin:8px 0}
 .previewWrap{padding:35px;overflow:auto}
+
 #presentation{width:950px;background:#fff;margin:auto;padding:55px 65px;box-shadow:0 20px 80px rgba(0,0,0,.25)}
-.title{font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;color:#20242a}
-.date{color:#6b7280;margin-bottom:28px}
+.title{font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:22px;color:#20242a}
+
 .details{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:25px 0}
-.detail{border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;background:#fafafa}
-.detail span{display:block;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase}
+.detail{border:1px solid #e5e7eb;border-radius:14px;padding:15px 17px;background:#fafafa}
+.detail span{display:block;font-size:12px;color:#6b7280;font-weight:700;text-transform:uppercase}
 .detail b{font-size:18px;color:#111827}
-.desc{font-size:18px;line-height:1.75;color:#333;border-left:4px solid #111827;padding-left:18px;margin:28px 0;white-space:pre-line}
-.sectionTitle{font-size:26px;font-weight:800;margin:35px 0 16px;color:#20242a}
-table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:18px}
-td{border:1px solid #c9c9c9;padding:12px}
-.head{background:#e5e7eb;font-weight:800}
-.pink{background:#fde2e0;font-weight:800}
-.green{background:#dcfce7;font-weight:800}
-.right{text-align:right;font-weight:700;white-space:nowrap}
+
+.desc{font-size:17px;line-height:1.75;color:#333;border-left:4px solid #111827;padding-left:18px;margin:28px 0;white-space:pre-line}
+.sectionTitle{font-size:25px;font-weight:800;margin:35px 0 16px;color:#20242a}
+
+.paymentBox{border:1px solid #e5e7eb;border-radius:18px;overflow:hidden;margin-top:15px}
+.payRow{display:grid;grid-template-columns:1.3fr .7fr;border-bottom:1px solid #e5e7eb}
+.payRow:last-child{border-bottom:0}
+.payLabel{padding:16px 18px;font-size:16px;color:#111827}
+.payAmount{padding:16px 18px;text-align:right;font-size:17px;font-weight:800;background:#fafafa}
+.payHead .payLabel,.payHead .payAmount{background:#f3f4f6;font-size:19px;font-weight:800}
+.payPink .payLabel,.payPink .payAmount{background:#fff1f2;font-weight:800}
+.payGreen .payLabel,.payGreen .payAmount{background:#ecfdf5;font-weight:800}
+
+.whatsappBtn{display:inline-block;margin-top:25px;background:#16a34a;color:white;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:800}
+
 .mediaGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .mediaCard{position:relative;border-radius:14px;overflow:hidden;border:1px solid #e5e7eb;background:#f8fafc}
 .mediaCard.main{grid-column:span 3}
@@ -46,11 +54,26 @@ td{border:1px solid #c9c9c9;padding:12px}
 .mediaCard.main img{height:360px}
 .badge{position:absolute;top:12px;left:12px;background:#fff;padding:6px 12px;border-radius:999px;font-weight:800;color:#6d28d9}
 .num{position:absolute;bottom:10px;left:10px;background:#000;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
-.controls{margin-top:8px}
 .thumb{display:flex;align-items:center;gap:10px}
 .thumb img{width:70px;height:55px;object-fit:cover;border-radius:8px}
-@media(max-width:1000px){.app{grid-template-columns:1fr}.panel{height:auto;position:relative}#presentation{width:100%;padding:30px 20px}.details{grid-template-columns:1fr}.mediaGrid{grid-template-columns:1fr}.mediaCard.main{grid-column:span 1}}
-@media print{body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}.panel{display:none}.app{display:block}.previewWrap{padding:0}#presentation{width:950px;box-shadow:none;margin:0 auto}.mediaCard{break-inside:avoid}}
+
+@media(max-width:1000px){
+.app{grid-template-columns:1fr}
+.panel{height:auto;position:relative}
+#presentation{width:100%;padding:30px 20px}
+.details{grid-template-columns:1fr}
+.mediaGrid{grid-template-columns:1fr}
+.mediaCard.main{grid-column:span 1}
+.payRow{grid-template-columns:1fr}
+.payAmount{text-align:left}
+}
+@media print{
+body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.panel{display:none}
+.app{display:block}
+.previewWrap{padding:0}
+#presentation{width:950px;box-shadow:none;margin:0 auto}
+}
 </style>
 </head>
 
@@ -61,22 +84,33 @@ td{border:1px solid #c9c9c9;padding:12px}
 
 <div class="section">Heading</div>
 <label>Title</label><input id="title" value="🔥 HOT LOT: 7-BR IN LAVITA - AMAN">
-<label>Date</label><input id="date" value="March 03, 2026">
+
+<div class="section">Contact Button</div>
+<label>WhatsApp Phone Number</label>
+<input id="phone" value="971501234567" placeholder="971501234567">
 
 <div class="section">Property Details</div>
 <label>Project</label><input id="project" value="Lavita - Aman">
 <label>Developer</label><input id="developer" value="Emaar">
 <label>Area</label><input id="area" value="The Oasis">
 <label>Type</label><input id="type" value="Villa · Single Row">
-<label>Bedrooms</label><input id="bedrooms" value="7-BR">
+
+<div class="grid2">
+<div><label>Bedrooms</label><input id="bedrooms" value="7-BR"></div>
+<div><label>Bathrooms</label><input id="bathrooms" value="8"></div>
+</div>
+
 <div class="grid2">
 <div><label>Plot Size</label><input id="plot" value="33,657 sq.ft"></div>
 <div><label>BUA</label><input id="bua" value="27,517 sq.ft"></div>
 </div>
+
 <label>Floor</label><input id="floor" value="B+G+1+R">
-<label>View</label><input id="view" value="Park & Lagoon">
-<label>Features</label><input id="features" value="Balcony · Parking · Pool">
-<label>Handover</label><input id="handover" value="Q2 2027">
+
+<div class="grid2">
+<div><label>View</label><input id="view" value="Park & Lagoon"></div>
+<div><label>Completion</label><input id="completion" value="Q2 2027"></div>
+</div>
 
 <div class="section">Description</div>
 <textarea id="description">This villa was purchased exclusively for investment purposes, and its current price is considered attractive for such a large property in one of Emaar’s most promising luxury communities.</textarea>
@@ -86,15 +120,14 @@ td{border:1px solid #c9c9c9;padding:12px}
 <label>Payment to Seller</label><input id="seller" type="number" value="33364068">
 
 <div class="grid2">
-<div><label>DLD Fee</label><input id="dld" type="number"></div>
-<div><label>Commission</label><input id="commission" type="number"></div>
-</div>
-<div class="grid2">
-<div><label>Trustee Office Fee</label><input id="trustee" type="number" value="4200"></div>
-<div><label>Title Deed Fee</label><input id="titleFee" type="number" value="577.5"></div>
+<div><label>DLD Fee 4%</label><input id="dld" type="number"></div>
+<div><label>Brokerage Fee</label><input id="commission" type="number"></div>
 </div>
 
-<button class="gray full" onclick="autoFees()">Auto Calculate Fees</button>
+<div class="grid2">
+<div><label>Trustee Office Fee</label><input id="trustee" type="number" value="4200"></div>
+<div><label>Title Deed Fee</label><input id="titleFee" type="number" value="550"></div>
+</div>
 
 <div class="section">Remaining Installments</div>
 <div id="installments"></div>
@@ -130,16 +163,23 @@ function autoFees(){
  let price=n("price");
  document.getElementById("dld").value=Math.round(price*0.04);
  document.getElementById("commission").value=Math.round(price*0.02*1.05);
- generate();
 }
 
 function addInstallment(){
  installments.push({date:"",amount:0});
- renderInstallments();generate();
+ renderInstallments();
+ generate();
 }
-function removeInstallment(i){installments.splice(i,1);renderInstallments();generate()}
+
+function removeInstallment(i){
+ installments.splice(i,1);
+ renderInstallments();
+ generate();
+}
+
 function renderInstallments(){
- let box=document.getElementById("installments");box.innerHTML="";
+ let box=document.getElementById("installments");
+ box.innerHTML="";
  installments.forEach((x,i)=>{
   box.innerHTML+=`
   <div class="itemBox">
@@ -155,7 +195,11 @@ function renderInstallments(){
 function handleFiles(e,target){
  Array.from(e.target.files).forEach(file=>{
   let r=new FileReader();
-  r.onload=ev=>{target.push({name:file.name,src:ev.target.result});renderMediaControls();generate()}
+  r.onload=ev=>{
+   target.push({name:file.name,src:ev.target.result});
+   renderMediaControls();
+   generate();
+  };
   r.readAsDataURL(file);
  });
  e.target.value="";
@@ -168,22 +212,22 @@ function removeMedia(arr,i){arr.splice(i,1);renderMediaControls();generate()}
 function moveMedia(arr,i,d){
  let ni=i+d;if(ni<0||ni>=arr.length)return;
  [arr[i],arr[ni]]=[arr[ni],arr[i]];
- renderMediaControls();generate();
+ renderMediaControls();
+ generate();
 }
 
 function renderMediaControls(){
- let f=document.getElementById("floorControls");f.innerHTML="";
- floorPlans.forEach((img,i)=>{
-  f.innerHTML+=mediaControl("floorPlans",img,i);
- });
- let p=document.getElementById("imageControls");p.innerHTML="";
- images.forEach((img,i)=>{
-  p.innerHTML+=mediaControl("images",img,i);
- });
+ let f=document.getElementById("floorControls");
+ f.innerHTML="";
+ floorPlans.forEach((img,i)=>f.innerHTML+=mediaControl("floorPlans",img,i));
+
+ let p=document.getElementById("imageControls");
+ p.innerHTML="";
+ images.forEach((img,i)=>p.innerHTML+=mediaControl("images",img,i));
 }
 
 function mediaControl(arrName,img,i){
- return `<div class="itemBox thumb" draggable="true">
+ return `<div class="itemBox thumb">
   <img src="${img.src}">
   <div style="flex:1">${i+1}. ${img.name}</div>
   <button class="small gray" onclick="moveMedia(${arrName},${i},-1)">↑</button>
@@ -209,22 +253,33 @@ function mediaGrid(title,arr){
  </div>`;
 }
 
-function generate(){
- let price=n("price");
- if(!n("dld") && price) document.getElementById("dld").value=Math.round(price*0.04);
- if(!n("commission") && price) document.getElementById("commission").value=Math.round(price*0.02*1.05);
+function payRow(label,amount,cls=""){
+ return `<div class="payRow ${cls}">
+  <div class="payLabel">${label}</div>
+  <div class="payAmount">${money(amount)}</div>
+ </div>`;
+}
 
- let dld=n("dld"), commission=n("commission"), trustee=n("trustee"), titleFee=n("titleFee"), seller=n("seller");
+function generate(){
+ autoFees();
+
+ let price=n("price");
+ let seller=n("seller");
+ let dld=n("dld");
+ let commission=n("commission");
+ let trustee=n("trustee");
+ let titleFee=n("titleFee");
+
  let valid=installments.filter(x=>x.date||x.amount);
  let remaining=valid.reduce((s,x)=>s+Number(x.amount||0),0);
  let transfer=seller+dld+commission+trustee+titleFee;
  let total=transfer+remaining;
 
  let size=[v("plot")?`Plot ${v("plot")}`:"",v("bua")?`BUA ${v("bua")}`:""].filter(Boolean).join(" · ");
+ let phone=v("phone").replace(/\D/g,"");
 
  document.getElementById("presentation").innerHTML=`
  ${v("title")?`<div class="title">${v("title")}</div>`:""}
- ${v("date")?`<div class="date">${v("date")}</div>`:""}
 
  <div class="details">
   ${detail("Project",v("project"))}
@@ -232,41 +287,40 @@ function generate(){
   ${detail("Area",v("area"))}
   ${detail("Type",v("type"))}
   ${detail("Bedrooms",v("bedrooms"))}
+  ${detail("Bathrooms",v("bathrooms"))}
   ${detail("Size",size)}
   ${detail("Floor",v("floor"))}
   ${detail("View",v("view"))}
-  ${detail("Features",v("features"))}
-  ${detail("Handover",v("handover"))}
+  ${detail("Completion",v("completion"))}
  </div>
 
  ${v("description")?`<div class="desc">${v("description")}</div>`:""}
 
  <div class="sectionTitle">Payment Breakdown</div>
- <table>
-  <tr class="head"><td>Unit Price</td><td class="right">${money(price)}</td></tr>
-  <tr><td colspan="2">&nbsp;</td></tr>
-  <tr class="pink"><td colspan="2">Payments on Transfer</td></tr>
-  ${seller?`<tr><td>Payment to Seller</td><td class="right">${money(seller)}</td></tr>`:""}
-  <tr><td>DLD Fee 4%</td><td class="right">${money(dld)}</td></tr>
-  <tr><td>Trustee Office Fee</td><td class="right">${money(trustee)}</td></tr>
-  <tr><td>Title Deed Fee</td><td class="right">${money(titleFee)}</td></tr>
-  <tr><td>Buyer’s Agent Commission 2% + 5% VAT</td><td class="right">${money(commission)}</td></tr>
-  ${valid.length?`<tr><td colspan="2">&nbsp;</td></tr><tr class="green"><td colspan="2">Remaining Payment Plan</td></tr>
-  ${valid.map(x=>`<tr><td>${x.date}</td><td class="right">${money(x.amount)}</td></tr>`).join("")}`:""}
-  <tr><td colspan="2">&nbsp;</td></tr>
-  <tr class="pink"><td>Total on Transfer</td><td class="right">${money(transfer)}</td></tr>
-  ${remaining?`<tr class="green"><td>Total Remaining Payment Plan</td><td class="right">${money(remaining)}</td></tr>`:""}
-  <tr class="head"><td>Total Cost for Buyer</td><td class="right">${money(total)}</td></tr>
- </table>
+ <div class="paymentBox">
+  ${payRow("Unit Price",price,"payHead")}
+  ${seller?payRow("Payment to Seller",seller):""}
+  ${payRow("DLD Fee 4%",dld)}
+  ${payRow("Trustee Office Fee",trustee)}
+  ${payRow("Title Deed Fee",titleFee)}
+  ${payRow("Brokerage Fee (2% + VAT)",commission)}
+  ${valid.length?`<div class="payRow payGreen"><div class="payLabel">Remaining Payment Plan</div><div class="payAmount">${money(remaining)}</div></div>`:""}
+  ${valid.map(x=>payRow(x.date,x.amount)).join("")}
+  ${payRow("Total on Transfer",transfer,"payPink")}
+  ${remaining?payRow("Total Remaining Payment Plan",remaining,"payGreen"):""}
+  ${payRow("Total Cost for Buyer",total,"payHead")}
+ </div>
+
+ ${phone?`<a class="whatsappBtn" href="https://wa.me/${phone}" target="_blank">WhatsApp Now</a>`:""}
 
  ${mediaGrid("Floor Plans",floorPlans)}
  ${mediaGrid("Property Images",images)}
  `;
 }
 
+document.getElementById("price").addEventListener("input",generate);
 document.querySelectorAll("input,textarea").forEach(x=>x.addEventListener("input",generate));
-autoFees();
-renderInstallments();
+
 generate();
 </script>
 </body>
