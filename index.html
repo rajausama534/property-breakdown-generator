@@ -13,214 +13,279 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #0f1115;
-      color: #ffffff;
+      background: #0b0d12;
+      color: #fff;
     }
 
     .app {
-      max-width: 1200px;
-      margin: auto;
-      padding: 24px;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      min-height: 100vh;
     }
 
-    h1 {
+    .editor {
+      background: #10131a;
+      border-right: 1px solid #242936;
+      padding: 22px;
+      overflow-y: auto;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    .editor h1 {
+      font-size: 24px;
       margin: 0 0 20px;
-      font-size: 32px;
+      color: #fff;
     }
 
-    h2 {
-      margin: 28px 0 14px;
-      font-size: 20px;
+    .editor h2 {
+      font-size: 17px;
+      margin: 26px 0 14px;
       color: #d4af37;
     }
 
-    .panel {
-      background: #181b22;
-      border: 1px solid #2b2f3a;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 22px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
     label {
+      display: block;
       font-size: 13px;
       font-weight: 700;
       color: #b9beca;
-      display: block;
-      margin-bottom: 7px;
+      margin-bottom: 6px;
     }
 
     input,
     textarea {
       width: 100%;
-      background: #0f1115;
+      background: #06070a;
       color: #fff;
-      border: 1px solid #343946;
+      border: 1px solid #2d3342;
       border-radius: 10px;
-      padding: 12px;
-      font-size: 15px;
+      padding: 11px;
+      font-size: 14px;
+      margin-bottom: 13px;
       outline: none;
     }
 
     textarea {
-      min-height: 95px;
+      min-height: 90px;
       resize: vertical;
     }
 
     input[type="file"] {
-      padding: 10px;
-      cursor: pointer;
+      padding: 9px;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .actions {
       display: flex;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
       flex-wrap: wrap;
+      margin-top: 18px;
     }
 
     button {
-      background: #d4af37;
-      color: #111;
       border: none;
-      padding: 13px 20px;
       border-radius: 10px;
+      padding: 12px 16px;
       font-weight: 800;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 14px;
     }
 
-    button.secondary {
-      background: #2b2f3a;
+    .primary {
+      background: #d4af37;
+      color: #111;
+    }
+
+    .dark {
+      background: #242936;
       color: #fff;
     }
 
-    .preview {
-      background: #ffffff;
-      color: #111827;
-      border-radius: 18px;
-      padding: 36px;
-      margin-top: 24px;
+    .whatsapp {
+      background: #16a34a;
+      color: #fff;
     }
 
-    .preview h1 {
+    .preview-wrap {
+      background: #d9d9d9;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .preview-page {
+      width: 794px;
+      min-height: 1123px;
+      background: #fff;
       color: #111827;
-      font-size: 42px;
-      margin-bottom: 26px;
+      margin: 0 auto;
+      padding: 38px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.18);
+    }
+
+    .top-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 28px;
+      color: #111;
+    }
+
+    .preview-page h1 {
+      font-size: 36px;
+      line-height: 1.1;
+      margin: 0 0 24px;
       font-weight: 900;
     }
 
-    .preview-info {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+    .preview-page h2 {
+      font-size: 24px;
+      margin: 34px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #d7d7d7;
+      font-weight: 900;
     }
 
-    .preview-box {
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .info-card {
       border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 18px 20px;
+      border-radius: 14px;
+      padding: 15px 17px;
+      min-height: 78px;
       background: #fff;
     }
 
-    .preview-box b {
+    .info-card b {
       display: block;
       color: #6b7280;
-      font-size: 13px;
       text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .preview-box span {
-      font-size: 21px;
+      font-size: 12px;
+      margin-bottom: 7px;
       font-weight: 900;
     }
 
-    .description-preview {
-      margin: 24px 0;
-      padding: 16px 20px;
-      border-left: 5px solid #111827;
-      border-top: 1px solid #e5e7eb;
-      border-right: 1px solid #e5e7eb;
+    .info-card span {
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .desc {
+      margin: 22px 0 8px;
+      padding: 14px 17px;
+      border-left: 4px solid #111827;
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .breakdown {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    .breakdown td {
+      padding: 14px 10px;
       border-bottom: 1px solid #e5e7eb;
-      border-radius: 12px;
-      font-size: 18px;
-      line-height: 1.6;
     }
 
-    .preview h2 {
-      color: #111827;
-      font-size: 18px;
-      text-transform: uppercase;
+    .breakdown td:last-child {
+      text-align: right;
       font-weight: 900;
-      margin-top: 28px;
+    }
+
+    .soft {
+      background: #f4f5f7;
+      font-weight: 900;
+    }
+
+    .green {
+      background: #e9fbf3;
+      font-weight: 900;
+    }
+
+    .pink {
+      background: #fff1f2;
+      font-weight: 900;
     }
 
     .image-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-top: 14px;
+      margin-top: 16px;
     }
 
     .image-card {
-      position: relative;
+      width: 100%;
+      height: 240px;
+      background: #f5f5f5;
       border-radius: 12px;
       overflow: hidden;
-      background: #f3f4f6;
       border: 1px solid #e5e7eb;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .image-card img {
-      width: 100%;
-      height: 210px;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
       display: block;
     }
 
-    .image-card.floor img {
-      height: 250px;
-      object-fit: contain;
-      padding: 10px;
-      background: #fff;
-    }
-
-    .image-card button {
+    .remove-img {
       position: absolute;
       top: 8px;
       right: 8px;
       background: #111827;
       color: #fff;
-      padding: 7px 10px;
-      font-size: 12px;
-      border-radius: 8px;
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 7px;
     }
 
-    .small-note {
-      font-size: 12px;
-      color: #9ca3af;
-      margin-top: 8px;
+    .section.hidden {
+      display: none;
     }
 
-    @media (max-width: 800px) {
-      .grid,
-      .preview-info,
-      .image-grid {
+    .share-box {
+      margin-top: 14px;
+      background: #06070a;
+      border: 1px solid #2d3342;
+      border-radius: 10px;
+      padding: 11px;
+      font-size: 12px;
+      color: #b9beca;
+      word-break: break-all;
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .app {
         grid-template-columns: 1fr;
       }
 
-      .preview {
-        padding: 24px;
+      .editor {
+        height: auto;
+        position: relative;
       }
 
-      .preview h1 {
-        font-size: 32px;
+      .preview-page {
+        width: 100%;
       }
     }
   </style>
@@ -228,239 +293,321 @@
 
 <body>
   <div class="app">
-    <h1>Property Breakdown Generator</h1>
 
-    <div class="panel">
+    <!-- LEFT EDITOR -->
+    <div class="editor">
+      <h1>Property Breakdown Generator</h1>
+
       <h2>Property Details</h2>
 
-      <div class="grid">
-        <div>
-          <label>Title</label>
-          <input id="projectTitle" placeholder="4-Bedroom in Caya" />
-        </div>
+      <label>Title</label>
+      <input id="projectTitle" placeholder="4-Bedroom in Caya" />
 
+      <div class="two">
         <div>
           <label>Project</label>
           <input id="project" placeholder="Caya" />
         </div>
-
         <div>
           <label>Developer</label>
           <input id="developer" placeholder="Emaar" />
         </div>
+      </div>
 
-        <div>
-          <label>Area</label>
-          <input id="area" placeholder="Arabian Ranches 3" />
-        </div>
+      <label>Area</label>
+      <input id="area" placeholder="Arabian Ranches 3" />
 
+      <div class="two">
         <div>
           <label>Type</label>
           <input id="propertyType" placeholder="Villa" />
         </div>
-
         <div>
           <label>Bedrooms</label>
           <input id="bedrooms" placeholder="4-BR" />
         </div>
+      </div>
 
+      <div class="two">
         <div>
           <label>Bathrooms</label>
           <input id="bathrooms" placeholder="5" />
         </div>
-
-        <div>
-          <label>Size</label>
-          <input id="size" placeholder="Plot 2,687 sq.ft • BUA 4,440 sq.ft" />
-        </div>
-
         <div>
           <label>Floor</label>
           <input id="floor" placeholder="G+1" />
         </div>
+      </div>
 
+      <label>Size</label>
+      <input id="size" placeholder="Plot 2,687 sq.ft • BUA 4,440 sq.ft" />
+
+      <div class="two">
         <div>
           <label>View</label>
           <input id="view" placeholder="Community View" />
         </div>
-
         <div>
           <label>Completion</label>
           <input id="completion" placeholder="2025" />
         </div>
       </div>
 
-      <label style="margin-top:16px;">Description</label>
+      <label>Description</label>
       <textarea id="projectDescription" placeholder="Premium villa in a well-established Emaar community with strong end-user demand and long-term investment potential."></textarea>
-    </div>
 
-    <div class="panel">
-      <h2>Price Breakdown</h2>
+      <h2>Payment Breakdown</h2>
 
-      <div class="grid">
-        <div>
-          <label>Original Property Price</label>
-          <input id="propertyPrice" type="number" placeholder="1500000" />
-        </div>
+      <label>Unit Price</label>
+      <input id="unitPrice" type="number" placeholder="1000000" />
 
-        <div>
-          <label>Selling Price</label>
-          <input id="sellingPrice" type="number" placeholder="2000000" />
-        </div>
+      <label>Payment to Seller</label>
+      <input id="paymentToSeller" type="number" placeholder="800000" />
 
-        <div>
-          <label>Paid % to Developer</label>
-          <input id="paidPercent" type="number" placeholder="80" />
-        </div>
-
+      <div class="two">
         <div>
           <label>DLD %</label>
           <input id="dldPercent" type="number" value="4" />
         </div>
-
         <div>
           <label>Brokerage %</label>
           <input id="brokeragePercent" type="number" value="2" />
         </div>
+      </div>
 
+      <div class="two">
         <div>
           <label>VAT on Brokerage %</label>
           <input id="vatPercent" type="number" value="5" />
         </div>
-
         <div>
-          <label>Trustee Office Fee</label>
+          <label>Trustee Fee</label>
           <input id="trusteeFee" type="number" value="4200" />
         </div>
-
-        <div>
-          <label>Title Deed Fee</label>
-          <input id="titleDeedFee" type="number" value="580" />
-        </div>
       </div>
-    </div>
 
-    <div class="panel">
+      <label>Title Deed Fee</label>
+      <input id="titleDeedFee" type="number" value="580" />
+
+      <label>Remaining Payment Plan</label>
+      <input id="remainingPayment" type="number" placeholder="200000" />
+
+      <label>Last Payment / Notes</label>
+      <input id="lastPayment" placeholder="On handover" />
+
       <h2>Images</h2>
 
-      <div class="grid">
-        <div>
-          <label>Project Images</label>
-          <input id="projectImagesInput" type="file" accept="image/*" multiple />
-          <div class="small-note">Images will show 2 per row, clean size, not very big.</div>
-        </div>
+      <label>Floor Plans</label>
+      <input id="floorPlansInput" type="file" accept="image/*" multiple />
 
-        <div>
-          <label>Floor Plan Images</label>
-          <input id="floorPlansInput" type="file" accept="image/*" multiple />
-          <div class="small-note">Floor plans will stay same size and clean.</div>
-        </div>
-      </div>
+      <label>Cluster / Master Plan Optional</label>
+      <input id="clusterPlansInput" type="file" accept="image/*" multiple />
+
+      <label>Property Images</label>
+      <input id="projectImagesInput" type="file" accept="image/*" multiple />
+
+      <label>WhatsApp Number</label>
+      <input id="whatsappNumber" placeholder="971XXXXXXXXX" />
 
       <div class="actions">
-        <button onclick="saveAndOpenView()">Save & Open View</button>
-        <button class="secondary" onclick="clearAll()">Clear All</button>
+        <button class="primary" onclick="saveAndOpenView()">Generate Link</button>
+        <button class="whatsapp" onclick="openWhatsApp()">WhatsApp</button>
+        <button class="dark" onclick="clearAll()">Clear</button>
+      </div>
+
+      <div id="shareBox" class="share-box"></div>
+    </div>
+
+    <!-- RIGHT PREVIEW -->
+    <div class="preview-wrap">
+      <div class="preview-page" id="previewPage">
+
+        <div class="top-line">
+          <span id="dateNow"></span>
+          <span>Property Presentation</span>
+        </div>
+
+        <h1 id="pTitle">Property Breakdown</h1>
+
+        <div class="info-grid">
+          <div class="info-card"><b>Project</b><span id="pProject">-</span></div>
+          <div class="info-card"><b>Developer</b><span id="pDeveloper">-</span></div>
+          <div class="info-card"><b>Area</b><span id="pArea">-</span></div>
+          <div class="info-card"><b>Type</b><span id="pType">-</span></div>
+          <div class="info-card"><b>Bedrooms</b><span id="pBedrooms">-</span></div>
+          <div class="info-card"><b>Bathrooms</b><span id="pBathrooms">-</span></div>
+          <div class="info-card"><b>Size</b><span id="pSize">-</span></div>
+          <div class="info-card"><b>Floor</b><span id="pFloor">-</span></div>
+          <div class="info-card"><b>View</b><span id="pView">-</span></div>
+          <div class="info-card"><b>Completion</b><span id="pCompletion">-</span></div>
+        </div>
+
+        <div class="desc" id="pDescription"></div>
+
+        <div class="section">
+          <h2>Payment Breakdown</h2>
+          <table class="breakdown">
+            <tr class="soft"><td>Unit Price</td><td id="pUnitPrice">AED 0</td></tr>
+            <tr><td>Payment to Seller</td><td id="pPaymentSeller">AED 0</td></tr>
+            <tr><td>DLD Fee</td><td id="pDld">AED 0</td></tr>
+            <tr><td>Trustee Office Fee</td><td id="pTrustee">AED 0</td></tr>
+            <tr><td>Title Deed Fee</td><td id="pTitleDeed">AED 0</td></tr>
+            <tr><td>Brokerage Fee + VAT</td><td id="pBrokerageVat">AED 0</td></tr>
+            <tr class="green"><td>Remaining Payment Plan</td><td id="pRemaining">AED 0</td></tr>
+            <tr><td>Last Payment</td><td id="pLastPayment">-</td></tr>
+            <tr class="pink"><td>Total on Transfer</td><td id="pTransfer">AED 0</td></tr>
+            <tr class="green"><td>Total Remaining Payment Plan</td><td id="pRemainingTotal">AED 0</td></tr>
+            <tr class="soft"><td>Total Cost for Buyer</td><td id="pTotalBuyer">AED 0</td></tr>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>Floor Plans</h2>
+          <div class="image-grid" id="floorPlansPreview"></div>
+        </div>
+
+        <div class="section hidden" id="clusterSection">
+          <h2>Cluster / Master Plan</h2>
+          <div class="image-grid" id="clusterPlansPreview"></div>
+        </div>
+
+        <div class="section">
+          <h2>Property Images</h2>
+          <div class="image-grid" id="projectImagesPreview"></div>
+        </div>
+
       </div>
     </div>
 
-    <div class="preview">
-      <h1 id="previewTitle">4-Bedroom in Caya</h1>
-
-      <div class="preview-info">
-        <div class="preview-box"><b>Project</b><span id="pProject">Caya</span></div>
-        <div class="preview-box"><b>Developer</b><span id="pDeveloper">Emaar</span></div>
-        <div class="preview-box"><b>Area</b><span id="pArea">Arabian Ranches 3</span></div>
-        <div class="preview-box"><b>Type</b><span id="pType">Villa</span></div>
-        <div class="preview-box"><b>Bedrooms</b><span id="pBedrooms">4-BR</span></div>
-        <div class="preview-box"><b>Bathrooms</b><span id="pBathrooms">5</span></div>
-        <div class="preview-box"><b>Size</b><span id="pSize">Plot 2,687 sq.ft • BUA 4,440 sq.ft</span></div>
-        <div class="preview-box"><b>Floor</b><span id="pFloor">G+1</span></div>
-        <div class="preview-box"><b>View</b><span id="pView">Community View</span></div>
-        <div class="preview-box"><b>Completion</b><span id="pCompletion">2025</span></div>
-      </div>
-
-      <div class="description-preview" id="pDescription">
-        Premium villa in a well-established Emaar community with strong end-user demand and long-term investment potential.
-      </div>
-
-      <h2>Project Images</h2>
-      <div class="image-grid" id="projectImagesPreview"></div>
-
-      <h2>Floor Plans</h2>
-      <div class="image-grid" id="floorPlansPreview"></div>
-    </div>
   </div>
 
   <script>
     const data = {
-      projectImages: [],
-      floorPlans: []
+      floorPlans: [],
+      clusterPlans: [],
+      projectImages: []
     };
 
     const fields = [
-      "projectTitle",
-      "project",
-      "developer",
-      "area",
-      "propertyType",
-      "bedrooms",
-      "bathrooms",
-      "size",
-      "floor",
-      "view",
-      "completion",
-      "projectDescription",
-      "propertyPrice",
-      "sellingPrice",
-      "paidPercent",
-      "dldPercent",
-      "brokeragePercent",
-      "vatPercent",
-      "trusteeFee",
-      "titleDeedFee"
+      "projectTitle", "project", "developer", "area", "propertyType",
+      "bedrooms", "bathrooms", "size", "floor", "view", "completion",
+      "projectDescription", "unitPrice", "paymentToSeller", "dldPercent",
+      "brokeragePercent", "vatPercent", "trusteeFee", "titleDeedFee",
+      "remainingPayment", "lastPayment", "whatsappNumber"
     ];
 
-    function getValue(id) {
+    document.getElementById("dateNow").innerText =
+      new Date().toLocaleString("en-US", {
+        year: "2-digit",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      });
+
+    function val(id) {
       return document.getElementById(id).value.trim();
     }
 
-    function setPreviewText(id, value, fallback = "") {
-      document.getElementById(id).innerText = value || fallback;
+    function num(id) {
+      return Number(val(id) || 0);
+    }
+
+    function money(value) {
+      return "AED " + Number(value || 0).toLocaleString("en-AE", {
+        maximumFractionDigits: 0
+      });
+    }
+
+    function set(id, value) {
+      document.getElementById(id).innerText = value;
+    }
+
+    function calculate() {
+      const unitPrice = num("unitPrice");
+      const paymentToSeller = num("paymentToSeller");
+      const remainingPayment = num("remainingPayment");
+
+      const dld = unitPrice * num("dldPercent") / 100;
+      const brokerage = unitPrice * num("brokeragePercent") / 100;
+      const vat = brokerage * num("vatPercent") / 100;
+      const brokerageVat = brokerage + vat;
+
+      const trustee = num("trusteeFee");
+      const titleDeed = num("titleDeedFee");
+
+      const totalTransfer =
+        paymentToSeller + dld + trustee + titleDeed + brokerageVat;
+
+      const totalBuyer = totalTransfer + remainingPayment;
+
+      return {
+        unitPrice,
+        paymentToSeller,
+        remainingPayment,
+        dld,
+        trustee,
+        titleDeed,
+        brokerageVat,
+        totalTransfer,
+        totalBuyer
+      };
     }
 
     function updatePreview() {
-      setPreviewText("previewTitle", getValue("projectTitle"), "Property Breakdown");
-      setPreviewText("pProject", getValue("project"), "-");
-      setPreviewText("pDeveloper", getValue("developer"), "-");
-      setPreviewText("pArea", getValue("area"), "-");
-      setPreviewText("pType", getValue("propertyType"), "-");
-      setPreviewText("pBedrooms", getValue("bedrooms"), "-");
-      setPreviewText("pBathrooms", getValue("bathrooms"), "-");
-      setPreviewText("pSize", getValue("size"), "-");
-      setPreviewText("pFloor", getValue("floor"), "-");
-      setPreviewText("pView", getValue("view"), "-");
-      setPreviewText("pCompletion", getValue("completion"), "-");
-      setPreviewText("pDescription", getValue("projectDescription"), "");
+      set("pTitle", val("projectTitle") || "Property Breakdown");
+      set("pProject", val("project") || "-");
+      set("pDeveloper", val("developer") || "-");
+      set("pArea", val("area") || "-");
+      set("pType", val("propertyType") || "-");
+      set("pBedrooms", val("bedrooms") || "-");
+      set("pBathrooms", val("bathrooms") || "-");
+      set("pSize", val("size") || "-");
+      set("pFloor", val("floor") || "-");
+      set("pView", val("view") || "-");
+      set("pCompletion", val("completion") || "-");
+      set("pDescription", val("projectDescription") || "");
+
+      const c = calculate();
+
+      set("pUnitPrice", money(c.unitPrice));
+      set("pPaymentSeller", money(c.paymentToSeller));
+      set("pDld", money(c.dld));
+      set("pTrustee", money(c.trustee));
+      set("pTitleDeed", money(c.titleDeed));
+      set("pBrokerageVat", money(c.brokerageVat));
+      set("pRemaining", money(c.remainingPayment));
+      set("pLastPayment", val("lastPayment") || "-");
+      set("pTransfer", money(c.totalTransfer));
+      set("pRemainingTotal", money(c.remainingPayment));
+      set("pTotalBuyer", money(c.totalBuyer));
 
       renderImages();
     }
 
     function renderImages() {
-      document.getElementById("projectImagesPreview").innerHTML =
-        data.projectImages.map((src, index) => `
-          <div class="image-card">
-            <img src="${src}" />
-            <button onclick="removeImage('projectImages', ${index})">Remove</button>
-          </div>
-        `).join("");
-
       document.getElementById("floorPlansPreview").innerHTML =
-        data.floorPlans.map((src, index) => `
-          <div class="image-card floor">
-            <img src="${src}" />
-            <button onclick="removeImage('floorPlans', ${index})">Remove</button>
-          </div>
-        `).join("");
+        data.floorPlans.map((src, i) => imageHtml(src, "floorPlans", i)).join("");
+
+      document.getElementById("clusterPlansPreview").innerHTML =
+        data.clusterPlans.map((src, i) => imageHtml(src, "clusterPlans", i)).join("");
+
+      document.getElementById("projectImagesPreview").innerHTML =
+        data.projectImages.map((src, i) => imageHtml(src, "projectImages", i)).join("");
+
+      document.getElementById("clusterSection").classList.toggle(
+        "hidden",
+        data.clusterPlans.length === 0
+      );
+    }
+
+    function imageHtml(src, type, index) {
+      return `
+        <div class="image-card">
+          <img src="${src}">
+          <button class="remove-img" onclick="removeImage('${type}', ${index})">Remove</button>
+        </div>
+      `;
     }
 
     function removeImage(type, index) {
@@ -468,110 +615,102 @@
       updatePreview();
     }
 
-    function compressImage(file, maxWidth = 1400, quality = 0.82) {
-      return new Promise((resolve) => {
+    function compressImage(file, maxWidth = 1600, quality = 0.88) {
+      return new Promise(resolve => {
         const reader = new FileReader();
-
-        reader.onload = function (event) {
+        reader.onload = e => {
           const img = new Image();
-
-          img.onload = function () {
+          img.onload = () => {
             const canvas = document.createElement("canvas");
             const scale = Math.min(1, maxWidth / img.width);
-
             canvas.width = img.width * scale;
             canvas.height = img.height * scale;
-
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
+            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
             resolve(canvas.toDataURL("image/jpeg", quality));
           };
-
-          img.src = event.target.result;
+          img.src = e.target.result;
         };
-
         reader.readAsDataURL(file);
       });
     }
 
-    async function handleImageUpload(input, type) {
+    async function uploadImages(input, type) {
       const files = Array.from(input.files);
-
       for (const file of files) {
-        const compressed = await compressImage(file);
-        data[type].push(compressed);
+        data[type].push(await compressImage(file));
       }
-
       input.value = "";
       updatePreview();
     }
 
-    document.getElementById("projectImagesInput").addEventListener("change", function () {
-      handleImageUpload(this, "projectImages");
+    document.getElementById("floorPlansInput").addEventListener("change", function () {
+      uploadImages(this, "floorPlans");
     });
 
-    document.getElementById("floorPlansInput").addEventListener("change", function () {
-      handleImageUpload(this, "floorPlans");
+    document.getElementById("clusterPlansInput").addEventListener("change", function () {
+      uploadImages(this, "clusterPlans");
+    });
+
+    document.getElementById("projectImagesInput").addEventListener("change", function () {
+      uploadImages(this, "projectImages");
     });
 
     fields.forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener("input", updatePreview);
+      document.getElementById(id).addEventListener("input", updatePreview);
     });
 
     function collectData() {
-      return {
-        projectTitle: getValue("projectTitle"),
-        project: getValue("project"),
-        developer: getValue("developer"),
-        area: getValue("area"),
-        propertyType: getValue("propertyType"),
-        bedrooms: getValue("bedrooms"),
-        bathrooms: getValue("bathrooms"),
-        size: getValue("size"),
-        floor: getValue("floor"),
-        view: getValue("view"),
-        completion: getValue("completion"),
-        projectDescription: getValue("projectDescription"),
-
-        propertyPrice: getValue("propertyPrice"),
-        sellingPrice: getValue("sellingPrice"),
-        paidPercent: getValue("paidPercent"),
-        dldPercent: getValue("dldPercent") || 4,
-        brokeragePercent: getValue("brokeragePercent") || 2,
-        vatPercent: getValue("vatPercent") || 5,
-        trusteeFee: getValue("trusteeFee") || 4200,
-        titleDeedFee: getValue("titleDeedFee") || 580,
-
-        projectImages: data.projectImages,
-        floorPlans: data.floorPlans
-      };
+      const output = {};
+      fields.forEach(id => output[id] = val(id));
+      output.floorPlans = data.floorPlans;
+      output.clusterPlans = data.clusterPlans;
+      output.projectImages = data.projectImages;
+      return output;
     }
 
     function saveAndOpenView() {
-      const finalData = collectData();
       const id = Date.now().toString();
+      localStorage.setItem("property_breakdown_" + id, JSON.stringify(collectData()));
 
-      localStorage.setItem("property_breakdown_" + id, JSON.stringify(finalData));
-      window.open("view.html?id=" + id, "_blank");
+      const link = `${window.location.origin}${window.location.pathname.replace("index.html", "")}view.html?id=${id}`;
+
+      const box = document.getElementById("shareBox");
+      box.style.display = "block";
+      box.innerText = link;
+
+      window.open(link, "_blank");
+    }
+
+    function openWhatsApp() {
+      const phone = val("whatsappNumber").replace(/\D/g, "");
+      const title = val("projectTitle") || "this property";
+      const total = document.getElementById("pTotalBuyer").innerText;
+
+      if (!phone) {
+        alert("Add WhatsApp number first.");
+        return;
+      }
+
+      const message = `Hi, please check this property breakdown for ${title}. Total buyer cost: ${total}`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
     }
 
     function clearAll() {
       if (!confirm("Clear all fields and images?")) return;
 
       fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (id === "dldPercent") el.value = 4;
-        else if (id === "brokeragePercent") el.value = 2;
-        else if (id === "vatPercent") el.value = 5;
-        else if (id === "trusteeFee") el.value = 4200;
-        else if (id === "titleDeedFee") el.value = 580;
-        else el.value = "";
+        if (id === "dldPercent") document.getElementById(id).value = 4;
+        else if (id === "brokeragePercent") document.getElementById(id).value = 2;
+        else if (id === "vatPercent") document.getElementById(id).value = 5;
+        else if (id === "trusteeFee") document.getElementById(id).value = 4200;
+        else if (id === "titleDeedFee") document.getElementById(id).value = 580;
+        else document.getElementById(id).value = "";
       });
 
-      data.projectImages = [];
       data.floorPlans = [];
+      data.clusterPlans = [];
+      data.projectImages = [];
+      document.getElementById("shareBox").style.display = "none";
       updatePreview();
     }
 
