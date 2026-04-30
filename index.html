@@ -5,478 +5,189 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Property Breakdown Generator</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#0b0d12;
-  color:#fff;
-}
-
-.app{
-  display:grid;
-  grid-template-columns:420px 1fr;
-  min-height:100vh;
-}
-
-/* LEFT EDITOR */
-.editor{
-  background:#10131a;
-  border-right:1px solid #242936;
-  padding:22px;
-  height:100vh;
-  overflow:auto;
-  position:sticky;
-  top:0;
-}
-
-.editor h1{
-  font-size:23px;
-  margin:0 0 20px;
-}
-
-.editor h2{
-  font-size:17px;
-  margin:25px 0 14px;
-  color:#d4af37;
-}
-
-label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  color:#b9beca;
-  margin-bottom:6px;
-}
-
-input,textarea{
-  width:100%;
-  background:#06070a;
-  color:#fff;
-  border:1px solid #2d3342;
-  border-radius:10px;
-  padding:11px;
-  font-size:14px;
-  margin-bottom:13px;
-  outline:none;
-}
-
-textarea{
-  min-height:85px;
-  resize:vertical;
-}
-
-.two{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
-}
-
-button{
-  border:0;
-  border-radius:10px;
-  padding:12px 16px;
-  font-weight:800;
-  cursor:pointer;
-  font-size:14px;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:#0b0d12;color:#fff}
+.app{display:grid;grid-template-columns:420px 1fr;min-height:100vh}
+.editor{background:#10131a;border-right:1px solid #242936;padding:22px;height:100vh;overflow:auto;position:sticky;top:0}
+.editor h1{font-size:23px;margin:0 0 20px}
+.editor h2{font-size:17px;margin:25px 0 14px;color:#d4af37}
+label{display:block;font-size:13px;font-weight:700;color:#b9beca;margin-bottom:6px}
+input,textarea{width:100%;background:#06070a;color:#fff;border:1px solid #2d3342;border-radius:10px;padding:11px;font-size:14px;margin-bottom:13px;outline:none}
+textarea{min-height:85px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+button{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;font-size:14px}
 .primary{background:#d4af37;color:#111}
 .dark{background:#242936;color:#fff}
 .greenBtn{background:#16a34a;color:#fff}
-
-/* PREVIEW */
-.preview-wrap{
-  background:#d9d9d9;
-  padding:30px;
-  overflow:auto;
-}
-
-.preview-page{
-  width:794px;
-  min-height:1123px;
-  background:#fff;
-  color:#111827;
-  margin:0 auto;
-  padding:34px 38px;
-  box-shadow:0 8px 30px rgba(0,0,0,.18);
-}
-
-/* CONTACT HEADER LEFT */
-.header-info{
-  text-align:left;
-  font-size:13px;
-  margin-bottom:16px;
-  color:#111;
-  line-height:1.6;
-}
-
-.header-info strong{
-  font-weight:900;
-}
-
-.preview-page h1{
-  font-size:34px;
-  line-height:1.1;
-  margin:0 0 20px;
-  font-weight:900;
-}
-
-.preview-page h2{
-  font-size:24px;
-  margin:24px 0 10px;
-  padding-bottom:8px;
-  border-bottom:2px solid #d7d7d7;
-  font-weight:900;
-}
-
-.info-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.info-card{
-  border:1px solid #e5e7eb;
-  border-radius:13px;
-  padding:13px 15px;
-  min-height:70px;
-  background:#fff;
-}
-
-.info-card b{
-  display:block;
-  color:#6b7280;
-  text-transform:uppercase;
-  font-size:11px;
-  margin-bottom:6px;
-  font-weight:900;
-}
-
-.info-card span{
-  font-size:18px;
-  font-weight:900;
-}
-
-.desc{
-  margin:18px 0 4px;
-  padding:12px 15px;
-  border-left:4px solid #111827;
-  border-radius:10px;
-  font-size:15px;
-  line-height:1.5;
-}
-
-.breakdown{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-  font-size:14px;
-  page-break-inside:avoid;
-  break-inside:avoid;
-}
-
-.breakdown td{
-  padding:10px 10px;
-  border-bottom:1px solid #e5e7eb;
-}
-
-.breakdown td:last-child{
-  text-align:right;
-  font-weight:900;
-}
-
-.soft{
-  background:#f4f5f7;
-  font-weight:900;
-}
-
-.green{
-  background:#e9fbf3;
-  font-weight:900;
-}
-
-.pink{
-  background:#fff1f2;
-  font-weight:900;
-}
-
-.first-page-block{
-  break-inside:avoid;
-  page-break-inside:avoid;
-}
-
-.section{
-  break-inside:avoid;
-  page-break-inside:avoid;
-}
-
-.image-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:14px;
-}
-
-.image-card{
-  height:190px;
-  background:#f5f5f5;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #e5e7eb;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.image-card img{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
-  display:block;
-}
-
-.remove-img{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:#111827;
-  color:#fff;
-  font-size:11px;
-  padding:6px 8px;
-  border-radius:7px;
-}
-
+.blueBtn{background:#2563eb;color:#fff}
+.status{margin-top:12px;color:#b9beca;font-size:13px;word-break:break-all}
+.preview-wrap{background:#d9d9d9;padding:30px;overflow:auto}
+.preview-page{width:794px;min-height:1123px;background:#fff;color:#111827;margin:0 auto;padding:30px 34px;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+.header-info{text-align:left;font-size:13px;margin-bottom:12px;color:#111;line-height:1.5}
+.header-info strong{font-weight:900}
+.preview-page h1{font-size:31px;line-height:1.1;margin:0 0 16px;font-weight:900}
+.preview-page h2{font-size:22px;margin:22px 0 8px;padding-bottom:7px;border-bottom:2px solid #d7d7d7;font-weight:900}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info-card{border:1px solid #e5e7eb;border-radius:10px;padding:9px 12px;min-height:54px;background:#fff}
+.info-card b{display:block;color:#6b7280;text-transform:uppercase;font-size:9px;margin-bottom:4px;font-weight:900}
+.info-card span{font-size:14px;font-weight:900}
+.desc{margin:14px 0 2px;padding:10px 13px;border-left:4px solid #111827;border-radius:9px;font-size:14px;line-height:1.45}
+.breakdown{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+.breakdown td{padding:8px 9px;border-bottom:1px solid #e5e7eb}
+.breakdown td:last-child{text-align:right;font-weight:900}
+.soft{background:#f4f5f7;font-weight:900}
+.green{background:#e9fbf3;font-weight:900}
+.pink{background:#fff1f2;font-weight:900}
+.section{break-inside:avoid;page-break-inside:avoid}
+.image-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.image-card{width:100%;aspect-ratio:4/3;background:#f5f5f5;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;position:relative}
+.image-card img{width:100%;height:100%;object-fit:cover;display:block}
+.plan-card img{object-fit:contain!important;background:#fff}
+.remove-img{position:absolute;top:8px;right:8px;background:#111827;color:#fff;font-size:11px;padding:6px 8px;border-radius:7px}
 .hidden{display:none}
-
-.whatsapp-client{
-  display:inline-block;
-  margin-top:16px;
-  background:#16a34a;
-  color:#fff;
-  text-decoration:none;
-  padding:12px 18px;
-  border-radius:999px;
-  font-weight:900;
-}
-
-.installment-row{
-  display:flex;
-  gap:8px;
-  margin-bottom:8px;
-}
-
-.installment-row input{
-  margin-bottom:0;
-}
-
-.installment-row button{
-  padding:8px 10px;
-  background:#991b1b;
-  color:white;
-}
-
-@media(max-width:1100px){
-  .app{grid-template-columns:1fr}
-  .editor{height:auto;position:relative}
-  .preview-page{width:100%}
-}
+.whatsapp-client{display:inline-block;margin-top:12px;background:#16a34a;color:#fff;text-decoration:none;padding:10px 16px;border-radius:999px;font-weight:900;font-size:13px}
+.installment-row{display:flex;gap:8px;margin-bottom:8px}
+.installment-row input{margin-bottom:0}
+.installment-row button{padding:8px 10px;background:#991b1b;color:white}
+@media(max-width:1100px){.app{grid-template-columns:1fr}.editor{height:auto;position:relative}.preview-page{width:100%}}
 </style>
 </head>
 
 <body>
 <div class="app">
 
-<!-- LEFT EDITOR -->
 <div class="editor">
-  <h1>Property Breakdown Generator</h1>
+<h1>Property Breakdown Generator</h1>
 
-  <h2>Contact Info</h2>
-  <label>Name</label>
-  <input id="agentName" placeholder="Usama Bin Nusrat">
+<h2>Contact Info</h2>
+<label>Name</label><input id="agentName" placeholder="Usama Bin Nusrat">
+<label>Agency</label><input id="agencyName" placeholder="BFG Properties">
+<label>WhatsApp / Contact Number</label><input id="contactNumber" placeholder="971528176879">
 
-  <label>Agency</label>
-  <input id="agencyName" placeholder="BFG Properties">
+<h2>Property Details</h2>
+<label>Title</label><input id="projectTitle" placeholder="4-Bedroom - Raya, Ranches 3">
 
-  <label>WhatsApp / Contact Number</label>
-  <input id="contactNumber" placeholder="971528176879">
-
-  <h2>Property Details</h2>
-
-  <label>Title</label>
-  <input id="projectTitle" placeholder="4-Bedroom in Caya">
-
-  <div class="two">
-    <div>
-      <label>Project</label>
-      <input id="project" placeholder="Caya">
-    </div>
-    <div>
-      <label>Developer</label>
-      <input id="developer" placeholder="Emaar">
-    </div>
-  </div>
-
-  <label>Area</label>
-  <input id="area" placeholder="Arabian Ranches 3">
-
-  <div class="two">
-    <div>
-      <label>Type</label>
-      <input id="propertyType" placeholder="Villa">
-    </div>
-    <div>
-      <label>Bedrooms</label>
-      <input id="bedrooms" placeholder="4-BR">
-    </div>
-  </div>
-
-  <div class="two">
-    <div>
-      <label>Bathrooms</label>
-      <input id="bathrooms" placeholder="5">
-    </div>
-    <div>
-      <label>Floor</label>
-      <input id="floor" placeholder="G+1">
-    </div>
-  </div>
-
-  <label>Size</label>
-  <input id="size" placeholder="Plot 2,687 sq.ft • BUA 4,440 sq.ft">
-
-  <div class="two">
-    <div>
-      <label>View</label>
-      <input id="view" placeholder="Community View">
-    </div>
-    <div>
-      <label>Completion</label>
-      <input id="completion" placeholder="2025">
-    </div>
-  </div>
-
-  <label>Description</label>
-  <textarea id="projectDescription" placeholder="Premium villa in a well-established Emaar community with strong end-user demand and long-term investment potential."></textarea>
-
-  <h2>Payment Breakdown</h2>
-
-  <label>Unit Price</label>
-  <input id="unitPrice" type="number" placeholder="1000000">
-
-  <label>Payment to Seller</label>
-  <input id="paymentToSeller" type="number" placeholder="700000">
-
-  <div class="two">
-    <div>
-      <label>DLD %</label>
-      <input id="dldPercent" type="number" value="4">
-    </div>
-    <div>
-      <label>Brokerage %</label>
-      <input id="brokeragePercent" type="number" value="2">
-    </div>
-  </div>
-
-  <div class="two">
-    <div>
-      <label>VAT %</label>
-      <input id="vatPercent" type="number" value="5">
-    </div>
-    <div>
-      <label>Trustee Fee</label>
-      <input id="trusteeFee" type="number" value="4200">
-    </div>
-  </div>
-
-  <label>Title Deed Fee</label>
-  <input id="titleDeedFee" type="number" value="580">
-
-  <h2>Pending / Installments Optional</h2>
-  <div id="installmentsEditor"></div>
-  <button class="dark" onclick="addInstallment()">+ Add Installment</button>
-
-  <h2>Images</h2>
-
-  <label>Floor Plans</label>
-  <input id="floorPlansInput" type="file" accept="image/*" multiple>
-
-  <label>Cluster / Master Plan Optional</label>
-  <input id="clusterPlansInput" type="file" accept="image/*" multiple>
-
-  <label>Property Images</label>
-  <input id="projectImagesInput" type="file" accept="image/*" multiple>
-
-  <div class="actions">
-    <button class="primary" onclick="downloadPDF()">Generate PDF</button>
-    <button class="greenBtn" onclick="openWhatsApp()">WhatsApp Client</button>
-    <button class="dark" onclick="clearAll()">Clear</button>
-  </div>
+<div class="two">
+<div><label>Project</label><input id="project" placeholder="RAYA"></div>
+<div><label>Developer</label><input id="developer" placeholder="EMAAR"></div>
 </div>
 
-<!-- RIGHT PREVIEW -->
+<label>Area</label><input id="area" placeholder="Arabian Ranches-3">
+
+<div class="two">
+<div><label>Type</label><input id="propertyType" placeholder="Townhouse (B2B, CORNER)"></div>
+<div><label>Bedrooms</label><input id="bedrooms" placeholder="4 + Maid's Room"></div>
+</div>
+
+<div class="two">
+<div><label>Bathrooms</label><input id="bathrooms" placeholder="4"></div>
+<div><label>Floor</label><input id="floor" placeholder="G+1"></div>
+</div>
+
+<label>Size</label><input id="size" placeholder="Plot: 4,000 sq ft BUA: 2,500 sqft">
+
+<div class="two">
+<div><label>View</label><input id="view" placeholder="Community"></div>
+<div><label>Completion</label><input id="completion" placeholder="Q3-2026"></div>
+</div>
+
+<label>Description</label>
+<textarea id="projectDescription" placeholder="Premium townhouse in a well-established Emaar community with strong end-user demand and long-term investment potential."></textarea>
+
+<h2>Payment Breakdown</h2>
+<label>Unit Price</label><input id="unitPrice" type="number" placeholder="1000000">
+<label>Payment to Seller</label><input id="paymentToSeller" type="number" placeholder="700000">
+
+<div class="two">
+<div><label>DLD %</label><input id="dldPercent" type="number" value="4"></div>
+<div><label>Brokerage %</label><input id="brokeragePercent" type="number" value="2"></div>
+</div>
+
+<div class="two">
+<div><label>VAT %</label><input id="vatPercent" type="number" value="5"></div>
+<div><label>Trustee Fee</label><input id="trusteeFee" type="number" value="4200"></div>
+</div>
+
+<label>Title Deed Fee</label><input id="titleDeedFee" type="number" value="580">
+
+<h2>Pending / Installments Optional</h2>
+<div id="installmentsEditor"></div>
+<button class="dark" onclick="addInstallment()">+ Add Installment</button>
+
+<h2>Images</h2>
+<label>Floor Plans</label><input id="floorPlansInput" type="file" accept="image/*" multiple>
+<label>Cluster / Master Plan Optional</label><input id="clusterPlansInput" type="file" accept="image/*" multiple>
+<label>Property Images</label><input id="projectImagesInput" type="file" accept="image/*" multiple>
+
+<div class="actions">
+<button class="primary" onclick="saveProject()">Save / Update Link</button>
+<button class="blueBtn" onclick="downloadPDF()">Generate PDF</button>
+<button class="greenBtn" onclick="openWhatsApp()">WhatsApp Client</button>
+<button class="dark" onclick="newCopy()">New Copy</button>
+<button class="dark" onclick="clearAll()">Clear</button>
+</div>
+
+<div class="status" id="statusBox"></div>
+</div>
+
 <div class="preview-wrap">
-  <div class="preview-page" id="pdfArea">
+<div class="preview-page" id="pdfArea">
 
-    <div class="first-page-block">
-      <div class="header-info" id="headerInfo"></div>
+<div class="header-info" id="headerInfo"></div>
+<h1 id="pTitle">Property Breakdown</h1>
 
-      <h1 id="pTitle">Property Breakdown</h1>
-
-      <div class="info-grid">
-        <div class="info-card"><b>Project</b><span id="pProject">-</span></div>
-        <div class="info-card"><b>Developer</b><span id="pDeveloper">-</span></div>
-        <div class="info-card"><b>Area</b><span id="pArea">-</span></div>
-        <div class="info-card"><b>Type</b><span id="pType">-</span></div>
-        <div class="info-card"><b>Bedrooms</b><span id="pBedrooms">-</span></div>
-        <div class="info-card"><b>Bathrooms</b><span id="pBathrooms">-</span></div>
-        <div class="info-card"><b>Size</b><span id="pSize">-</span></div>
-        <div class="info-card"><b>Floor</b><span id="pFloor">-</span></div>
-        <div class="info-card"><b>View</b><span id="pView">-</span></div>
-        <div class="info-card"><b>Completion</b><span id="pCompletion">-</span></div>
-      </div>
-
-      <div class="desc" id="pDescription"></div>
-
-      <h2>Payment Breakdown</h2>
-      <table class="breakdown" id="breakdownTable"></table>
-
-      <div id="clientWhatsappBox"></div>
-    </div>
-
-    <div class="section">
-      <h2>Floor Plans</h2>
-      <div class="image-grid" id="floorPlansPreview"></div>
-    </div>
-
-    <div class="section hidden" id="clusterSection">
-      <h2>Cluster / Master Plan</h2>
-      <div class="image-grid" id="clusterPlansPreview"></div>
-    </div>
-
-    <div class="section">
-      <h2>Property Images</h2>
-      <div class="image-grid" id="projectImagesPreview"></div>
-    </div>
-
-  </div>
+<div class="info-grid">
+<div class="info-card"><b>Project</b><span id="pProject">-</span></div>
+<div class="info-card"><b>Developer</b><span id="pDeveloper">-</span></div>
+<div class="info-card"><b>Area</b><span id="pArea">-</span></div>
+<div class="info-card"><b>Type</b><span id="pType">-</span></div>
+<div class="info-card"><b>Bedrooms</b><span id="pBedrooms">-</span></div>
+<div class="info-card"><b>Bathrooms</b><span id="pBathrooms">-</span></div>
+<div class="info-card"><b>Size</b><span id="pSize">-</span></div>
+<div class="info-card"><b>Floor</b><span id="pFloor">-</span></div>
+<div class="info-card"><b>View</b><span id="pView">-</span></div>
+<div class="info-card"><b>Completion</b><span id="pCompletion">-</span></div>
 </div>
 
+<div class="desc" id="pDescription"></div>
+
+<h2>Payment Breakdown</h2>
+<table class="breakdown" id="breakdownTable"></table>
+<div id="clientWhatsappBox"></div>
+
+<div class="section">
+<h2>Floor Plans</h2>
+<div class="image-grid" id="floorPlansPreview"></div>
+</div>
+
+<div class="section hidden" id="clusterSection">
+<h2>Cluster / Master Plan</h2>
+<div class="image-grid" id="clusterPlansPreview"></div>
+</div>
+
+<div class="section">
+<h2>Property Images</h2>
+<div class="image-grid" id="projectImagesPreview"></div>
+</div>
+
+</div>
+</div>
 </div>
 
 <script>
+const SUPABASE_URL = "https://cowyowpcktpvnevrmfej.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNvd3lvd3Bja3Rwdm5ldnJtZmVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1Mjk4OTUsImV4cCI6MjA5MzEwNTg5NX0.iez1ri0PC9IKssMtoihWBSUyrKkc96TZPvArA6xEbII";
+const STORAGE_BUCKET = "presentation-images";
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentId = new URLSearchParams(window.location.search).get("id");
+
 const data = {
   floorPlans: [],
   clusterPlans: [],
@@ -493,32 +204,20 @@ const fields = [
   "brokeragePercent","vatPercent","trusteeFee","titleDeedFee"
 ];
 
-function val(id){
-  return document.getElementById(id).value.trim();
-}
+function val(id){return document.getElementById(id).value.trim()}
+function num(id){return Number(val(id)||0)}
+function money(value){return "AED "+Number(value||0).toLocaleString("en-AE",{maximumFractionDigits:0})}
+function set(id,value){document.getElementById(id).innerText=value}
+function status(msg){document.getElementById("statusBox").innerHTML=msg||""}
 
-function num(id){
-  return Number(val(id) || 0);
-}
-
-function money(value){
-  return "AED " + Number(value || 0).toLocaleString("en-AE", {
-    maximumFractionDigits: 0
-  });
-}
-
-function set(id,value){
-  document.getElementById(id).innerText = value;
-}
-
-function addInstallment(label = "", amount = ""){
-  data.installments.push({label, amount});
+function addInstallment(label="",amount=""){
+  data.installments.push({label,amount});
   renderInstallmentsEditor();
   updatePreview();
 }
 
 function removeInstallment(index){
-  data.installments.splice(index, 1);
+  data.installments.splice(index,1);
   renderInstallmentsEditor();
   updatePreview();
 }
@@ -527,94 +226,51 @@ function renderInstallmentsEditor(){
   document.getElementById("installmentsEditor").innerHTML =
     data.installments.map((item,index)=>`
       <div class="installment-row">
-        <input 
-          placeholder="Installment name" 
-          value="${item.label}" 
-          oninput="data.installments[${index}].label=this.value;updatePreview()"
-        >
-        <input 
-          type="number" 
-          placeholder="Amount" 
-          value="${item.amount}" 
-          oninput="data.installments[${index}].amount=this.value;updatePreview()"
-        >
+        <input placeholder="Installment name" value="${escapeHtml(item.label||"")}" oninput="data.installments[${index}].label=this.value;updatePreview()">
+        <input type="number" placeholder="Amount" value="${escapeHtml(item.amount||"")}" oninput="data.installments[${index}].amount=this.value;updatePreview()">
         <button onclick="removeInstallment(${index})">X</button>
       </div>
     `).join("");
 }
 
 function calculate(){
-  const unit = num("unitPrice");
-  const seller = num("paymentToSeller");
-
-  const dld = unit * num("dldPercent") / 100;
-  const brokerage = unit * num("brokeragePercent") / 100;
-  const vat = brokerage * num("vatPercent") / 100;
-
-  const trustee = num("trusteeFee");
-  const title = num("titleDeedFee");
-
-  const brokerageVat = brokerage + vat;
-
-  const transfer =
-    seller +
-    dld +
-    trustee +
-    title +
-    brokerageVat;
-
-  const remaining = data.installments.reduce((sum,item)=>{
-    return sum + Number(item.amount || 0);
-  },0);
-
-  const total = transfer + remaining;
-
-  return {
-    unit,
-    seller,
-    dld,
-    trustee,
-    title,
-    brokerageVat,
-    transfer,
-    remaining,
-    total
-  };
+  const unit=num("unitPrice");
+  const seller=num("paymentToSeller");
+  const dld=unit*num("dldPercent")/100;
+  const brokerage=unit*num("brokeragePercent")/100;
+  const vat=brokerage*num("vatPercent")/100;
+  const trustee=num("trusteeFee");
+  const title=num("titleDeedFee");
+  const brokerageVat=brokerage+vat;
+  const transfer=seller+dld+trustee+title+brokerageVat;
+  const remaining=data.installments.reduce((sum,item)=>sum+Number(item.amount||0),0);
+  const total=transfer+remaining;
+  return {unit,seller,dld,trustee,title,brokerageVat,transfer,remaining,total};
 }
 
 function updatePreview(){
-  const header = [];
+  const header=[];
+  if(val("agentName")) header.push(`<strong>Name:</strong> ${escapeHtml(val("agentName"))}`);
+  if(val("agencyName")) header.push(`<strong>Agency:</strong> ${escapeHtml(val("agencyName"))}`);
+  if(val("contactNumber")) header.push(`<strong>Contact:</strong> +${val("contactNumber").replace(/\D/g,"")}`);
+  document.getElementById("headerInfo").innerHTML=header.join("<br>");
 
-  if(val("agentName")){
-    header.push(`<strong>Name:</strong> ${val("agentName")}`);
-  }
+  set("pTitle",val("projectTitle")||"Property Breakdown");
+  set("pProject",val("project")||"-");
+  set("pDeveloper",val("developer")||"-");
+  set("pArea",val("area")||"-");
+  set("pType",val("propertyType")||"-");
+  set("pBedrooms",val("bedrooms")||"-");
+  set("pBathrooms",val("bathrooms")||"-");
+  set("pSize",val("size")||"-");
+  set("pFloor",val("floor")||"-");
+  set("pView",val("view")||"-");
+  set("pCompletion",val("completion")||"-");
+  set("pDescription",val("projectDescription")||"");
 
-  if(val("agencyName")){
-    header.push(`<strong>Agency:</strong> ${val("agencyName")}`);
-  }
+  const c=calculate();
 
-  if(val("contactNumber")){
-    header.push(`<strong>Contact:</strong> +${val("contactNumber").replace(/\D/g,"")}`);
-  }
-
-  document.getElementById("headerInfo").innerHTML = header.join("<br>");
-
-  set("pTitle", val("projectTitle") || "Property Breakdown");
-  set("pProject", val("project") || "-");
-  set("pDeveloper", val("developer") || "-");
-  set("pArea", val("area") || "-");
-  set("pType", val("propertyType") || "-");
-  set("pBedrooms", val("bedrooms") || "-");
-  set("pBathrooms", val("bathrooms") || "-");
-  set("pSize", val("size") || "-");
-  set("pFloor", val("floor") || "-");
-  set("pView", val("view") || "-");
-  set("pCompletion", val("completion") || "-");
-  set("pDescription", val("projectDescription") || "");
-
-  const c = calculate();
-
-  let rows = `
+  let rows=`
     <tr class="soft"><td>Unit Price</td><td>${money(c.unit)}</td></tr>
     <tr><td>Payment to Seller</td><td>${money(c.seller)}</td></tr>
     <tr><td>DLD Fee</td><td>${money(c.dld)}</td></tr>
@@ -624,34 +280,30 @@ function updatePreview(){
   `;
 
   data.installments.forEach(item=>{
-    rows += `
-      <tr class="green">
-        <td>${item.label || "Pending Payment"}</td>
-        <td>${money(item.amount)}</td>
-      </tr>
-    `;
+    rows+=`<tr class="green"><td>${escapeHtml(item.label||"Pending Payment")}</td><td>${money(item.amount)}</td></tr>`;
   });
 
-  rows += `
+  rows+=`
     <tr class="pink"><td>Total on Transfer</td><td>${money(c.transfer)}</td></tr>
-    ${c.remaining > 0 ? `<tr class="green"><td>Total Remaining Payment Plan</td><td>${money(c.remaining)}</td></tr>` : ""}
+    ${c.remaining>0?`<tr class="green"><td>Total Remaining Payment Plan</td><td>${money(c.remaining)}</td></tr>`:""}
     <tr class="soft"><td>Total Cost for Buyer</td><td>${money(c.total)}</td></tr>
   `;
 
-  document.getElementById("breakdownTable").innerHTML = rows;
+  document.getElementById("breakdownTable").innerHTML=rows;
 
-  const phone = val("contactNumber").replace(/\D/g,"");
-
-  document.getElementById("clientWhatsappBox").innerHTML = phone
-    ? `<a class="whatsapp-client" target="_blank" href="https://wa.me/${phone}?text=${encodeURIComponent("Hi, I am interested in " + (val("projectTitle") || "this property"))}">WhatsApp Now</a>`
+  const phone=val("contactNumber").replace(/\D/g,"");
+  document.getElementById("clientWhatsappBox").innerHTML=phone
+    ? `<a class="whatsapp-client" target="_blank" href="https://wa.me/${phone}?text=${encodeURIComponent("Hi, I am interested in "+(val("projectTitle")||"this property"))}">WhatsApp Now</a>`
     : "";
 
   renderImages();
 }
 
-function imageHtml(src,type,index){
+function imageHtml(item,type,index){
+  const src = typeof item === "string" ? item : item.url;
+  const planClass = type==="floorPlans" || type==="clusterPlans" ? "plan-card" : "";
   return `
-    <div class="image-card">
+    <div class="image-card ${planClass}">
       <img src="${src}">
       <button class="remove-img" onclick="removeImage('${type}',${index})">Remove</button>
     </div>
@@ -659,19 +311,10 @@ function imageHtml(src,type,index){
 }
 
 function renderImages(){
-  document.getElementById("floorPlansPreview").innerHTML =
-    data.floorPlans.map((src,index)=>imageHtml(src,"floorPlans",index)).join("");
-
-  document.getElementById("clusterPlansPreview").innerHTML =
-    data.clusterPlans.map((src,index)=>imageHtml(src,"clusterPlans",index)).join("");
-
-  document.getElementById("projectImagesPreview").innerHTML =
-    data.projectImages.map((src,index)=>imageHtml(src,"projectImages",index)).join("");
-
-  document.getElementById("clusterSection").classList.toggle(
-    "hidden",
-    data.clusterPlans.length === 0
-  );
+  document.getElementById("floorPlansPreview").innerHTML=data.floorPlans.map((src,i)=>imageHtml(src,"floorPlans",i)).join("");
+  document.getElementById("clusterPlansPreview").innerHTML=data.clusterPlans.map((src,i)=>imageHtml(src,"clusterPlans",i)).join("");
+  document.getElementById("projectImagesPreview").innerHTML=data.projectImages.map((src,i)=>imageHtml(src,"projectImages",i)).join("");
+  document.getElementById("clusterSection").classList.toggle("hidden",data.clusterPlans.length===0);
 }
 
 function removeImage(type,index){
@@ -679,133 +322,196 @@ function removeImage(type,index){
   updatePreview();
 }
 
-function compressImage(file,maxWidth=1500,quality=.86){
+async function uploadImages(input,type){
+  const files=Array.from(input.files);
+  if(!files.length) return;
+
+  status("Uploading images...");
+
+  for(const file of files){
+    const uploaded = await uploadOriginalToSupabase(file,type);
+    data[type].push(uploaded);
+  }
+
+  input.value="";
+  updatePreview();
+  status("Images uploaded. Click Save / Update Link.");
+}
+
+async function uploadOriginalToSupabase(file,type){
+  const safeName=file.name.replace(/[^\w.\-]+/g,"-");
+  const path=`${currentId || "draft"}/${type}/${Date.now()}-${safeName}`;
+
+  const { error } = await sb.storage
+    .from(STORAGE_BUCKET)
+    .upload(path,file,{cacheControl:"3600",upsert:false});
+
+  if(error){
+    console.warn("Storage upload failed, using base64 fallback:",error.message);
+    return await readImageOriginal(file);
+  }
+
+  const { data:pub } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+  return {url:pub.publicUrl,path};
+}
+
+function readImageOriginal(file){
   return new Promise(resolve=>{
-    const reader = new FileReader();
-
-    reader.onload = event=>{
-      const img = new Image();
-
-      img.onload = ()=>{
-        const canvas = document.createElement("canvas");
-        const scale = Math.min(1, maxWidth / img.width);
-
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-
-        canvas
-          .getContext("2d")
-          .drawImage(img,0,0,canvas.width,canvas.height);
-
-        resolve(canvas.toDataURL("image/jpeg",quality));
-      };
-
-      img.src = event.target.result;
-    };
-
+    const reader=new FileReader();
+    reader.onload=e=>resolve(e.target.result);
     reader.readAsDataURL(file);
   });
 }
 
-async function uploadImages(input,type){
-  for(const file of Array.from(input.files)){
-    data[type].push(await compressImage(file));
-  }
+document.getElementById("floorPlansInput").addEventListener("change",function(){uploadImages(this,"floorPlans")});
+document.getElementById("clusterPlansInput").addEventListener("change",function(){uploadImages(this,"clusterPlans")});
+document.getElementById("projectImagesInput").addEventListener("change",function(){uploadImages(this,"projectImages")});
+fields.forEach(id=>document.getElementById(id).addEventListener("input",updatePreview));
 
-  input.value = "";
-  updatePreview();
+function collectPayload(){
+  const form={};
+  fields.forEach(id=>form[id]=val(id));
+  form.floorPlans=data.floorPlans;
+  form.clusterPlans=data.clusterPlans;
+  form.projectImages=data.projectImages;
+  form.installments=data.installments;
+  return form;
 }
 
-document.getElementById("floorPlansInput").addEventListener("change",function(){
-  uploadImages(this,"floorPlans");
-});
+async function saveProject(){
+  status("Saving...");
 
-document.getElementById("clusterPlansInput").addEventListener("change",function(){
-  uploadImages(this,"clusterPlans");
-});
+  const form=collectPayload();
+  const title=val("projectTitle") || "Property Breakdown";
 
-document.getElementById("projectImagesInput").addEventListener("change",function(){
-  uploadImages(this,"projectImages");
-});
+  if(currentId){
+    const { error } = await sb
+      .from("presentations")
+      .update({title,form})
+      .eq("id",currentId);
 
-fields.forEach(id=>{
-  document.getElementById(id).addEventListener("input",updatePreview);
-});
+    if(error){
+      status("Save failed: "+error.message);
+      return;
+    }
+  }else{
+    const { data:res,error } = await sb
+      .from("presentations")
+      .insert([{title,form}])
+      .select("id")
+      .single();
+
+    if(error){
+      status("Save failed: "+error.message);
+      return;
+    }
+
+    currentId=res.id;
+    const newUrl=`${window.location.origin}${window.location.pathname}?id=${currentId}`;
+    window.history.replaceState({}, "", newUrl);
+  }
+
+  const link=`${window.location.origin}${window.location.pathname}?id=${currentId}`;
+  status(`Saved ✅<br>Share/Edit Link:<br><a style="color:#d4af37" href="${link}" target="_blank">${link}</a>`);
+}
+
+async function loadProject(){
+  if(!currentId) return;
+
+  status("Loading saved presentation...");
+
+  const {data:res,error}=await sb
+    .from("presentations")
+    .select("id,title,form")
+    .eq("id",currentId)
+    .single();
+
+  if(error || !res){
+    status("Could not load saved project.");
+    return;
+  }
+
+  const f=res.form || {};
+
+  fields.forEach(id=>{
+    if(f[id] !== undefined && document.getElementById(id)){
+      document.getElementById(id).value=f[id];
+    }
+  });
+
+  data.floorPlans=f.floorPlans || [];
+  data.clusterPlans=f.clusterPlans || [];
+  data.projectImages=f.projectImages || [];
+  data.installments=f.installments || [];
+
+  renderInstallmentsEditor();
+  updatePreview();
+  status("Loaded ✅");
+}
 
 function downloadPDF(){
-  const element = document.getElementById("pdfArea");
-
-  document.querySelectorAll(".remove-img").forEach(btn=>{
-    btn.style.display = "none";
-  });
+  const element=document.getElementById("pdfArea");
+  document.querySelectorAll(".remove-img").forEach(btn=>btn.style.display="none");
 
   html2pdf().set({
     margin:0,
-    filename:(val("projectTitle") || "property-breakdown") + ".pdf",
-    image:{
-      type:"jpeg",
-      quality:.98
-    },
-    html2canvas:{
-      scale:2,
-      useCORS:true,
-      backgroundColor:"#ffffff",
-      scrollY:0
-    },
-    jsPDF:{
-      unit:"px",
-      format:[794,1123],
-      orientation:"portrait"
-    },
-    pagebreak:{
-      mode:["css","legacy"]
-    }
+    filename:(val("projectTitle")||"property-breakdown")+".pdf",
+    image:{type:"jpeg",quality:1},
+    html2canvas:{scale:3,useCORS:true,backgroundColor:"#ffffff",scrollY:0},
+    jsPDF:{unit:"px",format:[794,1123],orientation:"portrait"},
+    pagebreak:{mode:["css","legacy"]}
   }).from(element).save().then(()=>{
-    document.querySelectorAll(".remove-img").forEach(btn=>{
-      btn.style.display = "block";
-    });
+    document.querySelectorAll(".remove-img").forEach(btn=>btn.style.display="block");
   });
 }
 
 function openWhatsApp(){
-  const phone = val("contactNumber").replace(/\D/g,"");
+  const phone=val("contactNumber").replace(/\D/g,"");
+  if(!phone){alert("Add your WhatsApp/contact number first.");return}
+  const message=`Hi, I am interested in ${val("projectTitle")||"this property"}.`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`,"_blank");
+}
 
-  if(!phone){
-    alert("Add your WhatsApp/contact number first.");
-    return;
-  }
-
-  const message = `Hi, I am interested in ${val("projectTitle") || "this property"}.`;
-
-  window.open(
-    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
-    "_blank"
-  );
+function newCopy(){
+  currentId=null;
+  window.history.replaceState({}, "", window.location.pathname);
+  status("New copy mode. Click Save / Update Link to create a new saved link.");
 }
 
 function clearAll(){
   if(!confirm("Clear all fields and images?")) return;
 
   fields.forEach(id=>{
-    if(id === "dldPercent") document.getElementById(id).value = 4;
-    else if(id === "brokeragePercent") document.getElementById(id).value = 2;
-    else if(id === "vatPercent") document.getElementById(id).value = 5;
-    else if(id === "trusteeFee") document.getElementById(id).value = 4200;
-    else if(id === "titleDeedFee") document.getElementById(id).value = 580;
-    else document.getElementById(id).value = "";
+    if(id==="dldPercent") document.getElementById(id).value=4;
+    else if(id==="brokeragePercent") document.getElementById(id).value=2;
+    else if(id==="vatPercent") document.getElementById(id).value=5;
+    else if(id==="trusteeFee") document.getElementById(id).value=4200;
+    else if(id==="titleDeedFee") document.getElementById(id).value=580;
+    else document.getElementById(id).value="";
   });
 
-  data.floorPlans = [];
-  data.clusterPlans = [];
-  data.projectImages = [];
-  data.installments = [];
+  data.floorPlans=[];
+  data.clusterPlans=[];
+  data.projectImages=[];
+  data.installments=[];
 
   renderInstallmentsEditor();
   updatePreview();
+  status("");
+}
+
+function escapeHtml(str){
+  return String(str||"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 renderInstallmentsEditor();
 updatePreview();
+loadProject();
 </script>
 </body>
 </html>
