@@ -1,1 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property View</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:#f8fafc;
+padding:20px;
+color:#111827;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:#fff;
+padding:25px;
+border-radius:12px;
+}
+
+.title{
+font-size:26px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.box{
+background:#f1f5f9;
+padding:12px;
+border-radius:8px;
+}
+
+.box small{
+color:#64748b;
+}
+
+.box b{
+display:block;
+margin-top:5px;
+}
+
+.section{
+margin-top:25px;
+}
+
+.pay{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #e2e8f0;
+}
+
+.whatsapp{
+margin-top:20px;
+display:inline-block;
+background:#22c55e;
+color:#fff;
+padding:12px 20px;
+border-radius:8px;
+text-decoration:none;
+font-weight:600;
+}
+
+@media print{
+body{background:#fff;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title" id="title"></div>
+
+<div class="grid">
+<div class="box"><small>Project</small><b id="project"></b></div>
+<div class="box"><small>Developer</small><b id="developer"></b></div>
+<div class="box"><small>Area</small><b id="area"></b></div>
+<div class="box"><small>Type</small><b id="type"></b></div>
+<div class="box"><small>Bedrooms</small><b id="bedrooms"></b></div>
+<div class="box"><small>Bathrooms</small><b id="bathrooms"></b></div>
+<div class="box"><small>Size</small><b id="size"></b></div>
+<div class="box"><small>Floor</small><b id="floor"></b></div>
+<div class="box"><small>View</small><b id="view"></b></div>
+<div class="box"><small>Completion</small><b id="completion"></b></div>
+</div>
+
+<div class="section">
+<p id="desc"></p>
+</div>
+
+<div class="section">
+<h3>Payment Breakdown</h3>
+
+<div class="pay"><span>Price</span><span id="price"></span></div>
+<div class="pay"><span>Seller</span><span id="seller"></span></div>
+<div class="pay"><span>DLD</span><span id="dld"></span></div>
+<div class="pay"><span>Commission</span><span id="commission"></span></div>
+<div class="pay"><span>Trustee</span><span id="trustee"></span></div>
+<div class="pay"><span>Title Fee</span><span id="titlefee"></span></div>
+
+</div>
+
+<a id="whatsapp" class="whatsapp" target="_blank">WhatsApp Now</a>
+
+</div>
+
+<script>
+
+function getParam(name){
+return new URLSearchParams(window.location.search).get(name);
+}
+
+let id = getParam("id");
+
+if(id){
+let data = JSON.parse(localStorage.getItem(id));
+
+if(data){
+
+for(let key in data){
+let el = document.getElementById(key);
+if(el) el.innerText = data[key];
+}
+
+document.getElementById("whatsapp").href = "https://wa.me/"+data.phone;
+
+}else{
+document.body.innerHTML="<h2>Link expired or not found</h2>";
+}
+
+}else{
+document.body.innerHTML="<h2>No data</h2>";
+}
+
+</script>
+
+</body>
+</html>
