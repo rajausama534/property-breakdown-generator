@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Property Breakdown Generator</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Georgia&display=swap" rel="stylesheet">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -46,7 +42,7 @@
       margin: 22px 0 10px;
       font-size: 14px;
       color: #93c5fd;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
     }
 
@@ -57,7 +53,7 @@
       margin-bottom: 5px;
     }
 
-    input, textarea, select {
+    input, textarea {
       width: 100%;
       padding: 11px;
       border-radius: 8px;
@@ -69,7 +65,7 @@
     }
 
     textarea {
-      min-height: 110px;
+      min-height: 150px;
       resize: vertical;
     }
 
@@ -80,13 +76,36 @@
       border-radius: 9px;
       background: #2563eb;
       color: #fff;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       margin-top: 10px;
     }
 
-    button.secondary {
-      background: #334155;
+    button.secondary { background: #334155; }
+    button.danger { background: #dc2626; }
+    button.small {
+      width: auto;
+      padding: 7px 10px;
+      font-size: 12px;
+      margin: 4px 4px 4px 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #1f2937;
+      padding-bottom: 8px;
+    }
+
+    .image-control {
+      background: #020617;
+      border: 1px solid #334155;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 12px;
     }
 
     .preview-wrap {
@@ -144,6 +163,7 @@
       padding-left: 22px;
       margin: 25px 0;
       color: #333;
+      white-space: pre-line;
     }
 
     .selling {
@@ -171,52 +191,10 @@
       padding: 8px;
     }
 
-    .gray {
-      background: #d9d9d9;
-      font-weight: 800;
-    }
-
-    .pink {
-      background: #f8d6d3;
-      font-weight: 800;
-    }
-
-    .green {
-      background: #d6f0dd;
-      font-weight: 800;
-    }
-
-    .bold {
-      font-weight: 800;
-    }
-
-    .right {
-      text-align: right;
-    }
-
-    .floor-plan, .image-grid {
-      margin-top: 35px;
-      page-break-inside: avoid;
-    }
-
-    .floor-plan img {
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-    }
-
-    .image-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .image-grid img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
+    .gray { background: #d9d9d9; font-weight: 800; }
+    .pink { background: #f8d6d3; font-weight: 800; }
+    .green { background: #d6f0dd; font-weight: 800; }
+    .right { text-align: right; }
 
     .section-heading {
       font-size: 28px;
@@ -225,23 +203,45 @@
       color: #2b2f33;
     }
 
+    .floor-plan img {
+      width: 100%;
+      border: 1px solid #ddd;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .image-grid img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
     @media(max-width: 1000px) {
-      .app {
-        grid-template-columns: 1fr;
+      .app { grid-template-columns: 1fr; }
+      .panel { position: relative; height: auto; }
+      #presentation { width: 100%; padding: 35px 25px; }
+      .preview-wrap { padding: 10px; }
+    }
+
+    @media print {
+      body {
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
-      .panel {
-        position: relative;
-        height: auto;
-      }
-
+      .panel { display: none; }
+      .app { display: block; }
+      .preview-wrap { padding: 0; }
       #presentation {
-        width: 100%;
-        padding: 35px 25px;
-      }
-
-      .preview-wrap {
-        padding: 10px;
+        width: 900px;
+        margin: auto;
+        padding: 55px 70px;
       }
     }
   </style>
@@ -275,40 +275,30 @@
     <label>Handover</label><input id="handover" value="Q2 2027">
 
     <div class="section-title">About Property</div>
-    <textarea id="about1">This villa was purchased exclusively for investment purposes, and its current price is considered a low price for such a large property in one of the most promising projects today by the developer Emaar.</textarea>
-    <textarea id="about2">When compared to completed communities with a similar concept, Dubai Hills is a clear example where the price of the largest 7-bedroom villas starts at a much higher price per sq.ft.</textarea>
-    <textarea id="about3">Upon resale after the full handover of the community, the expected value of the property may increase strongly, depending on market conditions, location, and demand.</textarea>
+    <textarea id="description">This villa was purchased exclusively for investment purposes, and its current price is considered a low price for such a large property in one of the most promising projects today by the developer Emaar.</textarea>
 
     <div class="section-title">Payment Breakdown</div>
+
     <label>Selling Price</label>
     <input id="price" type="number" value="67000000">
 
     <label>Payment to Seller</label>
     <input id="seller" type="number" value="33364068">
 
-    <label>Installment 1 Date</label><input id="d1" value="2-APR-2026">
-    <label>Installment 1 Amount</label><input id="a1" type="number" value="5605989">
-
-    <label>Installment 2 Date</label><input id="d2" value="5-SEP-2026">
-    <label>Installment 2 Amount</label><input id="a2" type="number" value="5605989">
-
-    <label>Installment 3 Date</label><input id="d3" value="9-MAR-2027">
-    <label>Installment 3 Amount</label><input id="a3" type="number" value="5605989">
-
-    <label>Installment 4 Date</label><input id="d4" value="29-OCT-2027">
-    <label>Installment 4 Amount</label><input id="a4" type="number" value="5605989">
-
-    <label>Installment 5 Date</label><input id="d5" value="31-DEC-2028">
-    <label>Installment 5 Amount</label><input id="a5" type="number" value="11211976">
+    <div class="section-title">Remaining Installments</div>
+    <div id="installments"></div>
+    <button onclick="addInstallment()" class="secondary">+ Add Installment</button>
 
     <div class="section-title">Floor Plan</div>
     <input type="file" id="floorUpload" accept="image/*">
+    <button onclick="removeFloorPlan()" class="danger">Remove Floor Plan</button>
 
     <div class="section-title">Property Images</div>
     <input type="file" id="imagesUpload" accept="image/*" multiple>
+    <div id="imageControls"></div>
 
     <button onclick="generate()">Generate Preview</button>
-    <button onclick="downloadPDF()" class="secondary">Download PDF</button>
+    <button onclick="downloadPDF()" class="secondary">Download / Print PDF</button>
   </div>
 
   <div class="preview-wrap">
@@ -321,15 +311,71 @@
   let floorPlanSrc = "";
   let propertyImages = [];
 
+  let installments = [
+    { date: "2-APR-2026", amount: 5605989 },
+    { date: "5-SEP-2026", amount: 5605989 },
+    { date: "9-MAR-2027", amount: 5605989 },
+    { date: "29-OCT-2027", amount: 5605989 },
+    { date: "31-DEC-2028", amount: 11211976 }
+  ];
+
   function money(num) {
     return "AED " + Number(num || 0).toLocaleString("en-US", {
       maximumFractionDigits: 0
     });
   }
 
+  function get(id) {
+    return document.getElementById(id).value.trim();
+  }
+
+  function number(id) {
+    return Number(document.getElementById(id).value || 0);
+  }
+
+  function addDetail(items, label, value) {
+    if (value && value.trim() !== "") {
+      items.push(`<li>${label} – ${value}</li>`);
+    }
+  }
+
+  function renderInstallments() {
+    const box = document.getElementById("installments");
+    box.innerHTML = "";
+
+    installments.forEach((item, index) => {
+      box.innerHTML += `
+        <div class="row">
+          <div>
+            <label>Date</label>
+            <input value="${item.date}" oninput="installments[${index}].date=this.value; generate();">
+          </div>
+          <div>
+            <label>Amount</label>
+            <input type="number" value="${item.amount}" oninput="installments[${index}].amount=Number(this.value); generate();">
+          </div>
+          <button class="small danger" onclick="removeInstallment(${index})">Remove</button>
+        </div>
+      `;
+    });
+  }
+
+  function addInstallment() {
+    installments.push({ date: "", amount: 0 });
+    renderInstallments();
+    generate();
+  }
+
+  function removeInstallment(index) {
+    installments.splice(index, 1);
+    renderInstallments();
+    generate();
+  }
+
   document.getElementById("floorUpload").addEventListener("change", function(e) {
     const file = e.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = function(event) {
       floorPlanSrc = event.target.result;
@@ -338,60 +384,123 @@
     reader.readAsDataURL(file);
   });
 
+  function removeFloorPlan() {
+    floorPlanSrc = "";
+    document.getElementById("floorUpload").value = "";
+    generate();
+  }
+
   document.getElementById("imagesUpload").addEventListener("change", function(e) {
-    propertyImages = [];
     const files = Array.from(e.target.files);
 
     files.forEach(file => {
       const reader = new FileReader();
       reader.onload = function(event) {
-        propertyImages.push(event.target.result);
+        propertyImages.push({
+          name: file.name,
+          src: event.target.result
+        });
+        renderImageControls();
         generate();
       };
       reader.readAsDataURL(file);
     });
+
+    e.target.value = "";
   });
 
+  function renderImageControls() {
+    const box = document.getElementById("imageControls");
+    box.innerHTML = "";
+
+    propertyImages.forEach((img, index) => {
+      box.innerHTML += `
+        <div class="image-control">
+          ${index + 1}. ${img.name || "Image"}
+          <br>
+          <button class="small secondary" onclick="moveImage(${index}, -1)">Up</button>
+          <button class="small secondary" onclick="moveImage(${index}, 1)">Down</button>
+          <button class="small danger" onclick="removeImage(${index})">Remove</button>
+        </div>
+      `;
+    });
+  }
+
+  function removeImage(index) {
+    propertyImages.splice(index, 1);
+    renderImageControls();
+    generate();
+  }
+
+  function moveImage(index, direction) {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= propertyImages.length) return;
+
+    const temp = propertyImages[index];
+    propertyImages[index] = propertyImages[newIndex];
+    propertyImages[newIndex] = temp;
+
+    renderImageControls();
+    generate();
+  }
+
   function generate() {
-    const title = document.getElementById("title").value;
-    const date = document.getElementById("date").value;
-
-    const project = document.getElementById("project").value;
-    const developer = document.getElementById("developer").value;
-    const area = document.getElementById("area").value;
-    const type = document.getElementById("type").value;
-    const bedrooms = document.getElementById("bedrooms").value;
-    const plot = document.getElementById("plot").value;
-    const bua = document.getElementById("bua").value;
-    const floor = document.getElementById("floor").value;
-    const view = document.getElementById("view").value;
-    const features = document.getElementById("features").value;
-    const handover = document.getElementById("handover").value;
-
-    const about1 = document.getElementById("about1").value;
-    const about2 = document.getElementById("about2").value;
-    const about3 = document.getElementById("about3").value;
-
-    const price = Number(document.getElementById("price").value || 0);
-    const seller = Number(document.getElementById("seller").value || 0);
+    const price = number("price");
+    const seller = number("seller");
 
     const dld = price * 0.04 + 40;
-    const trustee = 4200 + 580;
+    const trusteeOffice = 4200;
+    const titleDeed = 550 * 1.05;
+    const trusteeTotal = trusteeOffice + titleDeed;
+
     const commission = price * 0.02;
     const commissionVat = commission * 0.05;
     const totalCommission = commission + commissionVat;
 
-    const installments = [
-      [document.getElementById("d1").value, Number(document.getElementById("a1").value || 0)],
-      [document.getElementById("d2").value, Number(document.getElementById("a2").value || 0)],
-      [document.getElementById("d3").value, Number(document.getElementById("a3").value || 0)],
-      [document.getElementById("d4").value, Number(document.getElementById("a4").value || 0)],
-      [document.getElementById("d5").value, Number(document.getElementById("a5").value || 0)]
-    ];
+    const validInstallments = installments.filter(i => i.date.trim() !== "" || Number(i.amount) > 0);
+    const remaining = validInstallments.reduce((sum, i) => sum + Number(i.amount || 0), 0);
 
-    const remaining = installments.reduce((sum, item) => sum + item[1], 0);
-    const totalTransfer = seller + dld + trustee + totalCommission;
+    const totalTransfer = seller + dld + trusteeTotal + totalCommission;
     const totalCost = totalTransfer + remaining;
+
+    let details = [];
+    addDetail(details, "Project", get("project"));
+    addDetail(details, "Developer", get("developer"));
+    addDetail(details, "Area", get("area"));
+    addDetail(details, "Type", get("type"));
+    addDetail(details, "Bedrooms", get("bedrooms"));
+
+    const plot = get("plot");
+    const bua = get("bua");
+    if (plot || bua) {
+      details.push(`<li>Size – ${plot ? "Plot " + plot : ""}${plot && bua ? " · " : ""}${bua ? "BUA " + bua : ""}</li>`);
+    }
+
+    addDetail(details, "Floor", get("floor"));
+    addDetail(details, "View", get("view"));
+
+    const features = get("features");
+    if (features) details.push(`<li>${features}</li>`);
+
+    addDetail(details, "Handover", get("handover"));
+
+    const detailHtml = details.length ? `<ul class="details">${details.join("")}</ul><hr>` : "";
+
+    const description = get("description");
+    const descriptionHtml = description ? `<div class="quote">${description}</div><hr>` : "";
+
+    const installmentRows = validInstallments.length ? `
+      <tr class="green">
+        <td colspan="2">Payment Plan:</td>
+      </tr>
+      ${validInstallments.map(i => `
+        <tr>
+          <td>${i.date}</td>
+          <td class="right">${money(i.amount)}</td>
+        </tr>
+      `).join("")}
+      <tr><td colspan="2">&nbsp;</td></tr>
+    ` : "";
 
     const floorHtml = floorPlanSrc ? `
       <div class="section-heading">Floor Plan</div>
@@ -403,38 +512,21 @@
     const imagesHtml = propertyImages.length ? `
       <div class="section-heading">Property Images</div>
       <div class="image-grid">
-        ${propertyImages.map(src => `<img src="${src}">`).join("")}
+        ${propertyImages.map(img => `<img src="${img.src}">`).join("")}
       </div>
     ` : "";
 
     document.getElementById("presentation").innerHTML = `
-      <div class="top-title">${title}</div>
-      <div class="date">${date}</div>
+      ${get("title") ? `<div class="top-title">${get("title")}</div>` : ""}
+      ${get("date") ? `<div class="date">${get("date")}</div>` : ""}
 
-      <ul class="details">
-        <li>Project – ${project}</li>
-        <li>Developer – ${developer}</li>
-        <li>Area – ${area}</li>
-        <li>Type – ${type}</li>
-        <li>Bedrooms – ${bedrooms}</li>
-        <li>Size – Plot ${plot} · BUA ${bua}</li>
-        <li>Floor – ${floor}</li>
-        <li>View – ${view}</li>
-        <li>${features}</li>
-        <li>Handover – ${handover}</li>
-      </ul>
+      ${detailHtml}
 
-      <hr>
+      ${descriptionHtml}
 
-      <div class="quote">${about1}</div>
-      <div class="quote">${about2}</div>
-      <div class="quote">${about3}</div>
+      ${price ? `<div class="selling">• Selling price: ${money(price)}</div>` : ""}
 
-      <hr>
-
-      <div class="selling">• Selling price: ${money(price)}</div>
-
-      <div class="pay-title">📑PAYMENT PLAN (AED)</div>
+      <div class="pay-title">📑 PAYMENT PLAN (AED)</div>
 
       <table>
         <tr class="gray">
@@ -447,46 +539,45 @@
         <tr class="pink">
           <td colspan="2">Payments on Transfer:</td>
         </tr>
+
+        ${seller ? `
+          <tr>
+            <td>1. Payment to seller</td>
+            <td class="right">${money(seller)}</td>
+          </tr>
+        ` : ""}
+
         <tr>
-          <td>1. Payment to seller</td>
-          <td class="right">${money(seller)}</td>
-        </tr>
-        <tr>
-          <td>2. DLD Transfer fee 4% + 40 AED</td>
+          <td>DLD Transfer fee 4% + AED 40</td>
           <td class="right">${money(dld)}</td>
         </tr>
+
         <tr>
-          <td>3. Trustee fee + Title Deed</td>
-          <td class="right">${money(trustee)}</td>
+          <td>Trustee Office Fee AED 4,200 + Title Deed AED 550 + 5% VAT</td>
+          <td class="right">${money(trusteeTotal)}</td>
         </tr>
+
         <tr>
-          <td>4. Buyer's agent commission 2% + 5% VAT</td>
+          <td>Buyer's agent commission 2% + 5% VAT</td>
           <td class="right">${money(totalCommission)}</td>
         </tr>
 
         <tr><td colspan="2">&nbsp;</td></tr>
 
-        <tr class="green">
-          <td colspan="2">Payment Plan:</td>
-        </tr>
-
-        ${installments.map(item => `
-          <tr>
-            <td>${item[0]}</td>
-            <td class="right">${money(item[1])}</td>
-          </tr>
-        `).join("")}
-
-        <tr><td colspan="2">&nbsp;</td></tr>
+        ${installmentRows}
 
         <tr class="pink">
           <td>Total on Transfer:</td>
           <td class="right">${money(totalTransfer)}</td>
         </tr>
-        <tr class="green">
-          <td>Total remaining Payment Plan:</td>
-          <td class="right">${money(remaining)}</td>
-        </tr>
+
+        ${remaining ? `
+          <tr class="green">
+            <td>Total remaining Payment Plan:</td>
+            <td class="right">${money(remaining)}</td>
+          </tr>
+        ` : ""}
+
         <tr class="gray">
           <td>TOTAL COST FOR BUYER:</td>
           <td class="right">${money(totalCost)}</td>
@@ -500,20 +591,15 @@
 
   function downloadPDF() {
     generate();
-
-    const element = document.getElementById("presentation");
-
-    const opt = {
-      margin: 0,
-      filename: 'property-breakdown.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save();
+    window.print();
   }
 
+  document.querySelectorAll("input, textarea").forEach(el => {
+    el.addEventListener("input", generate);
+  });
+
+  renderInstallments();
+  renderImageControls();
   generate();
 </script>
 
