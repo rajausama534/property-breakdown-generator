@@ -1,225 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Property Presentation Builder</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Breakdown View</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#0f172a;color:#fff;}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.container{display:flex;height:100vh;}
-.left{width:380px;padding:20px;overflow:auto;background:#111827;}
-.right{flex:1;background:#f8fafc;color:#000;padding:30px;overflow:auto;}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #e9e9e9;
+      color: #111;
+    }
 
-input,textarea{
-width:100%;
-padding:12px;
-margin-bottom:12px;
-border-radius:8px;
-border:none;
-background:#020617;
-color:#fff;
-}
+    .top-bar {
+      max-width: 1000px;
+      margin: 20px auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
 
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:8px;
-background:#2563eb;
-color:#fff;
-cursor:pointer;
-font-weight:600;
-}
+    button {
+      background: #111;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-.preview{
-background:#fff;
-padding:25px;
-border-radius:12px;
-color:#000;
-max-width:800px;
-margin:auto;
-}
+    #pdfArea {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: white;
+      padding: 34px;
+      border-radius: 18px;
+    }
 
-.title{font-size:28px;font-weight:700;margin-bottom:20px;}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.box{background:#f1f5f9;padding:12px;border-radius:8px;}
-.box small{color:#64748b;}
-.box b{display:block;margin-top:5px;}
+    h1 {
+      font-size: 34px;
+      margin: 0 0 10px;
+    }
 
-.section{margin-top:25px;}
-.section h3{margin-bottom:10px;}
+    h2 {
+      margin-top: 30px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #ddd;
+      font-size: 22px;
+    }
 
-.pay{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e2e8f0;}
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
 
-.whatsapp{
-margin-top:20px;
-display:inline-block;
-background:#22c55e;
-color:#fff;
-padding:12px 20px;
-border-radius:8px;
-text-decoration:none;
-font-weight:600;
-}
+    .info-grid,
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
 
-.login{
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-}
+    .box {
+      background: #f6f6f6;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+    }
 
-.login-box{
-background:#020617;
-padding:30px;
-border-radius:12px;
-width:320px;
-}
+    .box b {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
 
-</style>
+    .highlight {
+      background: #111;
+      color: #fff;
+    }
+
+    .highlight b {
+      color: #d4af37;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .image-grid img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      background: #f4f4f4;
+    }
+
+    .floor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .floor-grid img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      background: #f4f4f4;
+      padding: 8px;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    .table td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      font-size: 15px;
+    }
+
+    .table td:last-child {
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .footer {
+      margin-top: 35px;
+      padding-top: 18px;
+      border-top: 1px solid #ddd;
+      font-size: 13px;
+      color: #555;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .top-bar {
+        display: none;
+      }
+
+      #pdfArea {
+        margin: 0;
+        max-width: 100%;
+        border-radius: 0;
+        padding: 28px;
+      }
+
+      .image-grid img {
+        height: 220px;
+      }
+
+      .floor-grid img {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="loginPage" class="login">
-  <div class="login-box">
-    <h2>Login</h2>
-    <input id="email" placeholder="Email"/>
-    <input id="password" type="password" placeholder="Password"/>
-    <button onclick="login()">Login</button>
+  <div class="top-bar">
+    <button onclick="downloadPDF()">Download PDF</button>
   </div>
-</div>
 
-<div id="app" class="container" style="display:none;">
+  <div id="pdfArea">
+    <h1 id="projectTitle">Property Breakdown</h1>
+    <p id="projectDescription"></p>
 
-<div class="left">
+    <div class="info-grid">
+      <div class="box">
+        <b>Property Price</b>
+        <span id="propertyPrice">AED 0</span>
+      </div>
+      <div class="box">
+        <b>Selling Price</b>
+        <span id="sellingPrice">AED 0</span>
+      </div>
+      <div class="box">
+        <b>Amount Paid to Developer</b>
+        <span id="paidAmount">AED 0</span>
+      </div>
+      <div class="box">
+        <b>Pending to Developer</b>
+        <span id="pendingAmount">AED 0</span>
+      </div>
+    </div>
 
-<input id="title" placeholder="Title"/>
-<input id="project" placeholder="Project"/>
-<input id="developer" placeholder="Developer"/>
-<input id="area" placeholder="Area"/>
-<input id="type" placeholder="Type"/>
-<input id="bedrooms" placeholder="Bedrooms"/>
-<input id="bathrooms" placeholder="Bathrooms"/>
-<input id="size" placeholder="Size"/>
-<input id="floor" placeholder="Floor"/>
-<input id="view" placeholder="View"/>
-<input id="completion" placeholder="Completion"/>
+    <div class="section">
+      <h2>Seller Breakdown</h2>
+      <div class="cost-grid">
+        <div class="box highlight">
+          <b>Seller Premium / Profit</b>
+          <span id="sellerPremium">AED 0</span>
+        </div>
+        <div class="box highlight">
+          <b>Total Seller Receives</b>
+          <span id="sellerReceives">AED 0</span>
+        </div>
+      </div>
 
-<textarea id="desc" placeholder="Description"></textarea>
+      <table class="table">
+        <tr>
+          <td>Original Property Price</td>
+          <td id="tOriginalPrice">AED 0</td>
+        </tr>
+        <tr>
+          <td>Paid to Developer</td>
+          <td id="tPaidDeveloper">AED 0</td>
+        </tr>
+        <tr>
+          <td>Pending Payment</td>
+          <td id="tPendingDeveloper">AED 0</td>
+        </tr>
+        <tr>
+          <td>Current Selling Price</td>
+          <td id="tSellingPrice">AED 0</td>
+        </tr>
+        <tr>
+          <td>Premium / Profit</td>
+          <td id="tPremium">AED 0</td>
+        </tr>
+        <tr>
+          <td>Seller Receives</td>
+          <td id="tSellerReceives">AED 0</td>
+        </tr>
+      </table>
+    </div>
 
-<h4>Payment</h4>
-<input id="price" placeholder="Selling Price" oninput="calc()"/>
-<input id="seller" placeholder="Payment to Seller"/>
-<input id="dld" placeholder="DLD Fee"/>
-<input id="commission" placeholder="Brokerage Fee"/>
-<input id="trustee" value="4200"/>
-<input id="titlefee" value="550"/>
+    <div class="section">
+      <h2>Buyer Cost Breakdown</h2>
+      <table class="table">
+        <tr>
+          <td>Selling Price</td>
+          <td id="bSellingPrice">AED 0</td>
+        </tr>
+        <tr>
+          <td>DLD Fee</td>
+          <td id="bDld">AED 0</td>
+        </tr>
+        <tr>
+          <td>Brokerage Fee</td>
+          <td id="bBrokerage">AED 0</td>
+        </tr>
+        <tr>
+          <td>VAT on Brokerage</td>
+          <td id="bVat">AED 0</td>
+        </tr>
+        <tr>
+          <td>Trustee Office Fee</td>
+          <td id="bTrustee">AED 0</td>
+        </tr>
+        <tr>
+          <td>Title Deed Fee</td>
+          <td id="bTitleDeed">AED 0</td>
+        </tr>
+        <tr>
+          <td>Pending to Developer</td>
+          <td id="bPending">AED 0</td>
+        </tr>
+        <tr>
+          <td>Total Buyer Cost</td>
+          <td id="bTotal">AED 0</td>
+        </tr>
+      </table>
+    </div>
 
-<input id="phone" placeholder="WhatsApp Number (+971...)"/>
+    <div class="section">
+      <h2>Project Images</h2>
+      <div class="image-grid" id="projectImages"></div>
+    </div>
 
-<button onclick="updatePreview()">Update Preview</button>
-<button onclick="save()">Save & Generate Link</button>
-<button onclick="window.print()">Download PDF</button>
+    <div class="section">
+      <h2>Floor Plans</h2>
+      <div class="floor-grid" id="floorPlans"></div>
+    </div>
 
-</div>
+    <div class="footer">
+      This breakdown is for reference only. Final figures may vary based on developer, DLD, trustee office, and transaction requirements.
+    </div>
+  </div>
 
-<div class="right">
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const savedData = localStorage.getItem("property_breakdown_" + id);
+    const data = savedData ? JSON.parse(savedData) : {};
 
-<div class="preview" id="preview">
-<div class="title" id="p_title"></div>
+    function formatAED(value) {
+      const num = Number(value || 0);
+      return "AED " + num.toLocaleString("en-AE", {
+        maximumFractionDigits: 0
+      });
+    }
 
-<div class="grid">
-<div class="box"><small>Project</small><b id="p_project"></b></div>
-<div class="box"><small>Developer</small><b id="p_developer"></b></div>
-<div class="box"><small>Area</small><b id="p_area"></b></div>
-<div class="box"><small>Type</small><b id="p_type"></b></div>
-<div class="box"><small>Bedrooms</small><b id="p_bedrooms"></b></div>
-<div class="box"><small>Bathrooms</small><b id="p_bathrooms"></b></div>
-<div class="box"><small>Size</small><b id="p_size"></b></div>
-<div class="box"><small>Floor</small><b id="p_floor"></b></div>
-<div class="box"><small>View</small><b id="p_view"></b></div>
-<div class="box"><small>Completion</small><b id="p_completion"></b></div>
-</div>
+    function setText(id, value) {
+      document.getElementById(id).innerText = value;
+    }
 
-<div class="section">
-<p id="p_desc"></p>
-</div>
+    function calculate() {
+      const propertyPrice = Number(data.propertyPrice || 0);
+      const sellingPrice = Number(data.sellingPrice || 0);
+      const paidPercent = Number(data.paidPercent || 0);
 
-<div class="section">
-<h3>Payment Breakdown</h3>
-<div class="pay"><span>Price</span><span id="p_price"></span></div>
-<div class="pay"><span>Seller</span><span id="p_seller"></span></div>
-<div class="pay"><span>DLD</span><span id="p_dld"></span></div>
-<div class="pay"><span>Commission</span><span id="p_commission"></span></div>
-<div class="pay"><span>Trustee</span><span id="p_trustee"></span></div>
-<div class="pay"><span>Title Fee</span><span id="p_titlefee"></span></div>
-</div>
+      const dldPercent = Number(data.dldPercent || 4);
+      const brokeragePercent = Number(data.brokeragePercent || 2);
+      const vatPercent = Number(data.vatPercent || 5);
+      const trusteeFee = Number(data.trusteeFee || 4200);
+      const titleDeedFee = Number(data.titleDeedFee || 580);
 
-<a id="whatsapp" class="whatsapp" target="_blank">WhatsApp Now</a>
+      const paidAmount = propertyPrice * paidPercent / 100;
+      const pendingAmount = propertyPrice - paidAmount;
 
-</div>
+      const sellerPremium = sellingPrice - propertyPrice;
+      const sellerReceives = paidAmount + sellerPremium;
 
-</div>
-</div>
+      const dldFee = sellingPrice * dldPercent / 100;
+      const brokerageFee = sellingPrice * brokeragePercent / 100;
+      const vatOnBrokerage = brokerageFee * vatPercent / 100;
 
-<script>
-function login(){
-document.getElementById('loginPage').style.display='none';
-document.getElementById('app').style.display='flex';
-}
+      const totalBuyerCost =
+        sellingPrice +
+        dldFee +
+        brokerageFee +
+        vatOnBrokerage +
+        trusteeFee +
+        titleDeedFee +
+        pendingAmount;
 
-function calc(){
-let price = Number(document.getElementById('price').value);
-document.getElementById('dld').value = price * 0.04;
-document.getElementById('commission').value = price * 0.02 * 1.05;
-}
+      return {
+        propertyPrice,
+        sellingPrice,
+        paidAmount,
+        pendingAmount,
+        sellerPremium,
+        sellerReceives,
+        dldFee,
+        brokerageFee,
+        vatOnBrokerage,
+        trusteeFee,
+        titleDeedFee,
+        totalBuyerCost
+      };
+    }
 
-function updatePreview(){
-let v=id=>document.getElementById(id).value;
+    function render() {
+      const c = calculate();
 
-document.getElementById('p_title').innerText=v('title');
-document.getElementById('p_project').innerText=v('project');
-document.getElementById('p_developer').innerText=v('developer');
-document.getElementById('p_area').innerText=v('area');
-document.getElementById('p_type').innerText=v('type');
-document.getElementById('p_bedrooms').innerText=v('bedrooms');
-document.getElementById('p_bathrooms').innerText=v('bathrooms');
-document.getElementById('p_size').innerText=v('size');
-document.getElementById('p_floor').innerText=v('floor');
-document.getElementById('p_view').innerText=v('view');
-document.getElementById('p_completion').innerText=v('completion');
-document.getElementById('p_desc').innerText=v('desc');
+      setText("projectTitle", data.projectTitle || "Property Breakdown");
+      setText("projectDescription", data.projectDescription || "");
 
-document.getElementById('p_price').innerText=v('price');
-document.getElementById('p_seller').innerText=v('seller');
-document.getElementById('p_dld').innerText=v('dld');
-document.getElementById('p_commission').innerText=v('commission');
-document.getElementById('p_trustee').innerText=v('trustee');
-document.getElementById('p_titlefee').innerText=v('titlefee');
+      setText("propertyPrice", formatAED(c.propertyPrice));
+      setText("sellingPrice", formatAED(c.sellingPrice));
+      setText("paidAmount", formatAED(c.paidAmount));
+      setText("pendingAmount", formatAED(c.pendingAmount));
 
-let phone=v('phone');
-document.getElementById('whatsapp').href=`https://wa.me/${phone}`;
-}
+      setText("sellerPremium", formatAED(c.sellerPremium));
+      setText("sellerReceives", formatAED(c.sellerReceives));
 
-function save(){
-let data={};
-document.querySelectorAll("input,textarea").forEach(el=>data[el.id]=el.value);
+      setText("tOriginalPrice", formatAED(c.propertyPrice));
+      setText("tPaidDeveloper", formatAED(c.paidAmount));
+      setText("tPendingDeveloper", formatAED(c.pendingAmount));
+      setText("tSellingPrice", formatAED(c.sellingPrice));
+      setText("tPremium", formatAED(c.sellerPremium));
+      setText("tSellerReceives", formatAED(c.sellerReceives));
 
-let id=Math.random().toString(36).substr(2,9);
-localStorage.setItem(id,JSON.stringify(data));
+      setText("bSellingPrice", formatAED(c.sellingPrice));
+      setText("bDld", formatAED(c.dldFee));
+      setText("bBrokerage", formatAED(c.brokerageFee));
+      setText("bVat", formatAED(c.vatOnBrokerage));
+      setText("bTrustee", formatAED(c.trusteeFee));
+      setText("bTitleDeed", formatAED(c.titleDeedFee));
+      setText("bPending", formatAED(c.pendingAmount));
+      setText("bTotal", formatAED(c.totalBuyerCost));
 
-let link=window.location.origin+"/view.html?id="+id;
-alert("Link copied:\n"+link);
-navigator.clipboard.writeText(link);
-}
-</script>
+      document.getElementById("projectImages").innerHTML =
+        (data.projectImages || []).map(src => `<img src="${src}" />`).join("");
+
+      document.getElementById("floorPlans").innerHTML =
+        (data.floorPlans || []).map(src => `<img src="${src}" />`).join("");
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById("pdfArea");
+
+      const options = {
+        margin: 0.25,
+        filename: (data.projectTitle || "property-breakdown") + ".pdf",
+        image: {
+          type: "jpeg",
+          quality: 0.98
+        },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          scrollY: 0,
+          backgroundColor: "#ffffff"
+        },
+        jsPDF: {
+          unit: "in",
+          format: "a4",
+          orientation: "portrait"
+        },
+        pagebreak: {
+          mode: ["avoid-all", "css", "legacy"]
+        }
+      };
+
+      html2pdf().set(options).from(element).save();
+    }
+
+    render();
+  </script>
 
 </body>
 </html>
