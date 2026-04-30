@@ -1,152 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Property View</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Breakdown View</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-background:#f8fafc;
-padding:20px;
-color:#111827;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #e9e9e9;
+      color: #111;
+    }
 
-.container{
-max-width:800px;
-margin:auto;
-background:#fff;
-padding:25px;
-border-radius:12px;
-}
+    .top-bar {
+      max-width: 1000px;
+      margin: 20px auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
 
-.title{
-font-size:26px;
-font-weight:700;
-margin-bottom:20px;
-}
+    button {
+      background: #111;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
+    #pdfArea {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: white;
+      padding: 34px;
+      border-radius: 18px;
+    }
 
-.box{
-background:#f1f5f9;
-padding:12px;
-border-radius:8px;
-}
+    h1 {
+      font-size: 34px;
+      margin: 0 0 10px;
+    }
 
-.box small{
-color:#64748b;
-}
+    h2 {
+      margin-top: 30px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #ddd;
+      font-size: 22px;
+    }
 
-.box b{
-display:block;
-margin-top:5px;
-}
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
 
-.section{
-margin-top:25px;
-}
+    .info-grid,
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
 
-.pay{
-display:flex;
-justify-content:space-between;
-padding:8px 0;
-border-bottom:1px solid #e2e8f0;
-}
+    .box {
+      background: #f6f6f6;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+    }
 
-.whatsapp{
-margin-top:20px;
-display:inline-block;
-background:#22c55e;
-color:#fff;
-padding:12px 20px;
-border-radius:8px;
-text-decoration:none;
-font-weight:600;
-}
+    .box b {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
 
-@media print{
-body{background:#fff;}
-}
-</style>
+    .highlight {
+      background: #111;
+      color: #fff;
+    }
+
+    .highlight b {
+      color: #d4af37;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .image-grid img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      background: #f4f4f4;
+    }
+
+    .floor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .floor-grid img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      background: #f4f4f4;
+      padding: 8px;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    .table td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      font-size: 15px;
+    }
+
+    .table td:last-child {
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .footer {
+      margin-top: 35px;
+      padding-top: 18px;
+      border-top: 1px solid #ddd;
+      font-size: 13px;
+      color: #555;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .top-bar {
+        display: none;
+      }
+
+      #pdfArea {
+        margin: 0;
+        max-width: 100%;
+        border-radius: 0;
+        padding: 28px;
+      }
+
+      .image-grid img {
+        height: 220px;
+      }
+
+      .floor-grid img {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="top-bar">
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>
 
-<div class="title" id="title"></div>
+  <div id="pdfArea">
+    <h1 id="projectTitle">Property Breakdown</h1>
+    <p id="projectDescription"></p>
 
-<div class="grid">
-<div class="box"><small>Project</small><b id="project"></b></div>
-<div class="box"><small>Developer</small><b id="developer"></b></div>
-<div class="box"><small>Area</small><b id="area"></b></div>
-<div class="box"><small>Type</small><b id="type"></b></div>
-<div class="box"><small>Bedrooms</small><b id="bedrooms"></b></div>
-<div class="box"><small>Bathrooms</small><b id="bathrooms"></b></div>
-<div class="box"><small>Size</small><b id="size"></b></div>
-<div class="box"><small>Floor</small><b id="floor"></b></div>
-<div class="box"><small>View</small><b id="view"></b></div>
-<div class="box"><small>Completion</small><b id="completion"></b></div>
-</div>
+    <div class="info-grid">
+      <div class="box">
+        <b>Property Price</b>
+        <span id="propertyPrice">AED 0</span>
+      </div>
+      <div class="box">
+        <b>Selling Price</b>
+        <span id="sellingPrice">AED 0</span>
+      </div>
+      <div class="box">
+        <b>Amount Paid to Developer</b>
+        <span id="paidAmount">AED 0</span>
+      </div>
+      <div class="box">
+        <b>Pending to Developer</b>
+        <span id="pendingAmount">AED 0</span>
+      </div>
+    </div>
 
-<div class="section">
-<p id="desc"></p>
-</div>
+    <div class="section">
+      <h2>Seller Breakdown</h2>
+      <div class="cost-grid">
+        <div class="box highlight">
+          <b>Seller Premium / Profit</b>
+          <span id="sellerPremium">AED 0</span>
+        </div>
+        <div class="box highlight">
+          <b>Total Seller Receives</b>
+          <span id="sellerReceives">AED 0</span>
+        </div>
+      </div>
 
-<div class="section">
-<h3>Payment Breakdown</h3>
+      <table class="table">
+        <tr>
+          <td>Original Property Price</td>
+          <td id="tOriginalPrice">AED 0</td>
+        </tr>
+        <tr>
+          <td>Paid to Developer</td>
+          <td id="tPaidDeveloper">AED 0</td>
+        </tr>
+        <tr>
+          <td>Pending Payment</td>
+          <td id="tPendingDeveloper">AED 0</td>
+        </tr>
+        <tr>
+          <td>Current Selling Price</td>
+          <td id="tSellingPrice">AED 0</td>
+        </tr>
+        <tr>
+          <td>Premium / Profit</td>
+          <td id="tPremium">AED 0</td>
+        </tr>
+        <tr>
+          <td>Seller Receives</td>
+          <td id="tSellerReceives">AED 0</td>
+        </tr>
+      </table>
+    </div>
 
-<div class="pay"><span>Price</span><span id="price"></span></div>
-<div class="pay"><span>Seller</span><span id="seller"></span></div>
-<div class="pay"><span>DLD</span><span id="dld"></span></div>
-<div class="pay"><span>Commission</span><span id="commission"></span></div>
-<div class="pay"><span>Trustee</span><span id="trustee"></span></div>
-<div class="pay"><span>Title Fee</span><span id="titlefee"></span></div>
+    <div class="section">
+      <h2>Buyer Cost Breakdown</h2>
+      <table class="table">
+        <tr>
+          <td>Selling Price</td>
+          <td id="bSellingPrice">AED 0</td>
+        </tr>
+        <tr>
+          <td>DLD Fee</td>
+          <td id="bDld">AED 0</td>
+        </tr>
+        <tr>
+          <td>Brokerage Fee</td>
+          <td id="bBrokerage">AED 0</td>
+        </tr>
+        <tr>
+          <td>VAT on Brokerage</td>
+          <td id="bVat">AED 0</td>
+        </tr>
+        <tr>
+          <td>Trustee Office Fee</td>
+          <td id="bTrustee">AED 0</td>
+        </tr>
+        <tr>
+          <td>Title Deed Fee</td>
+          <td id="bTitleDeed">AED 0</td>
+        </tr>
+        <tr>
+          <td>Pending to Developer</td>
+          <td id="bPending">AED 0</td>
+        </tr>
+        <tr>
+          <td>Total Buyer Cost</td>
+          <td id="bTotal">AED 0</td>
+        </tr>
+      </table>
+    </div>
 
-</div>
+    <div class="section">
+      <h2>Project Images</h2>
+      <div class="image-grid" id="projectImages"></div>
+    </div>
 
-<a id="whatsapp" class="whatsapp" target="_blank">WhatsApp Now</a>
+    <div class="section">
+      <h2>Floor Plans</h2>
+      <div class="floor-grid" id="floorPlans"></div>
+    </div>
 
-</div>
+    <div class="footer">
+      This breakdown is for reference only. Final figures may vary based on developer, DLD, trustee office, and transaction requirements.
+    </div>
+  </div>
 
-<script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const savedData = localStorage.getItem("property_breakdown_" + id);
+    const data = savedData ? JSON.parse(savedData) : {};
 
-function getParam(name){
-return new URLSearchParams(window.location.search).get(name);
-}
+    function formatAED(value) {
+      const num = Number(value || 0);
+      return "AED " + num.toLocaleString("en-AE", {
+        maximumFractionDigits: 0
+      });
+    }
 
-let id = getParam("id");
+    function setText(id, value) {
+      document.getElementById(id).innerText = value;
+    }
 
-if(id){
-let data = JSON.parse(localStorage.getItem(id));
+    function calculate() {
+      const propertyPrice = Number(data.propertyPrice || 0);
+      const sellingPrice = Number(data.sellingPrice || 0);
+      const paidPercent = Number(data.paidPercent || 0);
 
-if(data){
+      const dldPercent = Number(data.dldPercent || 4);
+      const brokeragePercent = Number(data.brokeragePercent || 2);
+      const vatPercent = Number(data.vatPercent || 5);
+      const trusteeFee = Number(data.trusteeFee || 4200);
+      const titleDeedFee = Number(data.titleDeedFee || 580);
 
-for(let key in data){
-let el = document.getElementById(key);
-if(el) el.innerText = data[key];
-}
+      const paidAmount = propertyPrice * paidPercent / 100;
+      const pendingAmount = propertyPrice - paidAmount;
 
-document.getElementById("whatsapp").href = "https://wa.me/"+data.phone;
+      const sellerPremium = sellingPrice - propertyPrice;
+      const sellerReceives = paidAmount + sellerPremium;
 
-}else{
-document.body.innerHTML="<h2>Link expired or not found</h2>";
-}
+      const dldFee = sellingPrice * dldPercent / 100;
+      const brokerageFee = sellingPrice * brokeragePercent / 100;
+      const vatOnBrokerage = brokerageFee * vatPercent / 100;
 
-}else{
-document.body.innerHTML="<h2>No data</h2>";
-}
+      const totalBuyerCost =
+        sellingPrice +
+        dldFee +
+        brokerageFee +
+        vatOnBrokerage +
+        trusteeFee +
+        titleDeedFee +
+        pendingAmount;
 
-</script>
+      return {
+        propertyPrice,
+        sellingPrice,
+        paidAmount,
+        pendingAmount,
+        sellerPremium,
+        sellerReceives,
+        dldFee,
+        brokerageFee,
+        vatOnBrokerage,
+        trusteeFee,
+        titleDeedFee,
+        totalBuyerCost
+      };
+    }
+
+    function render() {
+      const c = calculate();
+
+      setText("projectTitle", data.projectTitle || "Property Breakdown");
+      setText("projectDescription", data.projectDescription || "");
+
+      setText("propertyPrice", formatAED(c.propertyPrice));
+      setText("sellingPrice", formatAED(c.sellingPrice));
+      setText("paidAmount", formatAED(c.paidAmount));
+      setText("pendingAmount", formatAED(c.pendingAmount));
+
+      setText("sellerPremium", formatAED(c.sellerPremium));
+      setText("sellerReceives", formatAED(c.sellerReceives));
+
+      setText("tOriginalPrice", formatAED(c.propertyPrice));
+      setText("tPaidDeveloper", formatAED(c.paidAmount));
+      setText("tPendingDeveloper", formatAED(c.pendingAmount));
+      setText("tSellingPrice", formatAED(c.sellingPrice));
+      setText("tPremium", formatAED(c.sellerPremium));
+      setText("tSellerReceives", formatAED(c.sellerReceives));
+
+      setText("bSellingPrice", formatAED(c.sellingPrice));
+      setText("bDld", formatAED(c.dldFee));
+      setText("bBrokerage", formatAED(c.brokerageFee));
+      setText("bVat", formatAED(c.vatOnBrokerage));
+      setText("bTrustee", formatAED(c.trusteeFee));
+      setText("bTitleDeed", formatAED(c.titleDeedFee));
+      setText("bPending", formatAED(c.pendingAmount));
+      setText("bTotal", formatAED(c.totalBuyerCost));
+
+      document.getElementById("projectImages").innerHTML =
+        (data.projectImages || []).map(src => `<img src="${src}" />`).join("");
+
+      document.getElementById("floorPlans").innerHTML =
+        (data.floorPlans || []).map(src => `<img src="${src}" />`).join("");
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById("pdfArea");
+
+      const options = {
+        margin: 0.25,
+        filename: (data.projectTitle || "property-breakdown") + ".pdf",
+        image: {
+          type: "jpeg",
+          quality: 0.98
+        },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          scrollY: 0,
+          backgroundColor: "#ffffff"
+        },
+        jsPDF: {
+          unit: "in",
+          format: "a4",
+          orientation: "portrait"
+        },
+        pagebreak: {
+          mode: ["avoid-all", "css", "legacy"]
+        }
+      };
+
+      html2pdf().set(options).from(element).save();
+    }
+
+    render();
+  </script>
 
 </body>
 </html>
