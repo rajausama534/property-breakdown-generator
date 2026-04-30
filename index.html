@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Property Breakdown</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0b0f14;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .box {
+      background: #111827;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      background: #111827;
+      padding: 15px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🔥 Property Breakdown Generator</h1>
+
+<div class="box">
+  <label>Property Title</label>
+  <input id="title" placeholder="7BR Lavita Aman">
+
+  <label>Price (AED)</label>
+  <input id="price" type="number" placeholder="67000000">
+
+  <label>Seller Payment</label>
+  <input id="seller" type="number" placeholder="33364068">
+
+  <label>Remaining Payment Plan</label>
+  <input id="remaining" type="number" placeholder="33635932">
+</div>
+
+<button onclick="calculate()">Generate Breakdown</button>
+
+<div class="result" id="result"></div>
+
+<script>
+function calculate() {
+  let price = Number(document.getElementById("price").value);
+  let seller = Number(document.getElementById("seller").value);
+  let remaining = Number(document.getElementById("remaining").value);
+
+  let dld = (price * 0.04) + 40;
+  let commission = price * 0.02;
+  let vat = commission * 0.05;
+  let totalCommission = commission + vat;
+  let trustee = 4780;
+
+  let transfer = seller + dld + totalCommission + trustee;
+  let total = transfer + remaining;
+
+  document.getElementById("result").innerHTML = `
+    <h3>Breakdown</h3>
+    DLD: AED ${dld.toLocaleString()} <br>
+    Commission: AED ${totalCommission.toLocaleString()} <br>
+    Trustee: AED ${trustee.toLocaleString()} <br><br>
+
+    <b>Total on Transfer:</b> AED ${transfer.toLocaleString()} <br>
+    <b>Total Cost:</b> AED ${total.toLocaleString()}
+  `;
+}
+</script>
+
+</body>
+</html>
