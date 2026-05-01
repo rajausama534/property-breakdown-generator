@@ -55,8 +55,7 @@ label {
   margin-bottom: 7px;
 }
 
-input,
-textarea {
+input, textarea {
   width: 100%;
   background: #050505;
   color: white;
@@ -67,8 +66,7 @@ textarea {
   outline: none;
 }
 
-input:focus,
-textarea:focus {
+input:focus, textarea:focus {
   border-color: #d4af37;
 }
 
@@ -305,7 +303,30 @@ button {
   font-size: 14px;
 }
 
-.media-grid {
+.plan-section {
+  page-break-before: always;
+  margin-top: 40px;
+}
+
+.plan-card {
+  width: 100%;
+  margin-bottom: 28px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.plan-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 8px;
+  background: white;
+}
+
+.picture-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
@@ -313,12 +334,12 @@ button {
   margin-top: 40px;
 }
 
-.media-card {
+.picture-card {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
-.media-card img {
+.picture-card img {
   width: 100%;
   height: auto;
   display: block;
@@ -374,7 +395,7 @@ button {
     display: none;
   }
 
-  .media-grid {
+  .picture-grid {
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
@@ -439,58 +460,28 @@ button {
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Project</label>
-      <input id="project" value="Farm Garden">
-    </div>
-    <div>
-      <label>Developer</label>
-      <input id="developer" value="EMAAR">
-    </div>
+    <div><label>Project</label><input id="project" value="Farm Garden"></div>
+    <div><label>Developer</label><input id="developer" value="EMAAR"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Area</label>
-      <input id="area" value="The Valley">
-    </div>
-    <div>
-      <label>Type</label>
-      <input id="type" value="Villa">
-    </div>
+    <div><label>Area</label><input id="area" value="The Valley"></div>
+    <div><label>Type</label><input id="type" value="Villa"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Bedrooms</label>
-      <input id="bedrooms" value="5">
-    </div>
-    <div>
-      <label>Bathrooms</label>
-      <input id="bathrooms" value="6">
-    </div>
+    <div><label>Bedrooms</label><input id="bedrooms" value="5"></div>
+    <div><label>Bathrooms</label><input id="bathrooms" value="6"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Size</label>
-      <input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft">
-    </div>
-    <div>
-      <label>Floor</label>
-      <input id="floor" value="G+1">
-    </div>
+    <div><label>Size</label><input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft"></div>
+    <div><label>Floor</label><input id="floor" value="G+1"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>View</label>
-      <input id="view" value="Community">
-    </div>
-    <div>
-      <label>Completion</label>
-      <input id="completion" value="Aug 2026">
-    </div>
+    <div><label>View</label><input id="view" value="Community"></div>
+    <div><label>Completion</label><input id="completion" value="Aug 2026"></div>
   </div>
 
   <div class="section-title">Payment Details</div>
@@ -540,24 +531,29 @@ button {
   </div>
 
   <div class="section-title">Installments / Remaining Plan</div>
-
   <div id="installmentsEditor"></div>
-
   <button class="secondary" onclick="addInstallment()">+ Add Installment</button>
 
-  <div class="section-title">Media</div>
+  <div class="section-title">Floor Plan</div>
+  <div class="form-full">
+    <label>Add Floor Plan PDFs</label>
+    <input type="file" accept="application/pdf" multiple onchange="addPDFs(event, 'floor')">
+  </div>
+  <div id="floorEditor"></div>
 
+  <div class="section-title">Cluster Plan Optional</div>
+  <div class="form-full">
+    <label>Add Cluster Plan PDFs</label>
+    <input type="file" accept="application/pdf" multiple onchange="addPDFs(event, 'cluster')">
+  </div>
+  <div id="clusterEditor"></div>
+
+  <div class="section-title">Pictures</div>
   <div class="form-full">
     <label>Add Property Images</label>
     <input type="file" accept="image/*" multiple onchange="addImages(event)">
   </div>
-
-  <div class="form-full">
-    <label>Add Floor / Cluster Plan PDFs</label>
-    <input type="file" accept="application/pdf" multiple onchange="addPDFs(event)">
-  </div>
-
-  <div id="mediaEditor"></div>
+  <div id="pictureEditor"></div>
 
   <div class="section-title">Notes</div>
 
@@ -652,13 +648,15 @@ button {
     <table class="table" id="installmentPreviewTable"></table>
   </div>
 
+  <div id="floorPreview"></div>
+  <div id="clusterPreview"></div>
+  <div id="picturePreview"></div>
+
   <div class="notes" id="pNotes"></div>
 
   <div class="whatsapp-wrap">
     <a id="whatsappBtn" class="whatsapp" target="_blank">Contact on WhatsApp</a>
   </div>
-
-  <div id="mediaPreview"></div>
 
   <div class="footer">
     <span id="pFooterAgency">Prepared by BFG Properties</span>
@@ -675,7 +673,9 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 let installments = [];
-let mediaItems = [];
+let floorPlans = [];
+let clusterPlans = [];
+let pictures = [];
 
 const fields = [
   "agentName", "agency", "phone",
@@ -841,14 +841,12 @@ function addImages(event) {
     const reader = new FileReader();
 
     reader.onload = function(e) {
-      mediaItems.push({
-        type: "image",
-        title: "Property Image",
+      pictures.push({
         data: e.target.result
       });
 
-      renderMediaEditor();
-      renderMediaPreview();
+      renderPictureEditor();
+      renderPictures();
     };
 
     reader.readAsDataURL(file);
@@ -857,7 +855,7 @@ function addImages(event) {
   event.target.value = "";
 }
 
-function addPDFs(event) {
+function addPDFs(event, type) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
@@ -881,14 +879,21 @@ function addPDFs(event) {
             canvasContext: context,
             viewport: viewport
           }).promise.then(function() {
-            mediaItems.push({
-              type: "pdf",
-              title: "Plan",
+            const item = {
               data: canvas.toDataURL("image/png")
-            });
+            };
 
-            renderMediaEditor();
-            renderMediaPreview();
+            if (type === "floor") {
+              floorPlans.push(item);
+              renderPlanEditor("floor");
+              renderPlans("floor");
+            }
+
+            if (type === "cluster") {
+              clusterPlans.push(item);
+              renderPlanEditor("cluster");
+              renderPlans("cluster");
+            }
           });
         });
       });
@@ -900,68 +905,121 @@ function addPDFs(event) {
   event.target.value = "";
 }
 
-function removeMedia(index) {
-  mediaItems.splice(index, 1);
-  renderMediaEditor();
-  renderMediaPreview();
+function getList(type) {
+  if (type === "floor") return floorPlans;
+  if (type === "cluster") return clusterPlans;
+  return pictures;
 }
 
-function moveMedia(index, direction) {
+function moveItem(type, index, direction) {
+  const list = getList(type);
   const newIndex = index + direction;
-  if (newIndex < 0 || newIndex >= mediaItems.length) return;
 
-  const temp = mediaItems[index];
-  mediaItems[index] = mediaItems[newIndex];
-  mediaItems[newIndex] = temp;
+  if (newIndex < 0 || newIndex >= list.length) return;
 
-  renderMediaEditor();
-  renderMediaPreview();
+  const temp = list[index];
+  list[index] = list[newIndex];
+  list[newIndex] = temp;
+
+  if (type === "floor" || type === "cluster") {
+    renderPlanEditor(type);
+    renderPlans(type);
+  } else {
+    renderPictureEditor();
+    renderPictures();
+  }
 }
 
-function renameMedia(index, value) {
-  mediaItems[index].title = value;
-  renderMediaEditor();
+function removeItem(type, index) {
+  const list = getList(type);
+  list.splice(index, 1);
+
+  if (type === "floor" || type === "cluster") {
+    renderPlanEditor(type);
+    renderPlans(type);
+  } else {
+    renderPictureEditor();
+    renderPictures();
+  }
 }
 
-function renderMediaEditor() {
-  const box = document.getElementById("mediaEditor");
+function renderPlanEditor(type) {
+  const list = getList(type);
+  const box = document.getElementById(type === "floor" ? "floorEditor" : "clusterEditor");
   box.innerHTML = "";
 
-  mediaItems.forEach((item, index) => {
+  list.forEach((item, index) => {
     const div = document.createElement("div");
     div.className = "dynamic-box";
-
     div.innerHTML = `
-      <label>Media ${index + 1}</label>
-      <input value="${item.title}" oninput="renameMedia(${index}, this.value)">
+      <label>${type === "floor" ? "Floor Plan" : "Cluster Plan"} ${index + 1}</label>
       <div class="mini-actions">
-        <button class="small-btn secondary" onclick="moveMedia(${index}, -1)">Up</button>
-        <button class="small-btn secondary" onclick="moveMedia(${index}, 1)">Down</button>
-        <button class="small-btn danger" onclick="removeMedia(${index})">Remove</button>
+        <button class="small-btn secondary" onclick="moveItem('${type}', ${index}, -1)">Move Up</button>
+        <button class="small-btn secondary" onclick="moveItem('${type}', ${index}, 1)">Move Down</button>
+        <button class="small-btn danger" onclick="removeItem('${type}', ${index})">Remove</button>
       </div>
     `;
-
     box.appendChild(div);
   });
 }
 
-function renderMediaPreview() {
-  const preview = document.getElementById("mediaPreview");
+function renderPictureEditor() {
+  const box = document.getElementById("pictureEditor");
+  box.innerHTML = "";
+
+  pictures.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "dynamic-box";
+    div.innerHTML = `
+      <label>Picture ${index + 1}</label>
+      <div class="mini-actions">
+        <button class="small-btn secondary" onclick="moveItem('picture', ${index}, -1)">Move Up</button>
+        <button class="small-btn secondary" onclick="moveItem('picture', ${index}, 1)">Move Down</button>
+        <button class="small-btn danger" onclick="removeItem('picture', ${index})">Remove</button>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+function renderPlans(type) {
+  const list = getList(type);
+  const preview = document.getElementById(type === "floor" ? "floorPreview" : "clusterPreview");
   preview.innerHTML = "";
 
-  if (!mediaItems.length) return;
+  if (!list.length) return;
+
+  const section = document.createElement("div");
+  section.className = "plan-section";
+
+  const title = document.createElement("div");
+  title.className = "block-title";
+  title.innerText = type === "floor" ? "Floor Plan" : "Cluster Plan";
+  section.appendChild(title);
+
+  list.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "plan-card";
+    card.innerHTML = `<img src="${item.data}">`;
+    section.appendChild(card);
+  });
+
+  preview.appendChild(section);
+}
+
+function renderPictures() {
+  const preview = document.getElementById("picturePreview");
+  preview.innerHTML = "";
+
+  if (!pictures.length) return;
 
   const grid = document.createElement("div");
-  grid.className = "media-grid";
+  grid.className = "picture-grid";
 
-  mediaItems.forEach(item => {
+  pictures.forEach(item => {
     const card = document.createElement("div");
-    card.className = "media-card";
-
-    card.innerHTML = `
-      <img src="${item.data}">
-    `;
-
+    card.className = "picture-card";
+    card.innerHTML = `<img src="${item.data}">`;
     grid.appendChild(card);
   });
 
