@@ -8,9 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -22,12 +20,10 @@ body {
 
 .app {
   display: grid;
-  grid-template-columns: 430px 1fr;
+  grid-template-columns: 440px 1fr;
   height: 100vh;
-  width: 100vw;
 }
 
-/* LEFT EDITOR */
 .sidebar {
   background: #020202;
   color: white;
@@ -59,8 +55,7 @@ label {
   margin-bottom: 7px;
 }
 
-input,
-textarea {
+input, textarea {
   width: 100%;
   background: #050505;
   color: white;
@@ -71,8 +66,7 @@ textarea {
   outline: none;
 }
 
-input:focus,
-textarea:focus {
+input:focus, textarea:focus {
   border-color: #d4af37;
 }
 
@@ -95,7 +89,7 @@ textarea {
 button {
   width: 100%;
   border: none;
-  padding: 14px;
+  padding: 13px;
   border-radius: 11px;
   font-weight: 900;
   cursor: pointer;
@@ -114,6 +108,32 @@ button {
   border: 1px solid #333;
 }
 
+.small-btn {
+  padding: 9px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.danger {
+  background: #7f1d1d;
+  color: white;
+}
+
+.mini-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dynamic-box {
+  border: 1px solid #1b2b47;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #070707;
+}
+
 .share-box {
   display: none;
   background: #111;
@@ -126,7 +146,6 @@ button {
   margin-top: 12px;
 }
 
-/* RIGHT PREVIEW */
 .preview-wrap {
   height: 100vh;
   overflow-y: auto;
@@ -146,7 +165,6 @@ button {
 .top-brand {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   border-bottom: 3px solid #111;
   padding-bottom: 22px;
   margin-bottom: 34px;
@@ -329,60 +347,20 @@ button {
   justify-content: space-between;
 }
 
-/* PRINT */
 @media print {
-  body {
-    background: white;
-    overflow: visible;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .app {
-    display: block;
-    height: auto;
-  }
-
-  .preview-wrap {
-    padding: 0;
-    height: auto;
-    overflow: visible;
-  }
-
-  .document {
-    width: 100%;
-    box-shadow: none;
-    padding: 35px 42px;
-  }
-
-  .whatsapp-wrap {
-    display: none;
-  }
+  body { background: white; overflow: visible; }
+  .sidebar { display: none; }
+  .app { display: block; height: auto; }
+  .preview-wrap { padding: 0; height: auto; overflow: visible; }
+  .document { width: 100%; box-shadow: none; padding: 35px 42px; }
+  .whatsapp-wrap { display: none; }
 }
 
 @media(max-width: 950px) {
-  body {
-    overflow: auto;
-  }
-
-  .app {
-    grid-template-columns: 1fr;
-    height: auto;
-  }
-
-  .sidebar {
-    height: auto;
-  }
-
-  .preview-wrap {
-    height: auto;
-  }
-
-  .document {
-    width: 100%;
-  }
+  body { overflow: auto; }
+  .app { grid-template-columns: 1fr; height: auto; }
+  .sidebar, .preview-wrap { height: auto; }
+  .document { width: 100%; }
 }
 </style>
 </head>
@@ -424,168 +402,69 @@ button {
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Project</label>
-      <input id="project" value="Farm Garden">
-    </div>
-    <div>
-      <label>Developer</label>
-      <input id="developer" value="EMAAR">
-    </div>
+    <div><label>Project</label><input id="project" value="Farm Garden"></div>
+    <div><label>Developer</label><input id="developer" value="EMAAR"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Area</label>
-      <input id="area" value="The Valley">
-    </div>
-    <div>
-      <label>Type</label>
-      <input id="type" value="Villa">
-    </div>
+    <div><label>Area</label><input id="area" value="The Valley"></div>
+    <div><label>Type</label><input id="type" value="Villa"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Bedrooms</label>
-      <input id="bedrooms" value="5">
-    </div>
-    <div>
-      <label>Bathrooms</label>
-      <input id="bathrooms" value="6">
-    </div>
+    <div><label>Bedrooms</label><input id="bedrooms" value="5"></div>
+    <div><label>Bathrooms</label><input id="bathrooms" value="6"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Size</label>
-      <input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft">
-    </div>
-    <div>
-      <label>Floor</label>
-      <input id="floor" value="G+1">
-    </div>
+    <div><label>Size</label><input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft"></div>
+    <div><label>Floor</label><input id="floor" value="G+1"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>View</label>
-      <input id="view" value="Community">
-    </div>
-    <div>
-      <label>Completion</label>
-      <input id="completion" value="Aug 2026">
-    </div>
+    <div><label>View</label><input id="view" value="Community"></div>
+    <div><label>Completion</label><input id="completion" value="Aug 2026"></div>
   </div>
 
   <div class="section-title">Payment Details</div>
 
   <div class="form-row">
-    <div>
-      <label>Unit Price</label>
-      <input id="unitPrice" type="number" value="8500000">
-    </div>
-    <div>
-      <label>Payment to Seller</label>
-      <input id="paymentSeller" type="number" value="7240023">
-    </div>
+    <div><label>Unit Price</label><input id="unitPrice" type="number" value="8500000"></div>
+    <div><label>Payment to Seller</label><input id="paymentSeller" type="number" value="7240023"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>DLD % Auto</label>
-      <input id="dldPercent" type="number" value="4">
-    </div>
-    <div>
-      <label>DLD Amount Override</label>
-      <input id="dldAmount" type="number" placeholder="Auto">
-    </div>
+    <div><label>DLD % Auto</label><input id="dldPercent" type="number" value="4"></div>
+    <div><label>DLD Amount Override</label><input id="dldAmount" type="number" placeholder="Auto"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Brokerage % Auto</label>
-      <input id="brokeragePercent" type="number" value="2">
-    </div>
-    <div>
-      <label>Brokerage + VAT Override</label>
-      <input id="brokerageAmount" type="number" placeholder="Auto">
-    </div>
+    <div><label>Brokerage % Auto</label><input id="brokeragePercent" type="number" value="2"></div>
+    <div><label>Brokerage + VAT Override</label><input id="brokerageAmount" type="number" placeholder="Auto"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Trustee Fee</label>
-      <input id="trusteeFee" type="number" value="4200">
-    </div>
-    <div>
-      <label>Title Deed Fee</label>
-      <input id="titleDeed" type="number" value="580">
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div>
-      <label>Last Payment on Handover</label>
-      <input id="lastPayment" type="number" value="1259977">
-    </div>
-    <div>
-      <label>Total Remaining Plan</label>
-      <input id="remainingPlan" type="number" value="1259977">
-    </div>
+    <div><label>Trustee Fee</label><input id="trusteeFee" type="number" value="4200"></div>
+    <div><label>Title Deed Fee</label><input id="titleDeed" type="number" value="580"></div>
   </div>
 
   <div class="section-title">Installments / Remaining Plan</div>
-
-  <div class="form-row">
-    <div>
-      <label>Installment 1 Label</label>
-      <input id="installment1Label" value="Remaining Payment Plan">
-    </div>
-    <div>
-      <label>Installment 1 Amount</label>
-      <input id="installment1Amount" type="number" value="1259977">
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div>
-      <label>Installment 2 Label</label>
-      <input id="installment2Label" placeholder="Optional">
-    </div>
-    <div>
-      <label>Installment 2 Amount</label>
-      <input id="installment2Amount" type="number" placeholder="Optional">
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div>
-      <label>Installment 3 Label</label>
-      <input id="installment3Label" placeholder="Optional">
-    </div>
-    <div>
-      <label>Installment 3 Amount</label>
-      <input id="installment3Amount" type="number" placeholder="Optional">
-    </div>
-  </div>
+  <div id="installmentsEditor"></div>
+  <button class="secondary" onclick="addInstallment()">+ Add Installment</button>
 
   <div class="section-title">Media</div>
 
   <div class="form-full">
-    <label>Property Image</label>
-    <input type="file" accept="image/*" onchange="loadImage(event, 'propertyImage', 'propertyImagePage')">
+    <label>Add Property Images</label>
+    <input type="file" accept="image/*" multiple onchange="addImages(event)">
   </div>
 
   <div class="form-full">
-    <label>Cluster Plan PDF</label>
-    <input type="file" accept="application/pdf" onchange="loadPDF(event, 'clusterCanvas', 'clusterPlanPage')">
+    <label>Add Floor / Cluster Plan PDFs</label>
+    <input type="file" accept="application/pdf" multiple onchange="addPDFs(event)">
   </div>
 
-  <div class="form-full">
-    <label>Floor Plan PDF</label>
-    <input type="file" accept="application/pdf" onchange="loadPDF(event, 'floorCanvas', 'floorPlanPage')">
-  </div>
+  <div id="mediaEditor"></div>
 
   <div class="section-title">Notes</div>
 
@@ -661,10 +540,6 @@ button {
       <td>Brokerage Fee + VAT</td>
       <td id="pBrokerageVat"></td>
     </tr>
-    <tr class="green">
-      <td>Last Payment on Handover</td>
-      <td id="pLastPayment"></td>
-    </tr>
     <tr class="pink">
       <td>Total on Transfer</td>
       <td id="pTotalTransfer"></td>
@@ -679,9 +554,9 @@ button {
     </tr>
   </table>
 
-  <div id="installmentSection" class="hidden">
+  <div id="installmentPreviewSection" class="hidden">
     <div class="block-title">Remaining Installments</div>
-    <table class="table" id="installmentTable"></table>
+    <table class="table" id="installmentPreviewTable"></table>
   </div>
 
   <div class="notes" id="pNotes"></div>
@@ -690,26 +565,7 @@ button {
     <a id="whatsappBtn" class="whatsapp" target="_blank">Contact on WhatsApp</a>
   </div>
 
-  <div class="media-page hidden" id="propertyImagePage">
-    <div class="media-title">Property Image</div>
-    <div class="image-wrap">
-      <img id="propertyImage">
-    </div>
-  </div>
-
-  <div class="media-page hidden" id="clusterPlanPage">
-    <div class="media-title">Cluster Plan</div>
-    <div class="image-wrap">
-      <canvas id="clusterCanvas"></canvas>
-    </div>
-  </div>
-
-  <div class="media-page hidden" id="floorPlanPage">
-    <div class="media-title">Floor Plan</div>
-    <div class="image-wrap">
-      <canvas id="floorCanvas"></canvas>
-    </div>
-  </div>
+  <div id="mediaPreview"></div>
 
   <div class="footer">
     <span id="pFooterAgency">Prepared by BFG Properties</span>
@@ -725,17 +581,15 @@ button {
 pdfjsLib.GlobalWorkerOptions.workerSrc =
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
+let installments = [];
+let mediaItems = [];
+
 const fields = [
   "agentName", "agency", "phone",
   "title", "subtitle", "project", "developer", "area", "type",
   "bedrooms", "bathrooms", "size", "floor", "view", "completion",
   "unitPrice", "paymentSeller", "dldPercent", "dldAmount",
-  "brokeragePercent", "brokerageAmount", "trusteeFee",
-  "titleDeed", "lastPayment", "remainingPlan",
-  "installment1Label", "installment1Amount",
-  "installment2Label", "installment2Amount",
-  "installment3Label", "installment3Amount",
-  "notes"
+  "brokeragePercent", "brokerageAmount", "trusteeFee", "titleDeed", "notes"
 ];
 
 function val(id) {
@@ -772,16 +626,17 @@ function calculate() {
   set("pCompletion", "completion");
   set("pNotes", "notes");
 
-  document.getElementById("pBrandTitle").innerText = (val("agency") || "BFG Properties").toUpperCase();
-  document.getElementById("pFooterAgency").innerText = "Prepared by " + (val("agency") || "BFG Properties");
+  document.getElementById("pBrandTitle").innerText =
+    (val("agency") || "BFG Properties").toUpperCase();
+
+  document.getElementById("pFooterAgency").innerText =
+    "Prepared by " + (val("agency") || "BFG Properties");
 
   const unitPrice = num("unitPrice");
   const paymentSeller = num("paymentSeller");
 
   let dldFee = num("dldAmount");
-  if (!dldFee) {
-    dldFee = unitPrice * num("dldPercent") / 100;
-  }
+  if (!dldFee) dldFee = unitPrice * num("dldPercent") / 100;
 
   let brokerageVat = num("brokerageAmount");
   if (!brokerageVat) {
@@ -791,8 +646,10 @@ function calculate() {
 
   const trusteeFee = num("trusteeFee");
   const titleDeed = num("titleDeed");
-  const lastPayment = num("lastPayment");
-  const remainingPlan = num("remainingPlan");
+
+  const remainingPlan = installments.reduce((sum, item) => {
+    return sum + (Number(item.amount) || 0);
+  }, 0);
 
   const totalTransfer =
     paymentSeller + dldFee + trusteeFee + titleDeed + brokerageVat;
@@ -806,43 +663,72 @@ function calculate() {
   document.getElementById("pTrusteeFee").innerText = money(trusteeFee);
   document.getElementById("pTitleDeed").innerText = money(titleDeed);
   document.getElementById("pBrokerageVat").innerText = money(brokerageVat);
-  document.getElementById("pLastPayment").innerText = money(lastPayment);
   document.getElementById("pTotalTransfer").innerText = money(totalTransfer);
   document.getElementById("pRemainingPlan").innerText = money(remainingPlan);
   document.getElementById("pTotalBuyer").innerText = money(totalBuyer);
 
-  updateInstallments();
+  renderInstallmentPreview();
   updateWhatsApp();
 }
 
-function updateInstallments() {
-  const table = document.getElementById("installmentTable");
-  const section = document.getElementById("installmentSection");
+function addInstallment(label = "", amount = "") {
+  installments.push({ label, amount });
+  renderInstallmentEditor();
+  calculate();
+}
+
+function removeInstallment(index) {
+  installments.splice(index, 1);
+  renderInstallmentEditor();
+  calculate();
+}
+
+function renderInstallmentEditor() {
+  const box = document.getElementById("installmentsEditor");
+  box.innerHTML = "";
+
+  installments.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "dynamic-box";
+    div.innerHTML = `
+      <div class="form-row">
+        <div>
+          <label>Label</label>
+          <input value="${item.label}" oninput="installments[${index}].label=this.value; calculate();">
+        </div>
+        <div>
+          <label>Amount</label>
+          <input type="number" value="${item.amount}" oninput="installments[${index}].amount=this.value; calculate();">
+        </div>
+      </div>
+      <button class="small-btn danger" onclick="removeInstallment(${index})">Remove Installment</button>
+    `;
+    box.appendChild(div);
+  });
+}
+
+function renderInstallmentPreview() {
+  const section = document.getElementById("installmentPreviewSection");
+  const table = document.getElementById("installmentPreviewTable");
   table.innerHTML = "";
 
-  let hasInstallments = false;
+  const valid = installments.filter(x => x.label && Number(x.amount));
 
-  for (let i = 1; i <= 3; i++) {
-    const label = val("installment" + i + "Label");
-    const amount = num("installment" + i + "Amount");
-
-    if (label && amount) {
-      hasInstallments = true;
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${label}</td>
-        <td>${money(amount)}</td>
-      `;
-      table.appendChild(row);
-    }
-  }
-
-  if (hasInstallments) {
-    section.classList.remove("hidden");
-  } else {
+  if (!valid.length) {
     section.classList.add("hidden");
+    return;
   }
+
+  valid.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.label}</td>
+      <td>${money(Number(item.amount))}</td>
+    `;
+    table.appendChild(row);
+  });
+
+  section.classList.remove("hidden");
 }
 
 function updateWhatsApp() {
@@ -855,56 +741,130 @@ function updateWhatsApp() {
     "https://wa.me/" + phone + "?text=" + msg;
 }
 
-function loadImage(event, imageId, pageId) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    document.getElementById(imageId).src = e.target.result;
-    document.getElementById(pageId).classList.remove("hidden");
-  };
-
-  reader.readAsDataURL(file);
+function addImages(event) {
+  const files = Array.from(event.target.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      mediaItems.push({
+        type: "image",
+        title: "Property Image",
+        data: e.target.result
+      });
+      renderMediaEditor();
+      renderMediaPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+  event.target.value = "";
 }
 
-function loadPDF(event, canvasId, pageId) {
-  const file = event.target.files[0];
-  if (!file) return;
+function addPDFs(event) {
+  const files = Array.from(event.target.files);
+  files.forEach(file => {
+    const reader = new FileReader();
 
-  const reader = new FileReader();
+    reader.onload = function() {
+      const typedArray = new Uint8Array(this.result);
 
-  reader.onload = function() {
-    const typedArray = new Uint8Array(this.result);
+      pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+        pdf.getPage(1).then(function(page) {
+          const scale = 4;
+          const viewport = page.getViewport({ scale });
 
-    pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
-      pdf.getPage(1).then(function(page) {
-        const scale = 4;
-        const viewport = page.getViewport({ scale });
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
 
-        const canvas = document.getElementById(canvasId);
-        const context = canvas.getContext("2d");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+          page.render({
+            canvasContext: context,
+            viewport: viewport
+          }).promise.then(function() {
+            mediaItems.push({
+              type: "pdf",
+              title: file.name.replace(".pdf", ""),
+              data: canvas.toDataURL("image/png")
+            });
 
-        page.render({
-          canvasContext: context,
-          viewport: viewport
+            renderMediaEditor();
+            renderMediaPreview();
+          });
         });
-
-        document.getElementById(pageId).classList.remove("hidden");
       });
-    });
-  };
+    };
 
-  reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(file);
+  });
+
+  event.target.value = "";
+}
+
+function removeMedia(index) {
+  mediaItems.splice(index, 1);
+  renderMediaEditor();
+  renderMediaPreview();
+}
+
+function moveMedia(index, direction) {
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= mediaItems.length) return;
+
+  const temp = mediaItems[index];
+  mediaItems[index] = mediaItems[newIndex];
+  mediaItems[newIndex] = temp;
+
+  renderMediaEditor();
+  renderMediaPreview();
+}
+
+function renameMedia(index, value) {
+  mediaItems[index].title = value;
+  renderMediaPreview();
+}
+
+function renderMediaEditor() {
+  const box = document.getElementById("mediaEditor");
+  box.innerHTML = "";
+
+  mediaItems.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "dynamic-box";
+    div.innerHTML = `
+      <label>Media Title</label>
+      <input value="${item.title}" oninput="renameMedia(${index}, this.value)">
+      <div class="mini-actions">
+        <button class="small-btn secondary" onclick="moveMedia(${index}, -1)">Up</button>
+        <button class="small-btn secondary" onclick="moveMedia(${index}, 1)">Down</button>
+        <button class="small-btn danger" onclick="removeMedia(${index})">Remove</button>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+function renderMediaPreview() {
+  const preview = document.getElementById("mediaPreview");
+  preview.innerHTML = "";
+
+  mediaItems.forEach(item => {
+    const section = document.createElement("div");
+    section.className = "media-page";
+    section.innerHTML = `
+      <div class="media-title">${item.title || "Media"}</div>
+      <div class="image-wrap">
+        <img src="${item.data}">
+      </div>
+    `;
+    preview.appendChild(section);
+  });
 }
 
 function generateShareLink() {
   const data = {};
   fields.forEach(id => data[id] = document.getElementById(id).value);
+  data.installments = installments;
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
   const url = window.location.origin + window.location.pathname + "?data=" + encoded;
@@ -930,6 +890,11 @@ function loadFromLink() {
         document.getElementById(id).value = decoded[id];
       }
     });
+
+    if (Array.isArray(decoded.installments)) {
+      installments = decoded.installments;
+      renderInstallmentEditor();
+    }
   } catch(e) {
     console.log("Invalid link");
   }
