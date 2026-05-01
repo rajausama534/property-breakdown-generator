@@ -55,7 +55,8 @@ label {
   margin-bottom: 7px;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   background: #050505;
   color: white;
@@ -66,7 +67,8 @@ input, textarea {
   outline: none;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   border-color: #d4af37;
 }
 
@@ -303,34 +305,28 @@ button {
   font-size: 14px;
 }
 
-.media-page {
+.media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
   page-break-before: always;
   margin-top: 40px;
 }
 
-.media-title {
-  font-size: 24px;
-  font-weight: 900;
-  margin-bottom: 18px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #111;
+.media-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
-.image-wrap {
-  width: 100%;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 14px;
-  padding: 10px;
-  margin-bottom: 30px;
-}
-
-.image-wrap img,
-.image-wrap canvas {
+.media-card img {
   width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 8px;
+  background: white;
 }
 
 .hidden {
@@ -348,19 +344,60 @@ button {
 }
 
 @media print {
-  body { background: white; overflow: visible; }
-  .sidebar { display: none; }
-  .app { display: block; height: auto; }
-  .preview-wrap { padding: 0; height: auto; overflow: visible; }
-  .document { width: 100%; box-shadow: none; padding: 35px 42px; }
-  .whatsapp-wrap { display: none; }
+  body {
+    background: white;
+    overflow: visible;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .app {
+    display: block;
+    height: auto;
+  }
+
+  .preview-wrap {
+    padding: 0;
+    height: auto;
+    overflow: visible;
+  }
+
+  .document {
+    width: 100%;
+    box-shadow: none;
+    padding: 35px 42px;
+  }
+
+  .whatsapp-wrap {
+    display: none;
+  }
+
+  .media-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
 }
 
 @media(max-width: 950px) {
-  body { overflow: auto; }
-  .app { grid-template-columns: 1fr; height: auto; }
-  .sidebar, .preview-wrap { height: auto; }
-  .document { width: 100%; }
+  body {
+    overflow: auto;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .sidebar,
+  .preview-wrap {
+    height: auto;
+  }
+
+  .document {
+    width: 100%;
+  }
 }
 </style>
 </head>
@@ -402,54 +439,110 @@ button {
   </div>
 
   <div class="form-row">
-    <div><label>Project</label><input id="project" value="Farm Garden"></div>
-    <div><label>Developer</label><input id="developer" value="EMAAR"></div>
+    <div>
+      <label>Project</label>
+      <input id="project" value="Farm Garden">
+    </div>
+    <div>
+      <label>Developer</label>
+      <input id="developer" value="EMAAR">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>Area</label><input id="area" value="The Valley"></div>
-    <div><label>Type</label><input id="type" value="Villa"></div>
+    <div>
+      <label>Area</label>
+      <input id="area" value="The Valley">
+    </div>
+    <div>
+      <label>Type</label>
+      <input id="type" value="Villa">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>Bedrooms</label><input id="bedrooms" value="5"></div>
-    <div><label>Bathrooms</label><input id="bathrooms" value="6"></div>
+    <div>
+      <label>Bedrooms</label>
+      <input id="bedrooms" value="5">
+    </div>
+    <div>
+      <label>Bathrooms</label>
+      <input id="bathrooms" value="6">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>Size</label><input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft"></div>
-    <div><label>Floor</label><input id="floor" value="G+1"></div>
+    <div>
+      <label>Size</label>
+      <input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft">
+    </div>
+    <div>
+      <label>Floor</label>
+      <input id="floor" value="G+1">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>View</label><input id="view" value="Community"></div>
-    <div><label>Completion</label><input id="completion" value="Aug 2026"></div>
+    <div>
+      <label>View</label>
+      <input id="view" value="Community">
+    </div>
+    <div>
+      <label>Completion</label>
+      <input id="completion" value="Aug 2026">
+    </div>
   </div>
 
   <div class="section-title">Payment Details</div>
 
   <div class="form-row">
-    <div><label>Unit Price</label><input id="unitPrice" type="number" value="8500000"></div>
-    <div><label>Payment to Seller</label><input id="paymentSeller" type="number" value="7240023"></div>
+    <div>
+      <label>Unit Price</label>
+      <input id="unitPrice" type="number" value="8500000">
+    </div>
+    <div>
+      <label>Payment to Seller</label>
+      <input id="paymentSeller" type="number" value="7240023">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>DLD % Auto</label><input id="dldPercent" type="number" value="4"></div>
-    <div><label>DLD Amount Override</label><input id="dldAmount" type="number" placeholder="Auto"></div>
+    <div>
+      <label>DLD % Auto</label>
+      <input id="dldPercent" type="number" value="4">
+    </div>
+    <div>
+      <label>DLD Amount Override</label>
+      <input id="dldAmount" type="number" placeholder="Auto">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>Brokerage % Auto</label><input id="brokeragePercent" type="number" value="2"></div>
-    <div><label>Brokerage + VAT Override</label><input id="brokerageAmount" type="number" placeholder="Auto"></div>
+    <div>
+      <label>Brokerage % Auto</label>
+      <input id="brokeragePercent" type="number" value="2">
+    </div>
+    <div>
+      <label>Brokerage + VAT Override</label>
+      <input id="brokerageAmount" type="number" placeholder="Auto">
+    </div>
   </div>
 
   <div class="form-row">
-    <div><label>Trustee Fee</label><input id="trusteeFee" type="number" value="4200"></div>
-    <div><label>Title Deed Fee</label><input id="titleDeed" type="number" value="580"></div>
+    <div>
+      <label>Trustee Fee</label>
+      <input id="trusteeFee" type="number" value="4200">
+    </div>
+    <div>
+      <label>Title Deed Fee</label>
+      <input id="titleDeed" type="number" value="580">
+    </div>
   </div>
 
   <div class="section-title">Installments / Remaining Plan</div>
+
   <div id="installmentsEditor"></div>
+
   <button class="secondary" onclick="addInstallment()">+ Add Installment</button>
 
   <div class="section-title">Media</div>
@@ -743,24 +836,30 @@ function updateWhatsApp() {
 
 function addImages(event) {
   const files = Array.from(event.target.files);
+
   files.forEach(file => {
     const reader = new FileReader();
+
     reader.onload = function(e) {
       mediaItems.push({
         type: "image",
         title: "Property Image",
         data: e.target.result
       });
+
       renderMediaEditor();
       renderMediaPreview();
     };
+
     reader.readAsDataURL(file);
   });
+
   event.target.value = "";
 }
 
 function addPDFs(event) {
   const files = Array.from(event.target.files);
+
   files.forEach(file => {
     const reader = new FileReader();
 
@@ -784,7 +883,7 @@ function addPDFs(event) {
           }).promise.then(function() {
             mediaItems.push({
               type: "pdf",
-              title: file.name.replace(".pdf", ""),
+              title: "Plan",
               data: canvas.toDataURL("image/png")
             });
 
@@ -821,7 +920,7 @@ function moveMedia(index, direction) {
 
 function renameMedia(index, value) {
   mediaItems[index].title = value;
-  renderMediaPreview();
+  renderMediaEditor();
 }
 
 function renderMediaEditor() {
@@ -831,8 +930,9 @@ function renderMediaEditor() {
   mediaItems.forEach((item, index) => {
     const div = document.createElement("div");
     div.className = "dynamic-box";
+
     div.innerHTML = `
-      <label>Media Title</label>
+      <label>Media ${index + 1}</label>
       <input value="${item.title}" oninput="renameMedia(${index}, this.value)">
       <div class="mini-actions">
         <button class="small-btn secondary" onclick="moveMedia(${index}, -1)">Up</button>
@@ -840,6 +940,7 @@ function renderMediaEditor() {
         <button class="small-btn danger" onclick="removeMedia(${index})">Remove</button>
       </div>
     `;
+
     box.appendChild(div);
   });
 }
@@ -848,22 +949,29 @@ function renderMediaPreview() {
   const preview = document.getElementById("mediaPreview");
   preview.innerHTML = "";
 
+  if (!mediaItems.length) return;
+
+  const grid = document.createElement("div");
+  grid.className = "media-grid";
+
   mediaItems.forEach(item => {
-    const section = document.createElement("div");
-    section.className = "media-page";
-    section.innerHTML = `
-      <div class="media-title">${item.title || "Media"}</div>
-      <div class="image-wrap">
-        <img src="${item.data}">
-      </div>
+    const card = document.createElement("div");
+    card.className = "media-card";
+
+    card.innerHTML = `
+      <img src="${item.data}">
     `;
-    preview.appendChild(section);
+
+    grid.appendChild(card);
   });
+
+  preview.appendChild(grid);
 }
 
 function generateShareLink() {
   const data = {};
   fields.forEach(id => data[id] = document.getElementById(id).value);
+
   data.installments = installments;
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
