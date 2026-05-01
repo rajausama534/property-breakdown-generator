@@ -13,8 +13,8 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #d7d7d7;
-  color: #202938;
+  background: #d6d6d6;
+  color: #111827;
 }
 
 .app {
@@ -147,14 +147,14 @@ button {
 
 .title-block h1 {
   font-size: 36px;
-  margin: 0;
+  margin: 0 0 6px;
   line-height: 1.1;
   font-weight: 900;
   letter-spacing: -1px;
 }
 
 .title-block p {
-  margin: 8px 0 24px;
+  margin: 0 0 24px;
   color: #666;
   font-size: 16px;
   font-weight: 700;
@@ -343,7 +343,7 @@ button {
 
   <div class="form-full">
     <label>Agency</label>
-    <input id="agency" value="Usama Bin Nusrat">
+    <input id="agency" value="BFG Properties">
   </div>
 
   <div class="form-full">
@@ -450,7 +450,7 @@ button {
 
   <div class="top-brand">
     <div>
-      <div class="brand-title">Usama Bin Nusrat</div>
+      <div class="brand-title">BFG PROPERTIES</div>
       <div class="brand-sub">Premium Property Investment Breakdown</div>
     </div>
     <div class="contact">
@@ -488,6 +488,10 @@ button {
     <tr>
       <td>Payment to Seller</td>
       <td id="pPaymentSeller"></td>
+    </tr>
+    <tr>
+      <td>Seller Premium / Profit</td>
+      <td id="pSellerPremium"></td>
     </tr>
     <tr>
       <td>DLD Fee</td>
@@ -551,7 +555,7 @@ button {
   </div>
 
   <div class="footer">
-    <span>Prepared by Usama Bin Nusrat</span>
+    <span>Prepared by BFG Properties</span>
     <span>Dubai Property Breakdown</span>
   </div>
 
@@ -607,6 +611,8 @@ function calculate() {
   set("pCompletion", "completion");
   set("pNotes", "notes");
 
+  document.querySelector(".brand-title").innerText = val("agency").toUpperCase();
+
   const unitPrice = num("unitPrice");
   const paymentSeller = num("paymentSeller");
 
@@ -626,6 +632,8 @@ function calculate() {
   const lastPayment = num("lastPayment");
   const remainingPlan = num("remainingPlan");
 
+  const sellerPremium = paymentSeller - unitPrice;
+
   const totalTransfer =
     paymentSeller + dldFee + trusteeFee + titleDeed + brokerageVat;
 
@@ -634,6 +642,7 @@ function calculate() {
 
   document.getElementById("pUnitPrice").innerText = money(unitPrice);
   document.getElementById("pPaymentSeller").innerText = money(paymentSeller);
+  document.getElementById("pSellerPremium").innerText = money(sellerPremium);
   document.getElementById("pDldFee").innerText = money(dldFee);
   document.getElementById("pTrusteeFee").innerText = money(trusteeFee);
   document.getElementById("pTitleDeed").innerText = money(titleDeed);
