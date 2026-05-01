@@ -8,61 +8,63 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #d5d5d5;
-  color: #1f2937;
+  background: #d7d7d7;
+  color: #202938;
 }
 
 .app {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 340px 1fr;
   min-height: 100vh;
 }
 
 .sidebar {
-  background: #020202;
+  background: #030303;
   color: white;
-  padding: 24px;
-  overflow-y: auto;
   height: 100vh;
+  overflow-y: auto;
+  padding: 22px;
 }
 
 .sidebar h1 {
+  margin: 0 0 24px;
   font-size: 24px;
-  margin: 0 0 28px;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .section-title {
   color: #d4af37;
   font-size: 18px;
-  font-weight: 800;
-  margin: 28px 0 14px;
+  font-weight: 900;
+  margin: 26px 0 14px;
 }
 
 label {
   display: block;
   font-size: 13px;
-  color: #c9c9c9;
+  font-weight: 800;
+  color: #cfcfcf;
   margin-bottom: 7px;
-  font-weight: 700;
 }
 
 input, textarea {
   width: 100%;
   background: #050505;
-  border: 1px solid #13213a;
   color: white;
-  padding: 12px 13px;
+  border: 1px solid #1d2d4a;
   border-radius: 10px;
+  padding: 12px;
   font-size: 14px;
   outline: none;
+}
+
+input:focus, textarea:focus {
+  border-color: #d4af37;
 }
 
 textarea {
@@ -70,27 +72,23 @@ textarea {
   resize: vertical;
 }
 
-input:focus, textarea:focus {
-  border-color: #d4af37;
-}
-
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 13px;
 }
 
 .form-full {
-  margin-bottom: 14px;
+  margin-bottom: 13px;
 }
 
 button {
   width: 100%;
-  padding: 13px;
   border: none;
+  padding: 13px;
   border-radius: 10px;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
   margin-bottom: 10px;
 }
@@ -117,7 +115,7 @@ button {
   background: white;
   margin: auto;
   padding: 42px 50px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
 }
 
 .top-brand {
@@ -147,36 +145,33 @@ button {
   line-height: 1.7;
 }
 
-.property-header {
-  margin-bottom: 34px;
-}
-
 .title-block h1 {
-  font-size: 34px;
-  font-weight: 900;
+  font-size: 36px;
   margin: 0;
+  line-height: 1.1;
+  font-weight: 900;
   letter-spacing: -1px;
-  line-height: 1.15;
 }
 
 .title-block p {
   margin: 8px 0 24px;
   color: #666;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
+  margin-bottom: 34px;
 }
 
 .info-item {
   background: #f8f8f8;
+  border: 1px solid #eee;
   border-radius: 12px;
   padding: 15px 16px;
-  border: 1px solid #eee;
 }
 
 .info-item span {
@@ -195,10 +190,10 @@ button {
 
 .block-title {
   margin: 34px 0 12px;
-  padding-bottom: 9px;
-  border-bottom: 2px solid #d7d7d7;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #cfcfcf;
 }
 
 .table {
@@ -226,7 +221,7 @@ button {
 }
 
 .green {
-  background: #e9f8f1;
+  background: #e8f8f0;
   font-weight: 900;
 }
 
@@ -264,8 +259,8 @@ button {
   font-size: 24px;
   font-weight: 900;
   margin-bottom: 18px;
-  border-bottom: 2px solid #111;
   padding-bottom: 10px;
+  border-bottom: 2px solid #111;
 }
 
 .image-wrap {
@@ -277,17 +272,16 @@ button {
   margin-bottom: 30px;
 }
 
-.image-wrap img {
+.image-wrap img,
+.image-wrap canvas {
   width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
 }
 
-#clusterCanvas, #floorCanvas {
-  width: 100%;
-  height: auto;
-  display: block;
+.hidden {
+  display: none;
 }
 
 .footer {
@@ -313,45 +307,22 @@ button {
 }
 
 @media print {
-  body {
-    background: white;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .app {
-    display: block;
-  }
-
-  .preview-wrap {
-    padding: 0;
-  }
-
+  body { background: white; }
+  .sidebar { display: none; }
+  .app { display: block; }
+  .preview-wrap { padding: 0; }
   .document {
     width: 100%;
     box-shadow: none;
     padding: 35px 42px;
   }
-
-  .whatsapp {
-    display: none;
-  }
+  .whatsapp { display: none; }
 }
 
 @media(max-width: 900px) {
-  .app {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    height: auto;
-  }
-
-  .document {
-    width: 100%;
-  }
+  .app { grid-template-columns: 1fr; }
+  .sidebar { height: auto; }
+  .document { width: 100%; }
 }
 </style>
 </head>
@@ -376,7 +347,7 @@ button {
   </div>
 
   <div class="form-full">
-    <label>WhatsApp / Contact Number</label>
+    <label>WhatsApp Number</label>
     <input id="phone" value="+971528176879">
   </div>
 
@@ -393,121 +364,72 @@ button {
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Project</label>
-      <input id="project" value="Farm Garden">
-    </div>
-    <div>
-      <label>Developer</label>
-      <input id="developer" value="EMAAR">
-    </div>
+    <div><label>Project</label><input id="project" value="Farm Garden"></div>
+    <div><label>Developer</label><input id="developer" value="EMAAR"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Area</label>
-      <input id="area" value="The Valley">
-    </div>
-    <div>
-      <label>Type</label>
-      <input id="type" value="Villa">
-    </div>
+    <div><label>Area</label><input id="area" value="The Valley"></div>
+    <div><label>Type</label><input id="type" value="Villa"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Bedrooms</label>
-      <input id="bedrooms" value="5">
-    </div>
-    <div>
-      <label>Bathrooms</label>
-      <input id="bathrooms" value="6">
-    </div>
+    <div><label>Bedrooms</label><input id="bedrooms" value="5"></div>
+    <div><label>Bathrooms</label><input id="bathrooms" value="6"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Size</label>
-      <input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft">
-    </div>
-    <div>
-      <label>Floor</label>
-      <input id="floor" value="G+1">
-    </div>
+    <div><label>Size</label><input id="size" value="Plot: 10,000 sqft | BUA: 6,112 sq ft"></div>
+    <div><label>Floor</label><input id="floor" value="G+1"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>View</label>
-      <input id="view" value="Community">
-    </div>
-    <div>
-      <label>Completion</label>
-      <input id="completion" value="Aug 2026">
-    </div>
+    <div><label>View</label><input id="view" value="Community"></div>
+    <div><label>Completion</label><input id="completion" value="Aug 2026"></div>
   </div>
 
   <div class="section-title">Payment Details</div>
 
   <div class="form-row">
-    <div>
-      <label>Unit Price</label>
-      <input id="unitPrice" type="number" value="8500000">
-    </div>
-    <div>
-      <label>Payment to Seller</label>
-      <input id="paymentSeller" type="number" value="7340023">
-    </div>
+    <div><label>Unit Price</label><input id="unitPrice" type="number" value="8500000"></div>
+    <div><label>Payment to Seller</label><input id="paymentSeller" type="number" value="7240023"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>DLD Fee Amount</label>
-      <input id="dldFee" type="number" value="340000">
-    </div>
-    <div>
-      <label>Trustee Office Fee</label>
-      <input id="trusteeFee" type="number" value="4200">
-    </div>
+    <div><label>DLD % Auto</label><input id="dldPercent" type="number" value="4"></div>
+    <div><label>DLD Amount Override</label><input id="dldAmount" type="number" placeholder="Auto"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Title Deed Fee</label>
-      <input id="titleDeed" type="number" value="580">
-    </div>
-    <div>
-      <label>Brokerage Fee + VAT</label>
-      <input id="brokerageVat" type="number" value="178500">
-    </div>
+    <div><label>Brokerage % Auto</label><input id="brokeragePercent" type="number" value="2"></div>
+    <div><label>Brokerage + VAT Override</label><input id="brokerageAmount" type="number" placeholder="Auto"></div>
   </div>
 
   <div class="form-row">
-    <div>
-      <label>Last Payment on Handover</label>
-      <input id="lastPayment" type="number" value="1259977">
-    </div>
-    <div>
-      <label>Total Remaining Payment Plan</label>
-      <input id="remainingPlan" type="number" value="1259977">
-    </div>
+    <div><label>Trustee Fee</label><input id="trusteeFee" type="number" value="4200"></div>
+    <div><label>Title Deed Fee</label><input id="titleDeed" type="number" value="580"></div>
   </div>
 
-  <div class="section-title">Media Upload</div>
-
-  <div class="form-full">
-    <label>Upload Property Image</label>
-    <input type="file" accept="image/*" onchange="loadImage(event, 'propertyImage')">
+  <div class="form-row">
+    <div><label>Last Payment on Handover</label><input id="lastPayment" type="number" value="1259977"></div>
+    <div><label>Total Remaining Plan</label><input id="remainingPlan" type="number" value="1259977"></div>
   </div>
 
+  <div class="section-title">Media</div>
+
   <div class="form-full">
-    <label>Upload Cluster Plan PDF</label>
-    <input type="file" accept="application/pdf" onchange="loadPDF(event, 'clusterCanvas')">
+    <label>Property Image</label>
+    <input type="file" accept="image/*" onchange="loadImage(event, 'propertyImage', 'propertyImagePage')">
   </div>
 
   <div class="form-full">
-    <label>Upload Floor Plan PDF</label>
-    <input type="file" accept="application/pdf" onchange="loadPDF(event, 'floorCanvas')">
+    <label>Cluster Plan PDF</label>
+    <input type="file" accept="application/pdf" onchange="loadPDF(event, 'clusterCanvas', 'clusterPlanPage')">
+  </div>
+
+  <div class="form-full">
+    <label>Floor Plan PDF</label>
+    <input type="file" accept="application/pdf" onchange="loadPDF(event, 'floorCanvas', 'floorPlanPage')">
   </div>
 
   <div class="section-title">Notes</div>
@@ -528,34 +450,32 @@ button {
 
   <div class="top-brand">
     <div>
-      <div class="brand-title" id="pAgencyLogo">BFG PROPERTIES</div>
+      <div class="brand-title">BFG PROPERTIES</div>
       <div class="brand-sub">Premium Property Investment Breakdown</div>
     </div>
     <div class="contact">
-      <div id="pAgent">Usama Bin Nusrat</div>
-      <div id="pAgency">BFG Properties</div>
-      <div id="pPhone">+971528176879</div>
+      <div id="pAgent"></div>
+      <div id="pAgency"></div>
+      <div id="pPhone"></div>
     </div>
   </div>
 
-  <div class="property-header">
-    <div class="title-block">
-      <h1 id="pTitle">5 Bedroom Villa</h1>
-      <p id="pSubtitle">Farm Gardens – The Valley</p>
-    </div>
+  <div class="title-block">
+    <h1 id="pTitle"></h1>
+    <p id="pSubtitle"></p>
+  </div>
 
-    <div class="info-grid">
-      <div class="info-item"><span>Project</span><strong id="pProject">Farm Garden</strong></div>
-      <div class="info-item"><span>Developer</span><strong id="pDeveloper">EMAAR</strong></div>
-      <div class="info-item"><span>Area</span><strong id="pArea">The Valley</strong></div>
-      <div class="info-item"><span>Type</span><strong id="pType">Villa</strong></div>
-      <div class="info-item"><span>Bedrooms</span><strong id="pBedrooms">5</strong></div>
-      <div class="info-item"><span>Bathrooms</span><strong id="pBathrooms">6</strong></div>
-      <div class="info-item"><span>Size</span><strong id="pSize">Plot: 10,000 sqft | BUA: 6,112 sq ft</strong></div>
-      <div class="info-item"><span>Floor</span><strong id="pFloor">G+1</strong></div>
-      <div class="info-item"><span>View</span><strong id="pView">Community</strong></div>
-      <div class="info-item"><span>Completion</span><strong id="pCompletion">Aug 2026</strong></div>
-    </div>
+  <div class="info-grid">
+    <div class="info-item"><span>Project</span><strong id="pProject"></strong></div>
+    <div class="info-item"><span>Developer</span><strong id="pDeveloper"></strong></div>
+    <div class="info-item"><span>Area</span><strong id="pArea"></strong></div>
+    <div class="info-item"><span>Type</span><strong id="pType"></strong></div>
+    <div class="info-item"><span>Bedrooms</span><strong id="pBedrooms"></strong></div>
+    <div class="info-item"><span>Bathrooms</span><strong id="pBathrooms"></strong></div>
+    <div class="info-item"><span>Size</span><strong id="pSize"></strong></div>
+    <div class="info-item"><span>Floor</span><strong id="pFloor"></strong></div>
+    <div class="info-item"><span>View</span><strong id="pView"></strong></div>
+    <div class="info-item"><span>Completion</span><strong id="pCompletion"></strong></div>
   </div>
 
   <div class="block-title">Payment Breakdown</div>
@@ -563,43 +483,43 @@ button {
   <table class="table">
     <tr class="shade">
       <td>Unit Price</td>
-      <td id="pUnitPrice">AED 8,500,000</td>
+      <td id="pUnitPrice"></td>
     </tr>
     <tr>
       <td>Payment to Seller</td>
-      <td id="pPaymentSeller">AED 7,340,023</td>
+      <td id="pPaymentSeller"></td>
     </tr>
     <tr>
       <td>DLD Fee</td>
-      <td id="pDldFee">AED 340,000</td>
+      <td id="pDldFee"></td>
     </tr>
     <tr>
       <td>Trustee Office Fee</td>
-      <td id="pTrusteeFee">AED 4,200</td>
+      <td id="pTrusteeFee"></td>
     </tr>
     <tr>
       <td>Title Deed Fee</td>
-      <td id="pTitleDeed">AED 580</td>
+      <td id="pTitleDeed"></td>
     </tr>
     <tr>
       <td>Brokerage Fee + VAT</td>
-      <td id="pBrokerageVat">AED 178,500</td>
+      <td id="pBrokerageVat"></td>
     </tr>
     <tr class="green">
       <td>Last Payment on Handover</td>
-      <td id="pLastPayment">AED 1,259,977</td>
+      <td id="pLastPayment"></td>
     </tr>
     <tr class="pink">
       <td>Total on Transfer</td>
-      <td id="pTotalTransfer">AED 7,863,303</td>
+      <td id="pTotalTransfer"></td>
     </tr>
     <tr class="green">
       <td>Total Remaining Payment Plan</td>
-      <td id="pRemainingPlan">AED 1,259,977</td>
+      <td id="pRemainingPlan"></td>
     </tr>
     <tr class="shade">
       <td>Total Cost for Buyer</td>
-      <td id="pTotalBuyer">AED 9,123,280</td>
+      <td id="pTotalBuyer"></td>
     </tr>
   </table>
 
@@ -609,21 +529,21 @@ button {
     <a id="whatsappBtn" class="whatsapp" target="_blank">Contact on WhatsApp</a>
   </div>
 
-  <div class="media-page" id="propertyImagePage" style="display:none;">
+  <div class="media-page hidden" id="propertyImagePage">
     <div class="media-title">Property Image</div>
     <div class="image-wrap">
       <img id="propertyImage">
     </div>
   </div>
 
-  <div class="media-page" id="clusterPlanPage">
+  <div class="media-page hidden" id="clusterPlanPage">
     <div class="media-title">Cluster Plan</div>
     <div class="image-wrap">
       <canvas id="clusterCanvas"></canvas>
     </div>
   </div>
 
-  <div class="media-page" id="floorPlanPage">
+  <div class="media-page hidden" id="floorPlanPage">
     <div class="media-title">Floor Plan</div>
     <div class="image-wrap">
       <canvas id="floorCanvas"></canvas>
@@ -648,11 +568,12 @@ const fields = [
   "agentName", "agency", "phone",
   "title", "subtitle", "project", "developer", "area", "type",
   "bedrooms", "bathrooms", "size", "floor", "view", "completion",
-  "unitPrice", "paymentSeller", "dldFee", "trusteeFee",
-  "titleDeed", "brokerageVat", "lastPayment", "remainingPlan", "notes"
+  "unitPrice", "paymentSeller", "dldPercent", "dldAmount",
+  "brokeragePercent", "brokerageAmount", "trusteeFee",
+  "titleDeed", "lastPayment", "remainingPlan", "notes"
 ];
 
-function text(id) {
+function val(id) {
   return document.getElementById(id).value || "-";
 }
 
@@ -664,8 +585,8 @@ function money(value) {
   return "AED " + Math.round(value).toLocaleString("en-AE");
 }
 
-function set(preview, input) {
-  document.getElementById(preview).innerText = text(input);
+function set(previewId, inputId) {
+  document.getElementById(previewId).innerText = val(inputId);
 }
 
 function calculate() {
@@ -686,11 +607,22 @@ function calculate() {
   set("pCompletion", "completion");
   set("pNotes", "notes");
 
+  const unitPrice = num("unitPrice");
   const paymentSeller = num("paymentSeller");
-  const dldFee = num("dldFee");
+
+  let dldFee = num("dldAmount");
+  if (!dldFee) {
+    dldFee = unitPrice * num("dldPercent") / 100;
+  }
+
+  let brokerageVat = num("brokerageAmount");
+  if (!brokerageVat) {
+    const brokerage = unitPrice * num("brokeragePercent") / 100;
+    brokerageVat = brokerage + (brokerage * 0.05);
+  }
+
   const trusteeFee = num("trusteeFee");
   const titleDeed = num("titleDeed");
-  const brokerageVat = num("brokerageVat");
   const lastPayment = num("lastPayment");
   const remainingPlan = num("remainingPlan");
 
@@ -700,46 +632,43 @@ function calculate() {
   const totalBuyer =
     totalTransfer + remainingPlan;
 
-  document.getElementById("pUnitPrice").innerText = money(num("unitPrice"));
+  document.getElementById("pUnitPrice").innerText = money(unitPrice);
   document.getElementById("pPaymentSeller").innerText = money(paymentSeller);
   document.getElementById("pDldFee").innerText = money(dldFee);
   document.getElementById("pTrusteeFee").innerText = money(trusteeFee);
   document.getElementById("pTitleDeed").innerText = money(titleDeed);
   document.getElementById("pBrokerageVat").innerText = money(brokerageVat);
   document.getElementById("pLastPayment").innerText = money(lastPayment);
-  document.getElementById("pRemainingPlan").innerText = money(remainingPlan);
   document.getElementById("pTotalTransfer").innerText = money(totalTransfer);
+  document.getElementById("pRemainingPlan").innerText = money(remainingPlan);
   document.getElementById("pTotalBuyer").innerText = money(totalBuyer);
 
   updateWhatsApp();
 }
 
 function updateWhatsApp() {
-  const phone = text("phone").replace(/\D/g, "");
-  const title = text("title");
-  const subtitle = text("subtitle");
-
-  const message = encodeURIComponent(
-    "Hi, I am interested in " + title + " - " + subtitle + ". Please share more details."
+  const phone = val("phone").replace(/\D/g, "");
+  const msg = encodeURIComponent(
+    "Hi, I am interested in " + val("title") + " - " + val("subtitle") + ". Please share more details."
   );
 
   document.getElementById("whatsappBtn").href =
-    "https://wa.me/" + phone + "?text=" + message;
+    "https://wa.me/" + phone + "?text=" + msg;
 }
 
-function loadImage(event, targetId) {
+function loadImage(event, imageId, pageId) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = function(e) {
-    document.getElementById(targetId).src = e.target.result;
-    document.getElementById("propertyImagePage").style.display = "block";
+    document.getElementById(imageId).src = e.target.result;
+    document.getElementById(pageId).classList.remove("hidden");
   };
   reader.readAsDataURL(file);
 }
 
-function loadPDF(event, canvasId) {
+function loadPDF(event, canvasId, pageId) {
   const file = event.target.files[0];
   if (!file) return;
 
@@ -763,6 +692,8 @@ function loadPDF(event, canvasId) {
           canvasContext: context,
           viewport: viewport
         });
+
+        document.getElementById(pageId).classList.remove("hidden");
       });
     });
   };
@@ -772,10 +703,7 @@ function loadPDF(event, canvasId) {
 
 function generateShareLink() {
   const data = {};
-
-  fields.forEach(id => {
-    data[id] = document.getElementById(id).value;
-  });
+  fields.forEach(id => data[id] = document.getElementById(id).value);
 
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
   const url = window.location.origin + window.location.pathname + "?data=" + encoded;
