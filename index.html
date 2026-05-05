@@ -335,24 +335,27 @@ button {
 .picture-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
   page-break-before: always;
   margin-top: 16px;
+  align-items: start;
 }
 
 .picture-card {
   break-inside: avoid;
   page-break-inside: avoid;
+  height: 245px;
+  overflow: hidden;
 }
 
 .picture-card img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 6px;
+  padding: 5px;
   background: white;
 }
 
@@ -400,6 +403,48 @@ button {
     box-shadow: none;
     padding: 34px 38px;
     margin: 0 auto;
+  }
+
+  #whatsappBtn {
+    background: #25D366 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+  }
+
+  .picture-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    page-break-before: always;
+  }
+
+  .picture-card {
+    height: 245px !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .picture-card img {
+    height: 100% !important;
+    object-fit: cover !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+@media(max-width: 520px) {
+  .picture-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .picture-card {
+    height: auto;
+  }
+
+  .picture-card img {
+    height: auto;
+    object-fit: contain;
   }
 }
 
@@ -1083,6 +1128,12 @@ body {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
+  .picture-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media(max-width: 520px) {
   .picture-grid {
     grid-template-columns: 1fr !important;
   }
