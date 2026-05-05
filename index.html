@@ -33,16 +33,16 @@ body {
 }
 
 .sidebar h1 {
-  margin: 0 0 24px;
-  font-size: 24px;
+  margin: 0 0 22px;
+  font-size: 23px;
   font-weight: 900;
 }
 
 .section-title {
   color: #d4af37;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 900;
-  margin: 26px 0 14px;
+  margin: 24px 0 13px;
 }
 
 label {
@@ -132,6 +132,13 @@ button {
   background: #070707;
 }
 
+.file-name {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 7px;
+  word-break: break-word;
+}
+
 .share-box {
   display: none;
   background: #111;
@@ -156,74 +163,74 @@ button {
   min-height: 1123px;
   background: white;
   margin: 0 auto;
-  padding: 34px 38px;
+  padding: 26px 32px;
   box-shadow: 0 16px 50px rgba(0,0,0,.22);
 }
 
 .title-block {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   border-bottom: 2px solid #111827;
-  padding-bottom: 14px;
+  padding-bottom: 11px;
 }
 
 .title-block h1 {
-  font-size: 30px;
-  margin: 0 0 5px;
+  font-size: 26px;
+  margin: 0 0 4px;
   line-height: 1.08;
   font-weight: 900;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
 }
 
 .title-block p {
   margin: 0;
   color: #555;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
 }
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 18px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 13px;
 }
 
 .info-item {
   background: #f8f8f8;
   border: 1px solid #e2e2e2;
-  border-radius: 9px;
-  padding: 8px 9px;
-  min-height: 50px;
+  border-radius: 8px;
+  padding: 7px 8px;
+  min-height: 45px;
 }
 
 .info-item span {
   display: block;
-  font-size: 8.5px;
+  font-size: 8px;
   color: #777;
   text-transform: uppercase;
   font-weight: 900;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .info-item strong {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 900;
-  line-height: 1.25;
+  line-height: 1.18;
   word-break: break-word;
 }
 
 .block-title {
-  margin: 18px 0 9px;
-  font-size: 19px;
+  margin: 13px 0 7px;
+  font-size: 17px;
   font-weight: 900;
-  padding-bottom: 7px;
+  padding-bottom: 6px;
   border-bottom: 2px solid #cfcfcf;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12.2px;
 }
 
 .table tr {
@@ -231,7 +238,7 @@ button {
 }
 
 .table td {
-  padding: 9px 8px;
+  padding: 7px 8px;
 }
 
 .table td:last-child {
@@ -255,30 +262,39 @@ button {
   font-weight: 900;
 }
 
+.total-buyer-row {
+  background: #111827;
+  color: white;
+  font-size: 14px;
+}
+
 .notes {
-  margin-top: 18px;
+  margin-top: 12px;
   background: #fafafa;
   border-left: 4px solid #d4af37;
-  padding: 12px 14px;
-  font-size: 12px;
-  line-height: 1.5;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  line-height: 1.45;
 }
 
 .plan-section {
+  margin-top: 16px;
+}
+
+.plan-section.first-media-section {
   page-break-before: always;
-  margin-top: 18px;
 }
 
 .plan-card {
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
 .plan-card img {
   width: 100%;
-  max-height: 980px;
+  max-height: 970px;
   height: auto;
   display: block;
   object-fit: contain;
@@ -291,9 +307,9 @@ button {
 .picture-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 12px;
   page-break-before: always;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .picture-card {
@@ -346,7 +362,7 @@ button {
     width: 794px;
     min-height: 1123px;
     box-shadow: none;
-    padding: 30px 36px;
+    padding: 24px 30px;
     margin: 0 auto;
   }
 
@@ -474,15 +490,15 @@ button {
 
   <div class="section-title">Floor Plan</div>
   <div class="form-full">
-    <label>Add Floor Plan PDFs</label>
-    <input type="file" accept="application/pdf" multiple onchange="addPDFs(event, 'floor')">
+    <label>Add Floor Plan PDF / JPG / PNG</label>
+    <input type="file" accept="application/pdf,image/jpeg,image/png,image/jpg" multiple onchange="addPlanFiles(event, 'floor')">
   </div>
   <div id="floorEditor"></div>
 
   <div class="section-title">Cluster Plan Optional</div>
   <div class="form-full">
-    <label>Add Cluster Plan PDFs</label>
-    <input type="file" accept="application/pdf" multiple onchange="addPDFs(event, 'cluster')">
+    <label>Add Cluster Plan PDF / JPG / PNG</label>
+    <input type="file" accept="application/pdf,image/jpeg,image/png,image/jpg" multiple onchange="addPlanFiles(event, 'cluster')">
   </div>
   <div id="clusterEditor"></div>
 
@@ -563,7 +579,7 @@ button {
       <td>Total Remaining Payment Plan</td>
       <td id="pRemainingPlan"></td>
     </tr>
-    <tr class="shade">
+    <tr class="total-buyer-row">
       <td>Total Cost for Buyer</td>
       <td id="pTotalBuyer"></td>
     </tr>
@@ -611,6 +627,18 @@ function num(id) {
 
 function money(value) {
   return "AED " + Math.round(value).toLocaleString("en-AE");
+}
+
+function escapeHTML(text) {
+  return String(text || "").replace(/[&<>"']/g, function(match) {
+    return ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[match];
+  });
 }
 
 function set(previewId, inputId) {
@@ -693,11 +721,11 @@ function renderInstallmentEditor() {
       <div class="form-row">
         <div>
           <label>Label</label>
-          <input value="${item.label}" oninput="installments[${index}].label=this.value; calculate();">
+          <input value="${escapeHTML(item.label)}" oninput="installments[${index}].label=this.value; calculate();">
         </div>
         <div>
           <label>Amount</label>
-          <input type="number" value="${item.amount}" oninput="installments[${index}].amount=this.value; calculate();">
+          <input type="number" value="${escapeHTML(item.amount)}" oninput="installments[${index}].amount=this.value; calculate();">
         </div>
       </div>
       <button class="small-btn danger" onclick="removeInstallment(${index})">Remove Installment</button>
@@ -721,7 +749,7 @@ function renderInstallmentPreview() {
   valid.forEach(item => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${item.label}</td>
+      <td>${escapeHTML(item.label)}</td>
       <td>${money(Number(item.amount))}</td>
     `;
     table.appendChild(row);
@@ -734,10 +762,12 @@ function addImages(event) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
+    if (!file.type.startsWith("image/")) return;
+
     const reader = new FileReader();
 
     reader.onload = function(e) {
-      pictures.push({ data: e.target.result });
+      pictures.push({ data: e.target.result, name: file.name });
       renderPictureEditor();
       renderPictures();
     };
@@ -748,52 +778,95 @@ function addImages(event) {
   event.target.value = "";
 }
 
-function addPDFs(event, type) {
+function addPlanFiles(event, type) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
-    const reader = new FileReader();
+    if (file.type === "application/pdf") {
+      addPDFPlan(file, type);
+      return;
+    }
 
-    reader.onload = function() {
-      const typedArray = new Uint8Array(this.result);
+    if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg" || file.type.startsWith("image/")) {
+      addImagePlan(file, type);
+      return;
+    }
 
-      pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
-        pdf.getPage(1).then(function(page) {
-          const scale = 4;
-          const viewport = page.getViewport({ scale });
-
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
-
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-
-          page.render({
-            canvasContext: context,
-            viewport: viewport
-          }).promise.then(function() {
-            const item = { data: canvas.toDataURL("image/png") };
-
-            if (type === "floor") {
-              floorPlans.push(item);
-              renderPlanEditor("floor");
-              renderPlans("floor");
-            }
-
-            if (type === "cluster") {
-              clusterPlans.push(item);
-              renderPlanEditor("cluster");
-              renderPlans("cluster");
-            }
-          });
-        });
-      });
-    };
-
-    reader.readAsArrayBuffer(file);
+    alert("Unsupported file: " + file.name + ". Please upload PDF, JPG, or PNG only.");
   });
 
   event.target.value = "";
+}
+
+function addImagePlan(file, type) {
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const item = { data: e.target.result, name: file.name, sourceType: "image" };
+
+    if (type === "floor") {
+      floorPlans.push(item);
+      renderPlanEditor("floor");
+      renderPlans("floor");
+    }
+
+    if (type === "cluster") {
+      clusterPlans.push(item);
+      renderPlanEditor("cluster");
+      renderPlans("cluster");
+    }
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function addPDFPlan(file, type) {
+  const reader = new FileReader();
+
+  reader.onload = function() {
+    const typedArray = new Uint8Array(this.result);
+
+    pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+      pdf.getPage(1).then(function(page) {
+        const scale = 4;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        page.render({
+          canvasContext: context,
+          viewport: viewport
+        }).promise.then(function() {
+          const item = {
+            data: canvas.toDataURL("image/png"),
+            name: file.name,
+            sourceType: "pdf"
+          };
+
+          if (type === "floor") {
+            floorPlans.push(item);
+            renderPlanEditor("floor");
+            renderPlans("floor");
+          }
+
+          if (type === "cluster") {
+            clusterPlans.push(item);
+            renderPlanEditor("cluster");
+            renderPlans("cluster");
+          }
+        });
+      });
+    }).catch(function(error) {
+      alert("Could not read PDF: " + file.name);
+      console.error(error);
+    });
+  };
+
+  reader.readAsArrayBuffer(file);
 }
 
 function getList(type) {
@@ -844,6 +917,7 @@ function renderPlanEditor(type) {
     div.className = "dynamic-box";
     div.innerHTML = `
       <label>${type === "floor" ? "Floor Plan" : "Cluster Plan"} ${index + 1}</label>
+      <div class="file-name">${escapeHTML(item.name || "Uploaded file")} ${item.sourceType ? "• " + escapeHTML(item.sourceType.toUpperCase()) : ""}</div>
       <div class="mini-actions">
         <button class="small-btn secondary" onclick="moveItem('${type}', ${index}, -1)">Move Up</button>
         <button class="small-btn secondary" onclick="moveItem('${type}', ${index}, 1)">Move Down</button>
@@ -863,6 +937,7 @@ function renderPictureEditor() {
     div.className = "dynamic-box";
     div.innerHTML = `
       <label>Picture ${index + 1}</label>
+      <div class="file-name">${escapeHTML(item.name || "Uploaded image")}</div>
       <div class="mini-actions">
         <button class="small-btn secondary" onclick="moveItem('picture', ${index}, -1)">Move Up</button>
         <button class="small-btn secondary" onclick="moveItem('picture', ${index}, 1)">Move Down</button>
@@ -871,6 +946,12 @@ function renderPictureEditor() {
     `;
     box.appendChild(div);
   });
+}
+
+function hasAnyMediaBefore(type) {
+  if (type === "floor") return false;
+  if (type === "cluster") return floorPlans.length > 0;
+  return floorPlans.length > 0 || clusterPlans.length > 0;
 }
 
 function renderPlans(type) {
@@ -883,6 +964,10 @@ function renderPlans(type) {
   const section = document.createElement("div");
   section.className = "plan-section";
 
+  if (!hasAnyMediaBefore(type)) {
+    section.classList.add("first-media-section");
+  }
+
   const title = document.createElement("div");
   title.className = "block-title";
   title.innerText = type === "floor" ? "Floor Plan" : "Cluster Plan";
@@ -891,7 +976,7 @@ function renderPlans(type) {
   list.forEach(item => {
     const card = document.createElement("div");
     card.className = "plan-card";
-    card.innerHTML = `<img src="${item.data}">`;
+    card.innerHTML = `<img src="${item.data}" alt="${escapeHTML(item.name || "Plan")}">`;
     section.appendChild(card);
   });
 
@@ -910,7 +995,7 @@ function renderPictures() {
   pictures.forEach(item => {
     const card = document.createElement("div");
     card.className = "picture-card";
-    card.innerHTML = `<img src="${item.data}">`;
+    card.innerHTML = `<img src="${item.data}" alt="${escapeHTML(item.name || "Property Image")}">`;
     grid.appendChild(card);
   });
 
