@@ -130,18 +130,20 @@ button {
   box-shadow: 0 16px 50px rgba(0,0,0,.22);
 }
 
+/* Natural-height browser preview. True A4 height is applied only while printing. */
 .a4-page {
   width: 794px;
-  min-height: 1123px;
+  min-height: auto;
   background: white;
   padding: 28px 34px;
-  page-break-after: always;
-  break-after: page;
-}
-
-.a4-page:last-child {
   page-break-after: auto;
   break-after: auto;
+}
+
+.a4-page + .a4-page,
+.a4-page + #picturePages,
+#picturePages .a4-page {
+  border-top: 1px solid #e5e7eb;
 }
 
 .title-block {
@@ -352,6 +354,7 @@ button {
     box-shadow: none !important;
     page-break-after: always;
     break-after: page;
+    border-top: 0 !important;
   }
 
   .a4-page:last-child {
@@ -409,43 +412,43 @@ button {
 
   <div class="form-row">
     <div><label>Project</label><input id="project" value="June"></div>
-    <div><label>Developer</label><input id="developer" value="EMAAR"></div>
+    <div><label>Developer</label><input id="developer" value="Arabian Ranches III"></div>
   </div>
 
   <div class="form-row">
-    <div><label>Area</label><input id="area" value="Arabian Ranches-3"></div>
-    <div><label>Type</label><input id="type" value="Semi Detached"></div>
+    <div><label>Area</label><input id="area" value="Dubai"></div>
+    <div><label>Type</label><input id="type" value="Semi-Detached Villa"></div>
   </div>
 
   <div class="form-row">
     <div><label>Bedrooms</label><input id="bedrooms" value="5"></div>
-    <div><label>Bathrooms</label><input id="bathrooms" value="7"></div>
+    <div><label>Bathrooms</label><input id="bathrooms" value="6"></div>
   </div>
 
   <div class="form-row">
-    <div><label>Size</label><input id="size" value="Plot 4,520 | BUA: 3,426 sqft"></div>
-    <div><label>Floor</label><input id="floor" value="G+1 + Roof"></div>
+    <div><label>Size</label><input id="size" value="5,484 sq.ft"></div>
+    <div><label>Floor</label><input id="floor" value="G+2"></div>
   </div>
 
   <div class="form-row">
-    <div><label>View</label><input id="view" value="Community"></div>
-    <div><label>Completion</label><input id="completion" value="Q1-2026"></div>
+    <div><label>View</label><input id="view" value="Park View"></div>
+    <div><label>Completion</label><input id="completion" value="Ready"></div>
   </div>
 
   <div class="section-title">Payment Details</div>
   <div class="form-row">
-    <div><label>Unit Price</label><input id="unitPrice" type="number" value="5700000"></div>
-    <div><label>Payment to Seller</label><input id="paymentSeller" type="number" value="5700000"></div>
+    <div><label>Unit Price</label><input id="unitPrice" type="number" value="5300000"></div>
+    <div><label>Payment to Seller</label><input id="paymentSeller" type="number" value="2262267"></div>
   </div>
 
   <div class="form-row">
     <div><label>DLD % Auto</label><input id="dldPercent" type="number" value="4"></div>
-    <div><label>DLD Amount Override</label><input id="dldAmount" type="number" placeholder="Auto"></div>
+    <div><label>DLD Amount Override</label><input id="dldAmount" type="number" value=""></div>
   </div>
 
   <div class="form-row">
     <div><label>Brokerage % Auto</label><input id="brokeragePercent" type="number" value="2"></div>
-    <div><label>Brokerage + VAT Override</label><input id="brokerageAmount" type="number" placeholder="Auto"></div>
+    <div><label>Brokerage + VAT Override</label><input id="brokerageAmount" type="number" value=""></div>
   </div>
 
   <div class="form-row">
@@ -453,27 +456,27 @@ button {
     <div><label>Title Deed Fee</label><input id="titleDeed" type="number" value="580"></div>
   </div>
 
-  <div class="section-title">Installments / Remaining Plan</div>
+  <div class="section-title">Remaining Installments</div>
   <div id="installmentsEditor"></div>
   <button class="secondary" onclick="addInstallment()">+ Add Installment</button>
 
-  <div class="section-title">Floor Plan</div>
+  <div class="section-title">Floor Plans</div>
   <div class="form-full">
-    <label>Add Floor Plan PDF / JPG / PNG</label>
-    <input type="file" accept="application/pdf,image/jpeg,image/png,image/jpg" multiple onchange="addPlanFiles(event, 'floor')">
+    <label>Upload Floor Plan (PDF / JPG / PNG)</label>
+    <input type="file" accept="application/pdf,image/*" multiple onchange="addPlanFiles(event, 'floor')">
   </div>
   <div id="floorEditor"></div>
 
-  <div class="section-title">Cluster Plan Optional</div>
+  <div class="section-title">Cluster Plans</div>
   <div class="form-full">
-    <label>Add Cluster Plan PDF / JPG / PNG</label>
-    <input type="file" accept="application/pdf,image/jpeg,image/png,image/jpg" multiple onchange="addPlanFiles(event, 'cluster')">
+    <label>Upload Cluster Plan (PDF / JPG / PNG)</label>
+    <input type="file" accept="application/pdf,image/*" multiple onchange="addPlanFiles(event, 'cluster')">
   </div>
   <div id="clusterEditor"></div>
 
-  <div class="section-title">Pictures</div>
+  <div class="section-title">Property Pictures</div>
   <div class="form-full">
-    <label>Add Property Images</label>
+    <label>Upload Pictures</label>
     <input type="file" accept="image/*" multiple onchange="addImages(event)">
   </div>
   <div id="pictureEditor"></div>
@@ -956,10 +959,10 @@ body { margin: 0; background: #f3f4f6; overflow: auto; }
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = title.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-client-view.html";
+  a.download = (title.replace(/[^a-z0-9]/gi, "_").toLowerCase() || "property_breakdown") + ".html";
   document.body.appendChild(a);
   a.click();
-  document.body.removeChild(a);
+  a.remove();
   URL.revokeObjectURL(url);
 }
 
@@ -967,20 +970,138 @@ function openClientPreview() {
   calculate();
   renderPlans();
   renderPictures();
-  document.body.className = "client-view";
+
+  const docClone = document.querySelector(".document").cloneNode(true);
+  const styleText = Array.from(document.querySelectorAll("style")).map(style => style.innerHTML).join("\n");
+  const title = val("title") || "Property Breakdown";
+
+  const clientHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHTML(title)}</title>
+<style>
+${styleText}
+body { margin: 0; background: #f3f4f6; overflow: auto; }
+.app { display: block !important; }
+.sidebar { display: none !important; }
+.preview-wrap { padding: 24px !important; }
+.document { margin: 0 auto !important; }
+@media(max-width: 850px) {
+  .document, .a4-page { width: 100% !important; min-height: auto !important; }
+  .a4-page { padding: 22px !important; }
+  .info-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .plans-grid, .picture-grid { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body class="client-view">
+<div class="app"><main class="preview-wrap">${docClone.outerHTML}</main></div>
+</body>
+</html>`;
+
+  const newWindow = window.open("", "_blank");
+  if (!newWindow) {
+    alert("Popup blocked. Please allow popups for this site.");
+    return;
+  }
+  newWindow.document.open();
+  newWindow.document.write(clientHTML);
+  newWindow.document.close();
 }
 
-function resetForm() { window.location.href = window.location.pathname; }
+function collectState() {
+  const data = {};
+  fields.forEach(id => data[id] = val(id));
+  data.installments = installments;
+  data.floorPlans = floorPlans;
+  data.clusterPlans = clusterPlans;
+  data.pictures = pictures;
+  return data;
+}
+
+function loadState(data) {
+  if (!data) return;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && data[id] !== undefined) el.value = data[id];
+  });
+  installments = Array.isArray(data.installments) ? data.installments : [];
+  floorPlans = Array.isArray(data.floorPlans) ? data.floorPlans : [];
+  clusterPlans = Array.isArray(data.clusterPlans) ? data.clusterPlans : [];
+  pictures = Array.isArray(data.pictures) ? data.pictures : [];
+  renderInstallmentEditor();
+  renderPlanEditor("floor");
+  renderPlanEditor("cluster");
+  renderPictureEditor();
+  calculate();
+  renderPlans();
+  renderPictures();
+}
+
+function encodeState(data) {
+  return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+}
+
+function decodeState(str) {
+  return JSON.parse(decodeURIComponent(escape(atob(str))));
+}
+
+function generateShareLink() {
+  const data = encodeState(collectState());
+  const url = location.origin + location.pathname + "?data=" + encodeURIComponent(data);
+  navigator.clipboard.writeText(url).then(() => alert("Share link copied!"));
+}
+
+function resetForm() {
+  if (!confirm("Reset everything?")) return;
+  localStorage.removeItem("propertyBreakdownState");
+  location.href = location.pathname;
+}
+
+function saveLocalState() {
+  try {
+    localStorage.setItem("propertyBreakdownState", JSON.stringify(collectState()));
+  } catch(e) {
+    console.warn("Could not save locally", e);
+  }
+}
 
 fields.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) {
-    el.addEventListener("input", calculate);
-    el.addEventListener("change", calculate);
-  }
+  document.getElementById(id).addEventListener("input", () => {
+    calculate();
+    saveLocalState();
+  });
 });
 
+const urlData = new URLSearchParams(location.search).get("data");
+if (urlData) {
+  try {
+    loadState(decodeState(urlData));
+  } catch(e) {
+    console.error("Invalid shared data", e);
+  }
+} else {
+  try {
+    const saved = JSON.parse(localStorage.getItem("propertyBreakdownState") || "null");
+    if (saved) loadState(saved);
+  } catch(e) {}
+}
+
+if (!installments.length) {
+  addInstallment("20% Booking", 506288);
+  addInstallment("40% Completion", 506288);
+  addInstallment("60% Completion", 506288);
+  addInstallment("80% Completion", 506288);
+  addInstallment("Handover", 1012577);
+}
+
 calculate();
+renderInstallmentEditor();
+renderPlanEditor("floor");
+renderPlanEditor("cluster");
+renderPictureEditor();
 renderPlans();
 renderPictures();
 </script>
