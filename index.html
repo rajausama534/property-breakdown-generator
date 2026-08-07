@@ -130,7 +130,6 @@ button {
   box-shadow: 0 16px 50px rgba(0,0,0,.22);
 }
 
-/* Natural-height browser preview. True A4 height is applied only while printing. */
 .a4-page {
   width: 794px;
   min-height: auto;
@@ -275,8 +274,14 @@ button {
 .plans-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  align-items: start;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.plan-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .plan-column-title {
@@ -287,17 +292,23 @@ button {
   border-bottom: 2px solid #cfcfcf;
 }
 
+.plan-preview {
+  flex: 1;
+  min-height: 0;
+}
+
 .plan-card {
   width: 100%;
-  margin-bottom: 10px;
+  height: 100%;
+  margin: 0;
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
 .plan-card img {
   width: 100%;
-  max-height: 470px;
-  height: auto;
+  height: 100%;
+  max-height: none;
   display: block;
   object-fit: contain;
   border: 1px solid #ddd;
@@ -341,25 +352,91 @@ button {
 @media print {
   @page { size: A4; margin: 0; }
 
-  body { background: white; }
-  .sidebar { display: none; }
-  .app { display: block; }
-  .preview-wrap { padding: 0; overflow: visible; }
-  .document { width: 794px; box-shadow: none; margin: 0 auto; }
-
-  .a4-page {
-    width: 794px !important;
-    min-height: 1123px !important;
-    padding: 28px 34px !important;
-    box-shadow: none !important;
-    page-break-after: always;
-    break-after: page;
-    border-top: 0 !important;
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
   }
 
-  .a4-page:last-child {
-    page-break-after: auto;
-    break-after: auto;
+  .sidebar { display: none !important; }
+  .app { display: block !important; }
+  .preview-wrap { padding: 0 !important; margin: 0 !important; overflow: visible !important; }
+  .document { width: 210mm !important; margin: 0 auto !important; padding: 0 !important; box-shadow: none !important; }
+
+  .a4-page {
+    width: 210mm !important;
+    height: 296.5mm !important;
+    min-height: 296.5mm !important;
+    max-height: 296.5mm !important;
+    padding: 7.4mm 9mm !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
+  }
+
+  .document > .a4-page:last-of-type,
+  #picturePages > .a4-page:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  .hidden,
+  #plansPage.hidden,
+  #picturePages:empty {
+    display: none !important;
+  }
+
+  #plansPage {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #plansPage.hidden { display: none !important; }
+
+  #plansPage .title-block {
+    flex: 0 0 auto;
+    margin-bottom: 4mm !important;
+  }
+
+  #plansPage .plans-grid {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4mm !important;
+    align-items: stretch !important;
+  }
+
+  #plansPage .plan-column {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+
+  #plansPage .plan-column-title {
+    flex: 0 0 auto !important;
+  }
+
+  #plansPage .plan-preview {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+
+  #plansPage .plan-card {
+    height: 100% !important;
+    margin: 0 !important;
+  }
+
+  #plansPage .plan-card img {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
   }
 
   #whatsappBtn {
@@ -370,10 +447,7 @@ button {
     box-shadow: none !important;
   }
 
-  .plans-grid, .picture-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-
+  .picture-grid { grid-template-columns: 1fr 1fr !important; }
   .picture-card { height: 245px !important; }
   .picture-card img { height: 100% !important; object-fit: cover !important; }
 }
@@ -551,13 +625,13 @@ button {
       <p id="plansSubtitle"></p>
     </div>
     <div class="plans-grid">
-      <div>
+      <div class="plan-column">
         <div class="plan-column-title">Floor Plan</div>
-        <div id="floorPreview"></div>
+        <div id="floorPreview" class="plan-preview"></div>
       </div>
-      <div>
+      <div class="plan-column">
         <div class="plan-column-title">Cluster Plan</div>
-        <div id="clusterPreview"></div>
+        <div id="clusterPreview" class="plan-preview"></div>
       </div>
     </div>
   </div>
@@ -853,19 +927,21 @@ function renderPlans() {
     return;
   }
 
-  floorPlans.forEach(item => {
+  const floorItem = floorPlans[0];
+  if (floorItem) {
     const card = document.createElement("div");
     card.className = "plan-card";
-    card.innerHTML = `<img src="${item.data}" alt="${escapeHTML(item.name || "Floor Plan")}">`;
+    card.innerHTML = `<img src="${floorItem.data}" alt="${escapeHTML(floorItem.name || "Floor Plan")}">`;
     floorPreview.appendChild(card);
-  });
+  }
 
-  clusterPlans.forEach(item => {
+  const clusterItem = clusterPlans[0];
+  if (clusterItem) {
     const card = document.createElement("div");
     card.className = "plan-card";
-    card.innerHTML = `<img src="${item.data}" alt="${escapeHTML(item.name || "Cluster Plan")}">`;
+    card.innerHTML = `<img src="${clusterItem.data}" alt="${escapeHTML(clusterItem.name || "Cluster Plan")}">`;
     clusterPreview.appendChild(card);
-  });
+  }
 
   plansPage.classList.remove("hidden");
 }
@@ -943,7 +1019,7 @@ body { margin: 0; background: #f3f4f6; overflow: auto; }
 .preview-wrap { padding: 24px !important; }
 .document { margin: 0 auto !important; }
 @media(max-width: 850px) {
-  .document, .a4-page { width: 100% !important; min-height: auto !important; }
+  .document, .a4-page { width: 100% !important; min-height: auto !important; height: auto !important; max-height: none !important; }
   .a4-page { padding: 22px !important; }
   .info-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .plans-grid, .picture-grid { grid-template-columns: 1fr !important; }
@@ -989,7 +1065,7 @@ body { margin: 0; background: #f3f4f6; overflow: auto; }
 .preview-wrap { padding: 24px !important; }
 .document { margin: 0 auto !important; }
 @media(max-width: 850px) {
-  .document, .a4-page { width: 100% !important; min-height: auto !important; }
+  .document, .a4-page { width: 100% !important; min-height: auto !important; height: auto !important; max-height: none !important; }
   .a4-page { padding: 22px !important; }
   .info-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .plans-grid, .picture-grid { grid-template-columns: 1fr !important; }
